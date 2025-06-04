@@ -1,0 +1,38 @@
+@defer {
+  <div class="row p-4">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Orders</h2>
+        <button (click)="modalService.displayModal('md', addUsersModal)" type="button" class="btn btn-primary"><i class="fas fa-plus"></i></button>
+      </div>
+    </div>
+    <div class="col-12">
+      <app-user-list
+        (callModalAction)="callEdition($event)"
+        (callDeleteAction)="userService.delete($event)"
+        [users]="userService.users$()"
+      />
+      @if(userService.users$().length) {
+        <app-pagination
+          [service]="userService"
+        />
+      }
+    </div>
+  </div>
+} @loading (minimum 1.5s){
+  <app-loader></app-loader>
+}
+
+<ng-template #addUsersModal>
+  <app-modal
+    [hideFooter]="true"
+  >
+    <div>
+      <app-user-form
+        [userForm]="userForm"
+        (callSaveMethod)="saveUser($event)"
+        (callUpdateMethod)="updateUser($event)"
+      />
+    </div>
+  </app-modal>
+</ng-template>

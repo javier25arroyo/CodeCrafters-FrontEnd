@@ -1,0 +1,76 @@
+
+<div class="row info-container">
+  <div class="col-6">
+    <div class="shadow-sm bg-body rounded px-4 py-4 h-100">
+      <div>
+        <i class="fa-solid fa-user-tie"></i>
+      </div>
+      <div class="border-bottom my-3">
+        <label>Name:</label>
+        <p>{{profileService.user$().name}}</p>
+      </div>
+      <div class="border-bottom my-3">
+        <label>Lastname:</label>
+        <p>{{profileService.user$().lastname}}</p>
+      </div>
+      <div class="border-bottom my-3">
+        <label>email:</label>
+        <p>{{profileService.user$().email}}</p>
+      </div>
+      <div class=" my-3">
+        <label>Last update:</label>
+        <p>{{profileService.user$().updatedAt | date:'dd/MM/YYYY'}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="row">
+      <div class="col-12 shadow-sm bg-body rounded px-4 py-4 mb-3">
+        <label>Rol:</label>
+        <div class="border-bottom my-3">
+          <label>Name:</label>
+          <p>{{profileService.user$().role?.name}}</p>
+        </div>
+        <div class="border-bottom my-3">
+          <label>Description:</label>
+          <p>{{profileService.user$().role?.description}}</p>
+        </div>
+        <div class=" my-3">
+          <label>Last update:</label>
+          <p>{{profileService.user$().role?.updatedAt | date:'dd/MM/YYYY'}}</p>
+        </div>
+      </div>
+      <div class="col-12 shadow-sm bg-body rounded px-4 py-4">
+        <label>Last actions:</label>
+        <div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Date</th>
+                <th scope="col">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>10/06/2024</td>
+                <td>Deleted user</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>10/06/2024</td>
+                <td>Deleted user</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>10/06/2024</td>
+                <td>Deleted user</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

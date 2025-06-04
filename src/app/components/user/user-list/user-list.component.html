@@ -1,0 +1,39 @@
+<div class="table-container table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Lastname</th>
+        <th scope="col">email</th>
+        <th scope="col">Created</th>
+        <th scope="col">Updated</th>
+        <th class="text-center" scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of users; track item.id) {
+        <tr>
+          <th scope="row">{{item.id}}</th>
+          <td>{{item.name}}</td>
+          <td>{{item.lastname}}</td>
+          <td>{{item.email}}</td>
+          <td>{{item.createdAt | date: 'dd/MM/yyyy HH:mm'}}</td>
+          <td>{{item.updatedAt | date: 'dd/MM/yyyy HH:mm'}}</td>
+          <td>
+            <button (click)="callModalAction.emit(item);" class="btn btn-warning me-2" type="button"><i class="fas fa-pen"></i></button>
+            <button (click)="callDeleteAction.emit(item)" class="btn btn-danger" type="button"><i class="fas fa-trash"></i></button>
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="7">
+            <div class="d-flex justify-content-center align-items-center w-100">
+              <p class="mb-0">There are not users</p>
+            </div>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
