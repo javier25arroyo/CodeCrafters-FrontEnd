@@ -13,6 +13,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { GamesComponent } from './pages/games/games.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { PreferenceListPageComponent } from './pages/preferenceList/preference-list.component';
+import { FondoBonitoComponent } from './fondo-bonito/fondo-bonito.component';
 
 export const routes: Routes = [
   {
@@ -29,6 +30,9 @@ export const routes: Routes = [
     path: 'access-denied',
     component: AccessDeniedComponent,
   },
+    {   
+       path: 'fondo-bonito', component: FondoBonitoComponent 
+      },
   {
     path: '',
     redirectTo: 'login',
