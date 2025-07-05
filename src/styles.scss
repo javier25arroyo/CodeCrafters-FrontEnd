@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;700&display=swap');
+// scss variables
+@import "./assets/utils/variables";
+//start template styles
+@import "./assets/layout/layout.scss";
+//end template styles
+
 :root {
   --theme-default: #7366ff;
   --theme-secondary: #f73164;
@@ -44,16 +51,17 @@ body[class="dark-only"] {
   --view-grid-bg: var(--light-bg);
   --view-border-marker: #2c2c45d4;
 }
-// scss variables
-@import "./assets/utils/variables";
-//start template styles
-@import "./assets/layout/layout.scss";
-//end template styles
 
 html, body { 
   height: 100%; 
 }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { 
+  margin: 0; 
+  font-family: Roboto, "Helvetica Neue", sans-serif; 
+  font-family: $font-roboto;
+  font-size: $body-font-size;
+  color: $body-font-color;
+}
 
 .error-snackbar .mdc-snackbar__surface{
   background-color: rgb(197, 49, 49) !important;
@@ -78,4 +86,28 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   /* color: rgba(0, 0, 0, 0); */
   margin-top: 20px;
   margin-bottom: 30px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-montserrat;
+}
+
+h1 {
+  font-size: $h1-font-size;
+}
+
+h2 {
+  font-size: $h2-font-size;
+}
+
+h3 {
+  font-size: $h3-font-size;
+}
+
+small {
+  font-size: $caption-font-size;
+}
+
+.page-wrapper.compact-wrapper .page-body-wrapper {
+  margin-top: $base-spacing * 10;
 }

@@ -72,7 +72,8 @@ $light-body-bg-color: #fafdff;
 
 //fonts
 $font-rubik: Rubik;
-$font-roboto: Roboto;
+$font-montserrat: 'Montserrat', sans-serif;
+$font-roboto: 'Roboto', sans-serif;
 $font-serif: sans-serif;
 $landing-cursive: "Caveat", cursive;
 $font-themify: themify;
@@ -97,8 +98,14 @@ $dark-datatable-sorting-even: #22262f;
 $dark-even-hover-sorting: #191e27;
 
 //General tag settings
-$body-font-size: 14px;
-$body-font-color: $theme-body-font-color;
+$body-font-size: 16px;
+$h1-font-size: 32px;
+$h2-font-size: 24px;
+$h3-font-size: 20px;
+$caption-font-size: 14px;
+
+$base-spacing: 8px;
+
 $ul-padding-left: 0px;
 $ancher-color: var(--theme-default);
 $btn-focus-box-shadow: none;
