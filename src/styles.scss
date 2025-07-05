@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;700&display=swap');
 // scss variables
-@import "./assets/utils/variables";
+@import "./assets/utils/_variables";
 //start template styles
 @import "./assets/layout/layout.scss";
 //end template styles
@@ -60,7 +60,7 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif; 
   font-family: $font-roboto;
   font-size: $body-font-size;
-  color: $body-font-color;
+  color: $theme-body-font-color;
 }
 
 .error-snackbar .mdc-snackbar__surface{
