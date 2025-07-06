@@ -1,0 +1,8 @@
+.fondo-bonito {
+  position: absolute;
+  inset: 0;
+  z-index: -10;
+  height: 100%;
+  width: 100%;
+  background: radial-gradient(125% 125% at 50% 10%, #fff 40%, #0d91ea 100%);
+}
