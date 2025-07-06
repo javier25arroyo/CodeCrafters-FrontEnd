@@ -1,8 +1,11 @@
 import { Component } from "@angular/core";
 import { trigger, transition, style, animate } from "@angular/animations";
+import { DailyTipComponent } from '../daily-tip/daily-tip.component';
+
 
 @Component({
   selector: "app-dashboard-usuario",
+  imports: [ DailyTipComponent],
   templateUrl: "./dashboard-usuario.component.html",
   styleUrls: ["./dashboard-usuario.component.scss"],
   standalone: true,
