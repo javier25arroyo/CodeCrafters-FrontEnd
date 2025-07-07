@@ -7,7 +7,7 @@
             <img
               width="40"
               class="img-fluid mb-4"
-              src="../../../../assets/icons/logo@2x.png"
+              src="../../../../assets/icons/MentanaLogo.png"
               alt="Logo"
             />
           </a>
@@ -21,32 +21,31 @@
               </small>
             </div>
 
-            <div class="d-flex align-items-center mb-3">
-              <div class="form-group px-1">
-                <label for="name" class="form-label mb-2">
-                  Name
-                </label>
-                <input #name="ngModel" type="text" class="form-control" id="name" name="name"
-                  placeholder="User" [(ngModel)]="user.name" [ngClass]="{
-                    'is-invalid': name.invalid && name.touched,
-                    'is-valid': name.valid && name.touched
-                  }" required />
-                <div *ngIf="name.invalid" class="invalid-feedback">
-                  Please add a valid name
-                </div>
+            <div class="form-group mb-3">
+              <label for="name" class="form-label mb-2">
+                Name
+              </label>
+              <input #name="ngModel" type="text" class="form-control" id="name" name="name"
+                placeholder="User" [(ngModel)]="user.name" [ngClass]="{
+                  'is-invalid': name.invalid && name.touched,
+                  'is-valid': name.valid && name.touched
+                }" required />
+              <div *ngIf="name.invalid" class="invalid-feedback">
+                Please add a valid name
               </div>
-              <div class="form-group px-1">
-                <label for="lastname" class="form-label mb-2">
-                  Lastname
-                </label>
-                <input #lastname="ngModel" type="text" class="form-control" id="lastname" name="lastname"
-                  placeholder="demo" [(ngModel)]="user.lastname" [ngClass]="{
-                    'is-invalid': lastname.invalid && lastname.touched,
-                    'is-valid': lastname.valid && lastname.touched
-                  }" required />
-                <div *ngIf="lastname.invalid" class="invalid-feedback">
-                  Please add a valid lastname
-                </div>
+            </div>
+
+            <div class="form-group mb-3">
+              <label for="lastname" class="form-label mb-2">
+                Lastname
+              </label>
+              <input #lastname="ngModel" type="text" class="form-control" id="lastname" name="lastname"
+                placeholder="Lastname" [(ngModel)]="user.lastname" [ngClass]="{
+                  'is-invalid': lastname.invalid && lastname.touched,
+                  'is-valid': lastname.valid && lastname.touched
+                }" required />
+              <div *ngIf="lastname.invalid" class="invalid-feedback">
+                Please add a valid lastname
               </div>
             </div>
 
@@ -54,36 +53,29 @@
               <label for="email" class="form-label mb-2">
                 Email Address
               </label>
-              <input #email="ngModel" type="email" class="form-control" id="email" name="email"
-                placeholder="agent@gmail.com" [(ngModel)]="user.email" [ngClass]="{
+              <input #email="ngModel" type="text" class="form-control" id="email" name="email"
+                placeholder="Email" [(ngModel)]="user.email" [ngClass]="{
                   'is-invalid': email.invalid && email.touched,
                   'is-valid': email.valid && email.touched
-                  }" required email />
-              <div *ngIf="email.invalid && email.touched" class="invalid-feedback">
-                <div *ngIf="email.errors?.['required']">
-                  Please enter an email address.
-                </div>
-                <div *ngIf="email.errors?.['email']">
-                  Incorrect email format..
-                </div>
+                }" required />
+              <div *ngIf="email.invalid" class="invalid-feedback">
+                Please add a valid email
               </div>
             </div>
 
             <div class="form-group mb-5">
               <label for="password" class="form-label mb-2">Password</label>
               <div class="form-input position-relative">
-                <input #password="ngModel" type="password" class="form-control" id="password" name="password"
-                placeholder="*****" [(ngModel)]="user.password" [ngClass]="{
+                <input #password="ngModel" [type]="passwordFieldType" class="form-control" id="password" name="password"
+                placeholder="Password" [(ngModel)]="user.password" [ngClass]="{
                   'is-invalid': password.invalid && password.touched,
                   'is-valid': password.valid && password.touched
-                 }" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" />
-                <div *ngIf="password.invalid && password.touched" class="invalid-feedback">
-                  <div *ngIf="password.errors?.['required']">
-                    Please enter a password.
-                  </div>
-                  <div *ngIf="password.errors?.['pattern']">
-                    The password must have at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character.Z
-                  </div>
+                }" required />
+                <span class="toggle-password" (click)="togglePasswordVisibility()">
+                  <i class="fa" [ngClass]="passwordFieldType === 'password' ? 'fa-eye' : 'fa-eye-slash'"></i>
+                </span>
+                <div *ngIf="password.invalid" class="invalid-feedback">
+                  Please add a valid password
                 </div>
               </div>
             </div>
