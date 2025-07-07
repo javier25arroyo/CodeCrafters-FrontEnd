@@ -13,6 +13,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { GamesComponent } from './pages/games/games.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { PreferenceListPageComponent } from './pages/preferenceList/preference-list.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
 export const routes: Routes = [
   {
@@ -24,6 +25,11 @@ export const routes: Routes = [
     path: 'signup',
     component: SigUpComponent,
     canActivate: [GuestGuard],
+  },
+  {
+  path: 'forgot-password',
+  component: ForgotPasswordComponent,
+  canActivate: [GuestGuard], //  para que no entren usuarios logueados
   },
   {
     path: 'access-denied',
