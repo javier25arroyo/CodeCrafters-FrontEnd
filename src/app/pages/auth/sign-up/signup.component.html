@@ -54,13 +54,18 @@
               <label for="email" class="form-label mb-2">
                 Email Address
               </label>
-              <input #email="ngModel" type="text" class="form-control" id="email" name="email"
+              <input #email="ngModel" type="email" class="form-control" id="email" name="email"
                 placeholder="agent@gmail.com" [(ngModel)]="user.email" [ngClass]="{
                   'is-invalid': email.invalid && email.touched,
                   'is-valid': email.valid && email.touched
-                }" required />
-              <div *ngIf="email.invalid" class="invalid-feedback">
-                Please add a valid email
+                  }" required email />
+              <div *ngIf="email.invalid && email.touched" class="invalid-feedback">
+                <div *ngIf="email.errors?.['required']">
+                  Please enter an email address.
+                </div>
+                <div *ngIf="email.errors?.['email']">
+                  Incorrect email format..
+                </div>
               </div>
             </div>
 
@@ -71,9 +76,14 @@
                 placeholder="*****" [(ngModel)]="user.password" [ngClass]="{
                   'is-invalid': password.invalid && password.touched,
                   'is-valid': password.valid && password.touched
-                }" required />
-                <div *ngIf="password.invalid" class="invalid-feedback">
-                  Please add a valid password
+                 }" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" />
+                <div *ngIf="password.invalid && password.touched" class="invalid-feedback">
+                  <div *ngIf="password.errors?.['required']">
+                    Please enter a password.
+                  </div>
+                  <div *ngIf="password.errors?.['pattern']">
+                    The password must have at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character.Z
+                  </div>
                 </div>
               </div>
             </div>
