@@ -1,3 +1,9 @@
-<div>
-  <h1>Dashboard</h1>
+<div class="container mt-4">
+  <h1 class="mb-4 text-center">Bienvenido al Dashboard</h1>
+  <p class="text-center" *ngIf="isSuperAdmin">
+    🛡️ Acceso con privilegios de Super Admin
+  </p>
+  <p class="text-center" *ngIf="!isSuperAdmin">
+    👤 Acceso como usuario estándar
+  </p>
 </div>

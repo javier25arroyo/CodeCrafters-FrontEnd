@@ -1,0 +1,114 @@
+<!-- FONDO -->
+<div class="relative min-h-screen overflow-x-hidden">
+  <div
+    class="absolute inset-0 -z-10 w-full h-full"
+    style="
+      background: radial-gradient(
+        125% 125% at 50% 10%,
+        #ffffff 40%,
+        #1385b9 100%
+      );
+    "
+  ></div>
+
+  <!-- CONTENIDO -->
+  <div
+    class="relative flex min-h-screen flex-col items-center px-4"
+    style="font-family: Lexend, 'Noto Sans', sans-serif"
+  >
+    <!-- MAIN centrado y más ancho -->
+    <main class="w-full max-w-[1200px] px-4 py- mx-auto">
+      <h2 class="text-2xl font-bold text-black mb-6">
+        Bienvenido de nuevo, Usuario!
+      </h2>
+
+      <!-- BLOQUES CON IMAGEN A LA DERECHA -->
+      <section class="flex flex-col gap-6">
+        <!-- Tarjeta: Zona de Juegos -->
+        <div
+          class="flex justify-between items-center bg-white/30 rounded-xl p-6 shadow-md backdrop-blur-md"
+        >
+          <div>
+            <h3 class="text-lg font-semibold text-black mb-1">
+              Zona de Juegos
+            </h3>
+            <p class="text-sm text-gray-800 mb-3">
+              Explora juegos para entrenar tu mente.
+            </p>
+            <button class="rounded-full h-8 px-4 bg-[#f0f2f5] text-sm">
+              Ir a Juegos
+            </button>
+          </div>
+          <img
+            src="assets/img/dashboardUser/zoneGames.png"
+            alt="Gamepad"
+            class="h-20 w-20 object-contain ml-4"
+          />
+        </div>
+
+        <!-- Tarjeta: Perfil de Usuario -->
+        <div
+          class="flex justify-between items-center bg-white/30 rounded-xl p-6 shadow-md backdrop-blur-md"
+        >
+          <div>
+            <h3 class="text-lg font-semibold text-black mb-1">
+              Perfil de Usuario
+            </h3>
+            <p class="text-sm text-gray-800 mb-3">
+              Administra tu información personal.
+            </p>
+            <button class="rounded-full h-8 px-4 bg-[#f0f2f5] text-sm">
+              Ver Perfil
+            </button>
+          </div>
+          <img
+            src="assets/img/dashboardUser/perfil.png"
+            alt="User"
+            class="h-20 w-20 object-contain ml-4"
+          />
+        </div>
+
+        <!-- Tarjeta: Estadísticas -->
+        <div
+          class="flex justify-between items-center bg-white/30 rounded-xl p-6 shadow-md backdrop-blur-md"
+        >
+          <div>
+            <h3 class="text-lg font-semibold text-black mb-1">Estadísticas</h3>
+            <p class="text-sm text-gray-800 mb-3">
+              Consulta tus logros y progreso.
+            </p>
+            <button class="rounded-full h-8 px-4 bg-[#f0f2f5] text-sm">
+              Ver Estadísticas
+            </button>
+          </div>
+          <img
+            src="assets/img/dashboardUser/stats.png"
+            alt="Stats"
+            class="h-20 w-20 object-contain ml-4"
+          />
+        </div>
+
+        <!-- Tarjeta: Configuración -->
+        <div
+          class="flex justify-between items-center bg-white/30 rounded-xl p-6 shadow-md backdrop-blur-md"
+        >
+          <div>
+            <h3 class="text-lg font-semibold text-black mb-1">Configuración</h3>
+            <p class="text-sm text-gray-800 mb-3">
+              Personaliza tu experiencia.
+            </p>
+            <button class="rounded-full h-8 px-4 bg-[#f0f2f5] text-sm">
+              Ajustes
+            </button>
+          </div>
+          <img
+            src="assets/img/ui/settings.png"
+            alt="Settings"
+            class="h-20 w-20 object-contain ml-4"
+          />
+        </div>
+      </section>
+      <app-daily-tip></app-daily-tip>
+    </main>
+  </div>
+</div>
