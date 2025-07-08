@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IFeedBackMessage, IFeedbackStatus } from '../../interfaces';
 import { HttpClient } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-forgot-password',
   standalone: true,               
-  imports: [CommonModule, FormsModule],  
+  imports: [CommonModule, FormsModule, RouterModule],  
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss'],
 })
@@ -28,20 +29,21 @@ export class ForgotPasswordComponent {
     }
 
     this.loading = true;
-    this.http.post('/api/auth/forgot-password', { email: this.email }).subscribe({
-      next: (res: any) => {
-        this.feedback = {
-          type: IFeedbackStatus.success,
-          message: 'If this email exists, a reset link has been sent.',
-        };
-        this.loading = false;
-      },
-      error: (err) => {
-        this.feedback = {
-          type: IFeedbackStatus.error,
-          message: err?.error?.message || 'Something went wrong',
-        };
-        this.loading = false;
+    this.http.post('auth/forgot-password', { email: this.email }, { responseType: 'text' }).subscribe({
+  next: (res) => {
+    this.feedback = {
+      type: IFeedbackStatus.success,
+      message: res,  
+    };
+    this.loading = false;
+  },
+  error: (err) => {
+    console.error('Error response from backend:', err);
+    this.feedback = {
+      type: IFeedbackStatus.error,
+      message: err?.error?.message || 'Something went wrong',
+    };
+    this.loading = false;
       },
     });
   }

@@ -30,6 +30,13 @@
     position: absolute;
     margin-top: 0px;
   }
+  .toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
   @media screen and (min-width: 801px) and (max-width: 1500px) {
     padding: 20px 5%;
     .login-card {

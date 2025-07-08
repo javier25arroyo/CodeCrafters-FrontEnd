@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { FondoBonitoComponent } from './fondo-bonito/fondo-bonito.component'; // ✅ Agregado
 
 interface Operator {
   name?: string
@@ -17,7 +18,8 @@ interface Calculator {
   standalone: true,
   imports: [
     RouterOutlet,
-    CommonModule
+    CommonModule,
+    FondoBonitoComponent // ✅ Agregado
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
@@ -26,17 +28,11 @@ export class AppComponent {
   title: string = 'demo-angular-front';
   cant: number = 0;
   operators: Operator[] = [
-    {
-      name: 'addition',
-      symbol: '+'
-    },
-    {
-      name: 'subtraction',
-      symbol: '-'
-    },
+    { name: 'addition', symbol: '+' },
+    { name: 'subtraction', symbol: '-' },
   ];
   cal: Calculator = {
-    name: 'My caculator',
+    name: 'My calculator',
     type: 'simple'
   };
   date: Date = new Date(); 
@@ -44,9 +40,8 @@ export class AppComponent {
   operation(name: string) {
     if (name == 'addition') {
       this.cant++;
-    } else  if (name == 'subtraction') {
+    } else if (name == 'subtraction') {
       this.cant--;
     }
   }
-
 }

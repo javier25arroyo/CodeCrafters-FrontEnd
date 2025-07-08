@@ -14,6 +14,8 @@ import { GamesComponent } from './pages/games/games.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { PreferenceListPageComponent } from './pages/preferenceList/preference-list.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { FondoBonitoComponent } from './fondo-bonito/fondo-bonito.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 export const routes: Routes = [
   {
@@ -29,12 +31,19 @@ export const routes: Routes = [
   {
   path: 'forgot-password',
   component: ForgotPasswordComponent,
-  canActivate: [GuestGuard], //  para que no entren usuarios logueados
+  canActivate: [GuestGuard], 
+  },
+  {
+    path: 'reset-password',
+    component: ResetPasswordComponent,
   },
   {
     path: 'access-denied',
     component: AccessDeniedComponent,
   },
+    {   
+       path: 'fondo-bonito', component: FondoBonitoComponent 
+      },
   {
     path: '',
     redirectTo: 'login',
