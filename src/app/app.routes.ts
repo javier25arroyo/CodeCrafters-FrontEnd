@@ -1,21 +1,4 @@
 
-import { Routes } from "@angular/router";
-import { LoginComponent } from "./pages/auth/login/login.component";
-import { AppLayoutComponent } from "./components/app-layout/app-layout.component";
-import { SigUpComponent } from "./pages/auth/sign-up/signup.component";
-import { UsersComponent } from "./pages/users/users.component";
-import { AuthGuard } from "./guards/auth.guard";
-import { AccessDeniedComponent } from "./pages/access-denied/access-denied.component";
-import { AdminRoleGuard } from "./guards/admin-role.guard";
-import { DashboardComponent } from "./pages/dashboard/dashboard.component";
-import { GuestGuard } from "./guards/guest.guard";
-import { IRoleType } from "./interfaces";
-import { ProfileComponent } from "./pages/profile/profile.component";
-import { GamesComponent } from "./pages/games/games.component";
-import { OrdersComponent } from "./pages/orders/orders.component";
-import { PreferenceListPageComponent } from "./pages/preferenceList/preference-list.component";
-import { FondoBonitoComponent } from "./fondo-bonito/fondo-bonito.component";
-import { DashboardUsuarioComponent } from './components/dashboard-usuario/dashboard-usuario.component';
 
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/auth/login/login.component';
