@@ -13,7 +13,9 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { GamesComponent } from './pages/games/games.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { PreferenceListPageComponent } from './pages/preferenceList/preference-list.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { FondoBonitoComponent } from './fondo-bonito/fondo-bonito.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 export const routes: Routes = [
   {
@@ -25,6 +27,15 @@ export const routes: Routes = [
     path: 'signup',
     component: SigUpComponent,
     canActivate: [GuestGuard],
+  },
+  {
+  path: 'forgot-password',
+  component: ForgotPasswordComponent,
+  canActivate: [GuestGuard], 
+  },
+  {
+    path: 'reset-password',
+    component: ResetPasswordComponent,
   },
   {
     path: 'access-denied',

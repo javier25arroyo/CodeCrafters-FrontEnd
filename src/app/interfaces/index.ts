@@ -88,3 +88,7 @@ export interface IPreferenceList {
   name?: string;
   movies?: IMovie[];
 }
+
+export interface MessageResponse {
+  message: string;
+}
