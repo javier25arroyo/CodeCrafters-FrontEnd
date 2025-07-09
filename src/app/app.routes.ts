@@ -1,5 +1,3 @@
-
-
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
@@ -18,9 +16,13 @@ import { PreferenceListPageComponent } from './pages/preferenceList/preference-l
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { FondoBonitoComponent } from './fondo-bonito/fondo-bonito.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
-
+import { LandingPageComponent } from './pages/landing-page/landing-page.component'; // agrega esta importación
 
 export const routes: Routes = [
+  {
+    path: '',
+    component: LandingPageComponent, 
+  },
   {
     path: 'login',
     component: LoginComponent,
@@ -39,9 +41,9 @@ export const routes: Routes = [
     canActivate: [GuestGuard],
   },
   {
-  path: 'forgot-password',
-  component: ForgotPasswordComponent,
-  canActivate: [GuestGuard], 
+    path: 'forgot-password',
+    component: ForgotPasswordComponent,
+    canActivate: [GuestGuard], 
   },
   {
     path: 'reset-password',
@@ -54,11 +56,6 @@ export const routes: Routes = [
   {
     path: 'fondo-bonito',
     component: FondoBonitoComponent,
-  },
-  {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full',
   },
   {
     path: 'app',

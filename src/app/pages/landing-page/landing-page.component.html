@@ -1,0 +1,42 @@
+<app-nav></app-nav>
+
+<div class="hero">
+  <div class="hero-text">
+    <h1>Bienvenido a Mentana</h1>
+    <p>Estimula tu mente con nuestra plataforma interactiva diseñada para adultos mayores.</p>
+    <button (click)="scrollToBenefits()">Descubre más</button>
+  </div>
+  <img src="assets/img/landing-page/Foto2.png" alt="Adultos mayores felices">
+</div>
+
+<div class="benefits" #benefits>
+  <h2>¿Por qué elegir Mentana?</h2>
+  <div class="benefits-list">
+    <div class="benefit-item">
+      <img src="assets/img/landing-page/Foto3.png" alt="Juegos divertidos">
+      <h3>Juegos Cognitivos</h3>
+      <p>Una variedad de juegos diseñados para ejercitar la memoria, lógica y atención.</p>
+    </div>
+    <div class="benefit-item">
+      <img src="assets/img/landing-page/Foto4.png" alt="Seguimiento personalizado">
+      <h3>Progreso Personalizado</h3>
+      <p>Monitorea tus avances y motívate a seguir creciendo día a día.</p>
+    </div>
+    <div class="benefit-item">
+      <img src="assets/img/landing-page/Foto5.png" alt="Fácil de usar">
+      <h3>Accesibilidad</h3>
+      <p>Diseñada con texto grande, botones claros y navegación sencilla.</p>
+    </div>
+  </div>
+</div>
+
+<div class="testimonial">
+  <button class="arrow" (click)="prevTestimonial()">&larr;</button>
+  <div class="testimonial-content">
+    <img [src]="testimonials[currentTestimonialIndex].image" alt="Testimonio">
+    <blockquote>{{ testimonials[currentTestimonialIndex].text }}</blockquote>
+  </div>
+  <button class="arrow" (click)="nextTestimonial()">&rarr;</button>
+</div>
+
+<app-footer></app-footer>
