@@ -15,6 +15,8 @@ import { IUser } from '../../../interfaces';
 export class SigUpComponent {
   public signUpError!: String;
   public validSignup!: boolean;
+  public passwordFieldType: string = 'password';
+
   @ViewChild('name') nameModel!: NgModel;
   @ViewChild('lastname') lastnameModel!: NgModel;
   @ViewChild('email') emailModel!: NgModel;
@@ -25,6 +27,10 @@ export class SigUpComponent {
   constructor(private router: Router, 
     private authService: AuthService
   ) {}
+
+  public togglePasswordVisibility(): void {
+    this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
+  }
 
   public handleSignup(event: Event) {
     event.preventDefault();
