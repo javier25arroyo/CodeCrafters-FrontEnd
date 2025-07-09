@@ -44,4 +44,16 @@
       }
     }
   }
+  .toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  z-index: 2; /* Asegura que el ícono esté encima */
+}
+
+.invalid-feedback {
+  margin-top: 5px; /* Agrega espacio entre el mensaje y el ícono */
+}
 }
