@@ -1,0 +1,126 @@
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4rem 8%;
+  background: linear-gradient(135deg, #e0f7fa, #ffffff);
+
+  img {
+    width: 35%;
+    border-radius: 1rem;
+  }
+
+  .hero-text {
+    max-width: 50%;
+
+    h1 {
+      font-size: 3rem;
+      color: #0d47a1;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin: 1rem 0;
+      color: #333;
+    }
+
+    button {
+      background: #1565c0;
+      color: white;
+      padding: 0.8rem 2rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+
+      &:hover {
+        background: #0d47a1;
+      }
+    }
+  }
+}
+
+.benefits {
+  padding: 4rem 8%;
+  background: #f1f8ff;
+  text-align: center;
+
+  h2 {
+    font-size: 2.5rem;
+    color: #0d47a1;
+    margin-bottom: 2rem;
+  }
+
+  .benefits-list {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    .benefit-item {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 2rem;
+      max-width: 300px;
+      transition: transform 0.3s;
+
+      &:hover {
+        transform: translateY(-5px);
+      }
+
+      img {
+        width: 80px;
+        margin-bottom: 1rem;
+      }
+
+      h3 {
+        color: #1565c0;
+        margin-bottom: 0.5rem;
+      }
+
+      p {
+        color: #555;
+      }
+    }
+  }
+}
+
+.testimonial {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 8%;
+  background: #e3f2fd;
+
+  .arrow {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #1565c0;
+
+    &:hover {
+      color: #0d47a1;
+    }
+  }
+
+  .testimonial-content {
+    display: flex;
+    align-items: center;
+    max-width: 800px;
+
+    img {
+      width: 40%;
+      border-radius: 1rem;
+      margin-right: 2rem;
+    }
+
+    blockquote {
+      font-size: 1.5rem;
+      color: #0d47a1;
+      font-style: italic;
+      max-width: 50%;
+    }
+  }
+}
