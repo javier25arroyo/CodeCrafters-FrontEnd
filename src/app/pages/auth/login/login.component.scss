@@ -22,9 +22,9 @@
     width: 50%;
     padding: 40px;
     border-radius: 10px;
-    box-shadow: 0 0 37px rgba(8, 21, 66, 0.05);
+   box-shadow: 30px 20px 30px rgba(39, 86, 255, 0.1);
     margin: 0 auto;
-    background-color: #fff;
+    background-color: #ffffff;
   }
   @media screen and (min-width: 801px) and (max-width: 1500px) {
     padding: 20px 5%;
@@ -44,4 +44,16 @@
       }
     }
   }
+  .toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  z-index: 2; /* Asegura que el ícono esté encima */
+}
+
+.invalid-feedback {
+  margin-top: 5px; /* Agrega espacio entre el mensaje y el ícono */
+}
 }

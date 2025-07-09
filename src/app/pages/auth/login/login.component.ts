@@ -13,6 +13,8 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class LoginComponent {
   public loginError!: string;
+  public passwordFieldType: string = 'password';
+  
   @ViewChild('email') emailModel!: NgModel;
   @ViewChild('password') passwordModel!: NgModel;
 
@@ -21,10 +23,16 @@ export class LoginComponent {
     password: '',
   };
 
+  public user: { password: string } = { password: '' };
+
   constructor(
     private router: Router, 
     private authService: AuthService
   ) {}
+
+  public togglePasswordVisibility(): void {
+    this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
+  }
 
   public handleLogin(event: Event) {
     event.preventDefault();
