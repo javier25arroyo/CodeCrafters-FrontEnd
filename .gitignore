@@ -128,4 +128,9 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+<<<<<<< HEAD
+
+# Angular cache
+=======
+>>>>>>> origin/dev
 .angular/

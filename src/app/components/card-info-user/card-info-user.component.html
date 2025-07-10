@@ -1,0 +1,15 @@
+<div class="card-info-user">
+  <div class="card-content">
+    <p class="title">{{ title }}</p>
+    <p class="description">{{ description }}</p>
+    <button class="action-btn">
+      <span class="truncate">{{ buttonText }}</span>
+      <!-- Puedes poner aquí un SVG real o quitarlo por ahora -->
+      <!-- <svg ...>...</svg> -->
+    </button>
+  </div>
+  <div
+    class="card-image"
+    [ngStyle]="{ 'background-image': 'url(' + imageUrl + ')' }"
+  ></div>
+</div>
