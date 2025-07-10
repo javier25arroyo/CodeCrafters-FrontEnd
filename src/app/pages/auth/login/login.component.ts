@@ -49,4 +49,13 @@ export class LoginComponent {
       });
     }
   }
+
+  public handleGoogleLogin() {
+    this.authService.getGoogleAuthUrl().subscribe({
+      next: (response) => {
+        window.location.href = response.authUrl;
+      },
+      error: (err: any) => (this.loginError = err.error?.description || 'Error al conectar con Google'),
+    });
+  }
 }

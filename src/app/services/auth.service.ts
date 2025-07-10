@@ -135,4 +135,19 @@ public resetPassword(email: string, newPassword: string): Observable<MessageResp
     .set('newPassword', newPassword);
   return this.http.post<MessageResponse>('auth/reset-password', null, { params });
 }
+
+public getGoogleAuthUrl(): Observable<{authUrl: string}> {
+  return this.http.get<{authUrl: string}>('auth/google');
+}
+
+public handleGoogleCallback(idToken: string): Observable<ILoginResponse> {
+  return this.http.post<ILoginResponse>('auth/google/callback', { idToken }).pipe(
+    tap((response: any) => {
+      this.accessToken = response.token;
+      this.user = response.authUser;
+      this.expiresIn = response.expiresIn;
+      this.save();
+    })
+  );
+}
 }

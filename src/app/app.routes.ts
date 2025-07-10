@@ -17,6 +17,7 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { FondoBonitoComponent } from './fondo-bonito/fondo-bonito.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component'; // agrega esta importación
+import { CallbackComponent } from './pages/auth/callback/callback.component';
 
 export const routes: Routes = [
   {
@@ -48,6 +49,10 @@ export const routes: Routes = [
   {
     path: 'reset-password',
     component: ResetPasswordComponent,
+  },
+  {
+    path: 'auth/callback',
+    component: CallbackComponent,
   },
   {
     path: 'access-denied',

@@ -53,4 +53,13 @@ export class SigUpComponent {
       });
     }
   }
+
+  public handleGoogleSignup() {
+    this.authService.getGoogleAuthUrl().subscribe({
+      next: (response) => {
+        window.location.href = response.authUrl;
+      },
+      error: (err: any) => (this.signUpError = err.error?.description || 'Error al conectar con Google'),
+    });
+  }
 }
