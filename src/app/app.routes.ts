@@ -21,12 +21,19 @@ import { LandingPageComponent } from './pages/landing-page/landing-page.componen
 export const routes: Routes = [
   {
     path: '',
-    component: LandingPageComponent, 
+    component: LandingPageComponent,
   },
   {
     path: 'login',
     component: LoginComponent,
     canActivate: [GuestGuard],
+  },
+  {
+    path: 'game-gallery',
+    loadComponent: () =>
+      import('./game-gallery/game-gallery.component').then(
+        (m) => m.GameGalleryComponent
+      ),
   },
   {
     path: 'dashboard-user',
@@ -43,7 +50,7 @@ export const routes: Routes = [
   {
     path: 'forgot-password',
     component: ForgotPasswordComponent,
-    canActivate: [GuestGuard], 
+    canActivate: [GuestGuard],
   },
   {
     path: 'reset-password',
@@ -124,4 +131,4 @@ export const routes: Routes = [
       },
     ],
   },
-];
+]
