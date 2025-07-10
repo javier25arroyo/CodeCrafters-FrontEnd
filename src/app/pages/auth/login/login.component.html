@@ -4,7 +4,7 @@
       <div class="w-100">
         <div class="text-center">
           <a class="logo text-center" routerLink="/">
-            <img width="250" class="img-fluid mb-4" src="../../../../assets/img/login/MentanaLogo 3.png" alt="Logo" />
+            <img width="250" class="img-fluid mb-4" src="../../../../assets/icons/MentanaLogo.png" alt="Logo" />
           </a>
         </div>
         <div class="login-main">
@@ -16,7 +16,7 @@
             <div class="form-group mb-3">
               <label for="email" class="form-label mb-2">Email Address</label>
               <input #email="ngModel" type="text" class="form-control" id="email" name="email"
-                placeholder="user@gmail.com" [(ngModel)]="loginForm.email" [ngClass]="{
+                placeholder="Email" [(ngModel)]="loginForm.email" [ngClass]="{
                   'is-invalid': email.invalid && email.touched,
                   'is-valid': email.valid && email.touched
                 }" required />
@@ -29,16 +29,14 @@
               <label for="password" class="form-label mb-2">Password</label>
               <div class="form-input position-relative">
                 <input #password="ngModel" [type]="passwordFieldType" class="form-control" id="password" name="password"
-                placeholder="Password" [(ngModel)]="user.password" [ngClass]="{
-                  'is-invalid': password.invalid && password.touched,
-                  'is-valid': password.valid && password.touched
-                }" required />
-                <span class="toggle-password" (click)="togglePasswordVisibility()">
-                  <i class="fa" [ngClass]="passwordFieldType === 'password' ? 'fa-eye' : 'fa-eye-slash'"></i>
-                </span>
-                <div *ngIf="password.invalid && password.touched" class="invalid-feedback">
-                  Please add a valid password
-                </div>
+                  placeholder="Password" [(ngModel)]="user.password" [ngClass]="{
+                    'is-invalid': password.invalid && password.touched,
+                    'is-valid': password.valid && password.touched
+                  }" required minlength="8" />
+              </div>
+              <div class="form-check mt-2">
+                <input type="checkbox" class="form-check-input" id="showPassword" (change)="togglePasswordVisibility()">
+                <label class="form-check-label" for="showPassword">Show Password</label>
               </div>
             </div>
 
