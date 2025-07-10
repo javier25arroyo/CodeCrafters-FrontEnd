@@ -1,0 +1,49 @@
+.card-info-game-root {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px 0 rgba(16, 20, 24, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0;
+  width: 100%;
+  min-width: 180px;
+  margin: 0 auto;
+  transition: box-shadow 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0 4px 24px 0 rgba(16, 20, 24, 0.13);
+    background: #f6fafe;
+  }
+}
+
+.card-info-game-image {
+  width: 100%;
+  height: 240px;
+  border-radius: 16px 16px 0 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.card-info-game-text {
+  padding: 0.75rem 1rem 1rem 1rem;
+  width: 100%;
+}
+
+.card-info-game-title {
+  font-size: 1.13rem;
+  font-weight: 600;
+  margin-bottom: 0.22rem;
+  color: #222;
+}
+
+.card-info-game-description {
+  font-size: 0.97rem;
+  font-weight: 400;
+  color: #5e728d;
+  line-height: 1.2;
+}

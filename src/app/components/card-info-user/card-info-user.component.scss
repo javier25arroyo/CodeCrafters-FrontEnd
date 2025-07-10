@@ -68,17 +68,19 @@
     }
   }
 
-  .card-image {
-    flex: 1 1 0px;
-    width: 100%;
-    aspect-ratio: 16/9;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    border-radius: 1rem;
-    min-width: 120px;
-    min-height: 70px;
-  }
+ .card-image {
+  flex: 1 1 0px;
+  width: 100%;
+  aspect-ratio: 16/10; // antes 16/9, ahora menos alta
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain; // para que la imagen no se recorte
+  border-radius: 1rem;
+  min-width: 90px; // antes 120px
+  min-height: 60px; // antes 70px
+  max-height: 100px; // limita el alto máximo
+  margin: auto 0; // centra verticalmente si hay espacio
+}
 }
 
 // Responsive para móvil

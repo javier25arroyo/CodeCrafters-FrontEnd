@@ -1,0 +1,59 @@
+.game-gallery-root {
+  display: flex;
+  justify-content: center;
+  padding: 2.5rem 0;
+
+  .game-gallery-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+    flex: 1;
+    width: 100%;
+  }
+
+  .game-gallery-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding: 1rem 1rem 0 1rem;
+
+    p {
+      color: #101418;
+      font-size: 2.5rem;
+      font-weight: bold;
+      letter-spacing: 0.01em;
+      margin: 0;
+      line-height: 1.1;
+    }
+  }
+
+  .game-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); // 4 columnas en escritorio
+    gap: 2rem 1.2rem;
+    padding: 1rem;
+    width: 100%;
+    align-items: stretch;
+  }
+}
+
+// Responsive para tablets
+@media (max-width: 1024px) {
+  .game-gallery-root {
+    padding: 1rem 0;
+    .game-gallery-container {
+      padding: 0 0.5rem;
+    }
+    .game-gallery-grid {
+      grid-template-columns: repeat(2, 1fr); // 2 columnas en tablet
+    }
+  }
+}
+
+// Responsive para móviles: solo muestra 1 card
+@media (max-width: 600px) {
+  .game-gallery-root .game-gallery-grid {
+    grid-template-columns: 1fr;
+  }
+}
