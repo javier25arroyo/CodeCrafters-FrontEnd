@@ -29,7 +29,7 @@
               <label for="password" class="form-label mb-2">Password</label>
               <div class="form-input position-relative">
                 <input #password="ngModel" [type]="passwordFieldType" class="form-control" id="password" name="password"
-                  placeholder="Password" [(ngModel)]="user.password" [ngClass]="{
+                  placeholder="Password" [(ngModel)]="loginForm.password" [ngClass]="{
                     'is-invalid': password.invalid && password.touched,
                     'is-valid': password.valid && password.touched
                   }" required minlength="8" />

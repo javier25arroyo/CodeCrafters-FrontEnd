@@ -46,7 +46,7 @@ export class SigUpComponent {
     if (!this.passwordModel.valid) {
       this.passwordModel.control.markAsTouched();
     }
-    if (this.emailModel.valid && this.passwordModel.valid) {
+    if (this.nameModel.valid && this.lastnameModel.valid && this.emailModel.valid && this.passwordModel.valid) {
       this.authService.signup(this.user).subscribe({
         next: () => this.validSignup = true,
         error: (err: any) => (this.signUpError = err.description),

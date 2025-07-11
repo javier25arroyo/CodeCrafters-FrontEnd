@@ -23,8 +23,6 @@ export class LoginComponent {
     password: '',
   };
 
-  public user: { password: string } = { password: '' };
-
   constructor(
     private router: Router, 
     private authService: AuthService
