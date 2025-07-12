@@ -18,7 +18,6 @@ export class SigUpComponent {
   public passwordFieldType: string = 'password';
 
   @ViewChild('name') nameModel!: NgModel;
-  @ViewChild('lastname') lastnameModel!: NgModel;
   @ViewChild('email') emailModel!: NgModel;
   @ViewChild('password') passwordModel!: NgModel;
 
@@ -37,16 +36,13 @@ export class SigUpComponent {
     if (!this.nameModel.valid) {
       this.nameModel.control.markAsTouched();
     }
-    if (!this.lastnameModel.valid) {
-      this.lastnameModel.control.markAsTouched();
-    }
     if (!this.emailModel.valid) {
       this.emailModel.control.markAsTouched();
     }
     if (!this.passwordModel.valid) {
       this.passwordModel.control.markAsTouched();
     }
-    if (this.nameModel.valid && this.lastnameModel.valid && this.emailModel.valid && this.passwordModel.valid) {
+    if (this.nameModel.valid && this.emailModel.valid && this.passwordModel.valid) {
       this.authService.signup(this.user).subscribe({
         next: () => this.validSignup = true,
         error: (err: any) => (this.signUpError = err.description),
