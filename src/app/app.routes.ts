@@ -16,7 +16,7 @@ import { PreferenceListPageComponent } from './pages/preferenceList/preference-l
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { FondoBonitoComponent } from './fondo-bonito/fondo-bonito.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
-import { LandingPageComponent } from './pages/landing-page/landing-page.component'; // agrega esta importación
+import { LandingPageComponent } from './pages/landing-page/landing-page.component'; 
 
 export const routes: Routes = [
   {
