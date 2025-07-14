@@ -23,9 +23,10 @@ export class LoginComponent {
     password: "",
   };
 
-  public user: { password: string } = { password: "" };
-
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(
+    private router: Router, 
+    private authService: AuthService
+  ) {}
 
   public togglePasswordVisibility(): void {
     this.passwordFieldType =

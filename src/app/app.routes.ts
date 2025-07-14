@@ -12,8 +12,8 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { FondoBonitoComponent } from './fondo-bonito/fondo-bonito.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
-import { LandingPageComponent } from './pages/landing-page/landing-page.component'; 
-import { DashboardAdminComponent } from './pages/dashboard-admin/dashboard-admin.component';
+import { LandingPageComponent } from './pages/landing-page/landing-page.component';
+import { TeamComponent } from './pages/team/team.component';
 
 export const routes: Routes = [
   {
@@ -68,6 +68,10 @@ export const routes: Routes = [
   {
     path: 'fondo-bonito',
     component: FondoBonitoComponent,
+  },
+  {
+    path: 'team',
+    component: TeamComponent,
   },
   {
     path: 'app',
