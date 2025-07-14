@@ -31,7 +31,7 @@ export class TeamComponent {
       image: 'assets/img/team/Cami.png'
     },
     {
-      name: 'Leo Barrantes',
+      name: 'Leo Barrantes Moraga',
       role: 'Coordinador de Calidad',
       responsibility: 'Evalúa funcionalidades y asegura el cumplimiento de estándares.',
       image: 'assets/img/team/LeoJoven.jpg'
