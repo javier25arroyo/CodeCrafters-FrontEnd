@@ -9,12 +9,12 @@ import { AuthService } from '../../../services/auth.service';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.scss',
 })
 export class LoginComponent {
   public loginError!: string;
   public passwordFieldType: string = 'password';
-  
+
   @ViewChild('email') emailModel!: NgModel;
   @ViewChild('password') passwordModel!: NgModel;
 
@@ -29,7 +29,8 @@ export class LoginComponent {
   ) {}
 
   public togglePasswordVisibility(): void {
-    this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
+    this.passwordFieldType =
+      this.passwordFieldType === 'password' ? 'text' : 'password';
   }
 
   public handleLogin(event: Event) {
@@ -42,7 +43,17 @@ export class LoginComponent {
     }
     if (this.emailModel.valid && this.passwordModel.valid) {
       this.authService.login(this.loginForm).subscribe({
-        next: () => this.router.navigateByUrl('/app/dashboard'),
+        next: () => {
+          // Usa hasRole para verificar si el usuario es admin o superAdmin
+          if (
+            this.authService.hasRole('ADMIN') ||
+            this.authService.isSuperAdmin()
+          ) {
+            this.router.navigateByUrl('/dashboard-admin');
+          } else {
+            this.router.navigateByUrl('/dashboard-user');
+          }
+        },
         error: (err: any) => (this.loginError = err.error.description),
       });
     }
