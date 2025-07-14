@@ -1,4 +1,4 @@
-.card-info {
+.card-info-user {
   display: flex;
   align-items: stretch;
   justify-content: space-between;
@@ -85,7 +85,7 @@
 
 // Responsive para móvil
 @media (max-width: 768px) {
-  .card-info {
+  .card-info-user {
     flex-direction: column;
     .card-image {
       min-height: 120px;
