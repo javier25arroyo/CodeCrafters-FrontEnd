@@ -1,18 +1,18 @@
 import { Routes } from "@angular/router";
-import { LoginComponent } from "./pages/auth/login/login.component";
 import { AppLayoutComponent } from "./components/app-layout/app-layout.component";
-import { SigUpComponent } from "./pages/auth/sign-up/signup.component";
+import { ForgotPasswordComponent } from "./components/forgot-password/forgot-password.component";
+import { ResetPasswordComponent } from "./components/reset-password/reset-password.component";
+import { FondoBonitoComponent } from "./fondo-bonito/fondo-bonito.component";
 import { AuthGuard } from "./guards/auth.guard";
-import { AccessDeniedComponent } from "./pages/access-denied/access-denied.component";
-import { AdminRoleGuard } from "./guards/admin-role.guard";
 import { GuestGuard } from "./guards/guest.guard";
 import { IRoleType } from "./interfaces";
-import { ProfileComponent } from "./pages/profile/profile.component";
-import { ForgotPasswordComponent } from "./components/forgot-password/forgot-password.component";
-import { FondoBonitoComponent } from "./fondo-bonito/fondo-bonito.component";
-import { ResetPasswordComponent } from "./components/reset-password/reset-password.component";
-import { LandingPageComponent } from "./pages/landing-page/landing-page.component";
+import { AccessDeniedComponent } from "./pages/access-denied/access-denied.component";
+import { LoginComponent } from "./pages/auth/login/login.component";
+import { SigUpComponent } from "./pages/auth/sign-up/signup.component";
 import { DashboardAdminComponent } from "./pages/dashboard-admin/dashboard-admin.component";
+import { LandingPageComponent } from "./pages/landing-page/landing-page.component";
+import { ProfileComponent } from "./pages/profile/profile.component";
+
 
 export const routes: Routes = [
   {
