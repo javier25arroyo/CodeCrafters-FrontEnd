@@ -2,13 +2,13 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'card-info-user',            
+  selector: 'card-info',            
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './card-info-user.component.html',  
-  styleUrls: ['./card-info-user.component.scss'],   
+  templateUrl: './card-info.component.html',  
+  styleUrls: ['./card-info.component.scss'],   
 })
-export class CardInfoUserComponent {          
+export class CardInfoComponent {          
   @Input() title: string = '';
   @Input() description?: string;
   @Input() imageUrl?: string;
