@@ -15,6 +15,7 @@ import { DashboardUsuarioComponent } from './components/dashboard-usuario/dashbo
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { GameGalleryComponent } from './game-gallery/game-gallery.component';
+import { TeamComponent } from './pages/team/team.component';
 
 export const routes: Routes = [
   {
@@ -69,6 +70,10 @@ export const routes: Routes = [
   {
     path: 'fondo-bonito',
     component: FondoBonitoComponent,
+  },
+  {
+    path: 'team',
+    component: TeamComponent,
   },
   {
     path: 'app',
