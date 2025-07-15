@@ -1,23 +1,21 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './pages/auth/login/login.component';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
-import { SigUpComponent } from './pages/auth/sign-up/signup.component';
-import { UsersComponent } from './pages/users/users.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { FondoBonitoComponent } from './fondo-bonito/fondo-bonito.component';
 import { AuthGuard } from './guards/auth.guard';
-import { AccessDeniedComponent } from './pages/access-denied/access-denied.component';
-import { AdminRoleGuard } from './guards/admin-role.guard';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { GuestGuard } from './guards/guest.guard';
 import { IRoleType } from './interfaces';
-import { ProfileComponent } from './pages/profile/profile.component';
-import { GamesComponent } from './pages/games/games.component';
-import { OrdersComponent } from './pages/orders/orders.component';
-import { PreferenceListPageComponent } from './pages/preferenceList/preference-list.component';
-import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
-import { FondoBonitoComponent } from './fondo-bonito/fondo-bonito.component';
-import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { AccessDeniedComponent } from './pages/access-denied/access-denied.component';
+import { LoginComponent } from './pages/auth/login/login.component';
+import { SigUpComponent } from './pages/auth/sign-up/signup.component';
+import { DashboardAdminComponent } from './pages/dashboard-admin/dashboard-admin.component';
+import { DashboardUsuarioComponent } from './components/dashboard-usuario/dashboard-usuario.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
-import { SuggestionComponent } from './pages/suggestion/suggestion.component'; 
+import { ProfileComponent } from './pages/profile/profile.component';
+import { GameGalleryComponent } from './game-gallery/game-gallery.component';
+import { TeamComponent } from './pages/team/team.component';
+import { SuggestionComponent } from './pages/suggestion/suggestion.component';
 
 export const routes: Routes = [
   {
@@ -31,17 +29,25 @@ export const routes: Routes = [
   },
   {
     path: 'game-gallery',
-    loadComponent: () =>
-      import('./game-gallery/game-gallery.component').then(
-        (m) => m.GameGalleryComponent
-      ),
+    component: GameGalleryComponent,
+    canActivate: [AuthGuard],
+    data: {
+      authorities: [IRoleType.user],
+    },
   },
   {
     path: 'dashboard-user',
-    loadComponent: () =>
-      import('./components/dashboard-usuario/dashboard-usuario.component').then(
-        (m) => m.DashboardUsuarioComponent
-      ),
+    component: DashboardUsuarioComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'dashboard-admin',
+    component: DashboardAdminComponent,
+    canActivate: [AuthGuard],
+    data: {
+      name: 'dashboard admin',
+      showInSidebar: true,
+    },
   },
   {
     path: 'signup',
@@ -69,32 +75,22 @@ export const routes: Routes = [
     path: 'suggestion',
     component: SuggestionComponent, 
   },
+
+  {
+    path: 'team',
+    component: TeamComponent,
+  },
   {
     path: 'app',
     component: AppLayoutComponent,
     canActivate: [AuthGuard],
     children: [
       {
-        path: 'app',
-        redirectTo: 'users',
-        pathMatch: 'full',
-      },
-      {
         path: 'users',
-        component: UsersComponent,
-        canActivate: [AdminRoleGuard],
+        component: ProfileComponent,
         data: {
           authorities: [IRoleType.admin, IRoleType.superAdmin],
           name: 'Users',
-          showInSidebar: true,
-        },
-      },
-      {
-        path: 'dashboard',
-        component: DashboardComponent,
-        data: {
-          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
-          name: 'Dashboard',
           showInSidebar: true,
         },
       },
@@ -105,33 +101,6 @@ export const routes: Routes = [
           authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'profile',
           showInSidebar: false,
-        },
-      },
-      {
-        path: 'games',
-        component: GamesComponent,
-        data: {
-          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
-          name: 'games',
-          showInSidebar: true,
-        },
-      },
-      {
-        path: 'orders',
-        component: OrdersComponent,
-        data: {
-          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
-          name: 'orders',
-          showInSidebar: true,
-        },
-      },
-      {
-        path: 'preference-list',
-        component: PreferenceListPageComponent,
-        data: {
-          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
-          name: 'preference list',
-          showInSidebar: true,
         },
       },
     ],

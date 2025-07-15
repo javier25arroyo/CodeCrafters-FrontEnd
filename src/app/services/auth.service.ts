@@ -95,6 +95,16 @@ export class AuthService {
     return this.http.post<ILoginResponse>('auth/signup', user);
   }
 
+  public signupWithImage(user: IUser, profileImage: File): Observable<ILoginResponse> {
+    const formData = new FormData();
+    formData.append('name', user.name || '');
+    formData.append('email', user.email || '');
+    formData.append('password', user.password || '');
+    formData.append('profileImage', profileImage);
+
+    return this.http.post<ILoginResponse>('auth/signup-with-image', formData);
+  }
+
   public logout() {
     this.accessToken = '';
     localStorage.removeItem('access_token');
