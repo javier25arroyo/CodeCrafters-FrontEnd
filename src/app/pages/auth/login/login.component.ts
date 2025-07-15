@@ -3,17 +3,19 @@ import { Component, ViewChild } from '@angular/core';
 import { FormsModule, NgModel } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
+import { GoogleButtonComponent } from '../../../components/google-button/google-button.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, GoogleButtonComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
   public loginError!: string;
   public passwordFieldType: string = 'password';
+  public googleLoginError!: string;
 
   @ViewChild('email') emailModel!: NgModel;
   @ViewChild('password') passwordModel!: NgModel;
@@ -57,5 +59,17 @@ export class LoginComponent {
         error: (err: any) => (this.loginError = err.error.description),
       });
     }
+  }
+
+  public onGoogleLoginSuccess(response: any) {
+    if (this.authService.hasRole('ADMIN') || this.authService.isSuperAdmin()) {
+      this.router.navigateByUrl('/dashboard-admin');
+    } else {
+      this.router.navigateByUrl('/dashboard-user');
+    }
+  }
+
+  public onGoogleLoginError(error: string) {
+    this.googleLoginError = error;
   }
 }

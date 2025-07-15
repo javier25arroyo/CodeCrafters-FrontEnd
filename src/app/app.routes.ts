@@ -14,6 +14,7 @@ import { FondoBonitoComponent } from './fondo-bonito/fondo-bonito.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { TeamComponent } from './pages/team/team.component';
+import { DashboardAdminComponent } from './pages/dashboard-admin/dashboard-admin.component';
 
 export const routes: Routes = [
   {

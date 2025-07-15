@@ -1,0 +1,42 @@
+.google-signin-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: 6px;
+  border: 1px solid #dadce0;
+  background-color: #fff;
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #3c4043;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  width: 300px;
+  height: 50px;
+
+  .google-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+  }
+
+  span {
+    line-height: 1;
+  }
+
+  &:hover {
+    background-color: #f8f9fa;
+    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.30), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+  }
+
+  &:active {
+    background-color: #f1f3f4;
+  }
+
+  &:disabled {
+    background-color: #f8f9fa;
+    color: #5f6368;
+    cursor: not-allowed;
+  }
+}
