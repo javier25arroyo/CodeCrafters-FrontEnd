@@ -1,0 +1,6 @@
+<div class="suggestion-container">
+  <h2>Déjanos tu sugerencia</h2>
+  <textarea [(ngModel)]="message" placeholder="Escribe tu sugerencia aquí"></textarea>
+  <button (click)="submit()">Enviar sugerencia</button>
+  <p *ngIf="infoMsg">{{ infoMsg }}</p>
+</div>
