@@ -11,15 +11,11 @@ import { LoginComponent } from './pages/auth/login/login.component';
 import { SigUpComponent } from './pages/auth/sign-up/signup.component';
 import { DashboardAdminComponent } from './pages/dashboard-admin/dashboard-admin.component';
 import { DashboardUsuarioComponent } from './components/dashboard-usuario/dashboard-usuario.component';
-import { AdminRoleGuard } from './guards/admin-role.guard';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { ProfileComponent } from './pages/profile/profile.component';
-import { GamesComponent } from './pages/games/games.component';
-import { OrdersComponent } from './pages/orders/orders.component';
-import { PreferenceListPageComponent } from './pages/preferenceList/preference-list.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 import { GameGalleryComponent } from './game-gallery/game-gallery.component';
 import { TeamComponent } from './pages/team/team.component';
+import { SuggestionComponent } from './pages/suggestion/suggestion.component';
 
 export const routes: Routes = [
   {
@@ -76,6 +72,11 @@ export const routes: Routes = [
     component: FondoBonitoComponent,
   },
   {
+    path: 'suggestion',
+    component: SuggestionComponent, 
+  },
+
+  {
     path: 'team',
     component: TeamComponent,
   },
@@ -94,48 +95,12 @@ export const routes: Routes = [
         },
       },
       {
-        path: 'dashboard',
-        component: DashboardComponent,
-        data: {
-          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
-          name: 'Dashboard',
-          showInSidebar: true,
-        },
-      },
-      {
         path: 'profile',
         component: ProfileComponent,
         data: {
           authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'profile',
           showInSidebar: false,
-        },
-      },
-      {
-        path: 'games',
-        component: GamesComponent,
-        data: {
-          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
-          name: 'games',
-          showInSidebar: true,
-        },
-      },
-      {
-        path: 'orders',
-        component: OrdersComponent,
-        data: {
-          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
-          name: 'orders',
-          showInSidebar: true,
-        },
-      },
-      {
-        path: 'preference-list',
-        component: PreferenceListPageComponent,
-        data: {
-          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
-          name: 'preference list',
-          showInSidebar: true,
         },
       },
     ],
