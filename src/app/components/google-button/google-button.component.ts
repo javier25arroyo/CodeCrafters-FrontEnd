@@ -40,11 +40,11 @@ export class GoogleButtonComponent implements OnInit {
         },
         error: (error) => {
           console.error('Google login error:', error);
-          this.loginError.emit('Error al iniciar sesión con Google');
+          this.loginError.emit('Error signing in with Google');
         }
       });
     } else {
-      this.loginError.emit('No se recibió token de Google');
+      this.loginError.emit('No Google token received');
     }
   }
 }
