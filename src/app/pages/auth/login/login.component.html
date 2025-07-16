@@ -51,6 +51,20 @@
               <p class="text-danger">{{loginError}}</p>
               }
             </div>
+
+            <div class="divider my-3">
+              <span class="divider-text">or</span>
+            </div>
+
+            <div class="form-group mb-0">
+              <app-google-button 
+                (loginSuccess)="onGoogleLoginSuccess($event)"
+                (loginError)="onGoogleLoginError($event)">
+              </app-google-button>
+              @if(googleLoginError) {
+              <p class="text-danger">{{googleLoginError}}</p>
+              }
+            </div>
             <p class="mt-3 text-center">
               Don't have an account?
               <a routerLink="/signup">Sign up</a>

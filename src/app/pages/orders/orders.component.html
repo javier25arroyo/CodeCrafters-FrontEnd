@@ -1,0 +1,41 @@
+
+@defer {
+  <div class="row p-4">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Orders</h2>
+        <button (click)="modalService.displayModal('md', addOrdersModal)" type="button" class="btn btn-primary"><i class="fas fa-plus"></i></button>
+      </div>
+    </div>
+    <div class="col-12">
+      <app-orders-list
+        (callModalAction)="callEdition($event)"
+        (callDeleteAction)="ordersService.delete($event)"
+        [orders]="ordersService.orders$()"
+      />
+    </div>
+    @if(ordersService.orders$().length) {
+      <app-pagination
+        [service]="ordersService"
+        [customCall]="true"
+        (callCustomPaginationMethod)="authService.isSuperAdmin() ? ordersService.getAll(): ordersService.getAllByUser()"
+      />
+    }
+  </div>
+} @loading (minimum 1.5s) {
+  <app-loader/>
+}
+
+<ng-template #addOrdersModal>
+  <app-modal
+    [hideFooter]="true"
+  >
+    <div>
+      <app-orders-form
+        [orderForm]="orderForm"
+        (callSaveMethod)="saveOrder($event)"
+        (callUpdateMethod)="updateOrder($event)"
+      />
+    </div>
+  </app-modal>
+</ng-template>
