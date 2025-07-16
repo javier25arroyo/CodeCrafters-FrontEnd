@@ -1,0 +1,31 @@
+<div class="container-fluid">
+  <div>
+    <h2>Games</h2>
+  </div>
+  <div>
+    @defer {
+      <div class="d-flex justify-content-end pb-2">
+        <button type="button" class="btn btn-primary d-flex align-items-center">
+          <i class="fa-solid fa-plus white"></i>
+          <p class="mb-0">Add game</p>
+        </button>
+      </div>
+      <div>
+        <app-games-list
+        [itemList]="gameService.items$()"
+        [areActionsAvailable]="areActionsAvailable"
+        />
+      </div>
+    } @loading (after 100ms; minimum 1s) {
+      <app-loader/>
+    }
+  </div>
+</div>
+
+
+<app-modal size="lg" #formModal>
+  <app-games-form 
+  (callParentEvent)="onFormEventCalled($event)"
+  [title]="'Add Game'"
+  ></app-games-form>
+</app-modal>
