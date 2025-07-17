@@ -8,8 +8,7 @@ import { baseUrlInterceptor } from './interceptors/base-url.interceptor';
 import { accessTokenInterceptor } from './interceptors/access-token.interceptor';
 import { handleErrorsInterceptor } from './interceptors/handle-errors.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
-import { environment } from '../environments/environment';
+import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -30,9 +29,9 @@ export const appConfig: ApplicationConfig = {
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(environment.googleClientId || '450242025121-l9p7v1jvg34qric7g4r1rgletiupk0pa.apps.googleusercontent.com', {
+            provider: new GoogleLoginProvider('450242025121-l9p7v1jvg34qric7g4r1rgletiupk0pa.apps.googleusercontent.com', {
               oneTapEnabled: false,
-              scopes: 'openid profile email'
+              scopes: 'openid profile email',
             })
           }
         ]

@@ -15,7 +15,8 @@ import { LandingPageComponent } from './pages/landing-page/landing-page.componen
 import { ProfileComponent } from './pages/profile/profile.component';
 import { GameGalleryComponent } from './game-gallery/game-gallery.component';
 import { TeamComponent } from './pages/team/team.component';
-import { SuggestionComponent } from './pages/suggestions/suggestion.component'; 
+import { SuggestionComponent } from './ages/suggestions/suggestion.component'; 
+
 
 export const routes: Routes = [
   {
@@ -69,6 +70,11 @@ export const routes: Routes = [
     path: 'fondo-bonito',
     component: FondoBonitoComponent,
   },
+  {
+    path: 'suggestion',
+    component: SuggestionComponent, 
+  },
+
   {
     path: 'team',
     component: TeamComponent,

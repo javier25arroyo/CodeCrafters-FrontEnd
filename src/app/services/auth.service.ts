@@ -145,4 +145,15 @@ public resetPassword(email: string, newPassword: string): Observable<MessageResp
     .set('newPassword', newPassword);
   return this.http.post<MessageResponse>('auth/reset-password', null, { params });
 }
+
+public loginWithGoogle(idToken: string): Observable<ILoginResponse> {
+  return this.http.post<ILoginResponse>('auth/google', { idToken }).pipe(
+    tap((response: any) => {
+      this.accessToken = response.token;
+      this.expiresIn = response.expiresIn;
+      this.user = response.authUser;
+      this.save();
+    })
+  );
+}
 }
