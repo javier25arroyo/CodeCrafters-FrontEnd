@@ -1,0 +1,36 @@
+.suggestion-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  text-align: center;
+
+  textarea {
+    width: 100%;
+    min-height: 120px;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    resize: vertical;
+  }
+
+  button {
+    padding: 0.5rem 2rem;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: #ff7f50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: 0.3s;
+
+    &:hover {
+      background-color: #ff6633;
+    }
+  }
+
+  p {
+    margin-top: 1rem;
+    font-weight: bold;
+  }
+}

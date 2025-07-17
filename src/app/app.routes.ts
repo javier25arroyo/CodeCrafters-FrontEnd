@@ -15,7 +15,8 @@ import { LandingPageComponent } from './pages/landing-page/landing-page.componen
 import { ProfileComponent } from './pages/profile/profile.component';
 import { GameGalleryComponent } from './game-gallery/game-gallery.component';
 import { TeamComponent } from './pages/team/team.component';
-import { SuggestionComponent } from './pages/suggestion/suggestion.component';
+import { SuggestionComponent } from './ages/suggestions/suggestion.component'; 
+
 
 export const routes: Routes = [
   {
@@ -25,7 +26,6 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    canActivate: [GuestGuard],
   },
   {
     path: 'game-gallery',
@@ -52,7 +52,6 @@ export const routes: Routes = [
   {
     path: 'signup',
     component: SigUpComponent,
-    canActivate: [GuestGuard],
   },
   {
     path: 'forgot-password',
@@ -79,6 +78,11 @@ export const routes: Routes = [
   {
     path: 'team',
     component: TeamComponent,
+  },
+  {
+    path: 'suggestions',
+    component: SuggestionComponent, 
+    canActivate: [AuthGuard],      
   },
   {
     path: 'app',
