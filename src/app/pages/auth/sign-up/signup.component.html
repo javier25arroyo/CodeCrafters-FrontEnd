@@ -83,57 +83,6 @@
               </div>
             </div>
 
-            <!-- Profile Image Upload -->
-            <div class="form-group mb-3">
-              <label class="form-label mb-2">Profile Image (Optional)</label>
-              <div class="image-upload-container">
-                <!-- Hidden file input -->
-                <input 
-                  #fileInput 
-                  type="file" 
-                  accept="image/*" 
-                  (change)="onImageSelected($event)"
-                  class="d-none"
-                  id="imageUpload"
-                >
-                
-                <!-- Custom upload button -->
-                <div class="upload-area" (click)="fileInput.click()">
-                  <div *ngIf="!imagePreview" class="upload-placeholder">
-                    <div class="upload-icon">
-                      <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
-                      </svg>
-                    </div>
-                    <p class="upload-text mb-1">Click to upload image</p>
-                    <small class="text-muted">PNG, JPG up to 5MB</small>
-                  </div>
-                  
-                  <!-- Image preview -->
-                  <div *ngIf="imagePreview" class="image-preview-container">
-                    <img [src]="imagePreview" alt="Profile preview" class="image-preview">
-                    <div class="image-overlay">
-                      <button 
-                        type="button" 
-                        class="btn btn-sm btn-danger remove-image-btn"
-                        (click)="removeImage(); $event.stopPropagation()"
-                      >
-                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"/>
-                        </svg>
-                        Remove
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                
-                <!-- Error message -->
-                <div *ngIf="imageError" class="invalid-feedback d-block">
-                  {{ imageError }}
-                </div>
-              </div>
-            </div>
-
             <div class="form-group mb-0">
               <button class="btn btn-primary btn-block w-100" type="submit">
                 Sign up
