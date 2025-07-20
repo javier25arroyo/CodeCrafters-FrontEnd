@@ -15,8 +15,8 @@ import { LandingPageComponent } from './pages/landing-page/landing-page.componen
 import { ProfileComponent } from './pages/profile/profile.component';
 import { GameGalleryComponent } from './game-gallery/game-gallery.component';
 import { TeamComponent } from './pages/team/team.component';
-import { SuggestionComponent } from './ages/suggestions/suggestion.component'; 
-
+import { GameSequenceComponent } from './pages/games/game-sequence/game-sequence.component'; 
+import { SuggestionComponent } from './pages/suggestion/suggestion.component';
 
 export const routes: Routes = [
   {
@@ -71,11 +71,6 @@ export const routes: Routes = [
     component: FondoBonitoComponent,
   },
   {
-    path: 'suggestion',
-    component: SuggestionComponent, 
-  },
-
-  {
     path: 'team',
     component: TeamComponent,
   },
@@ -83,6 +78,14 @@ export const routes: Routes = [
     path: 'suggestions',
     component: SuggestionComponent, 
     canActivate: [AuthGuard],      
+  },
+  {
+    path: 'secuencia',
+    component: GameSequenceComponent,
+    canActivate: [AuthGuard],
+    data: {
+      authorities: [IRoleType.user],
+    },
   },
   {
     path: 'app',
