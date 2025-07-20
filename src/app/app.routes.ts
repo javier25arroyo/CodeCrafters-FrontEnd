@@ -9,7 +9,6 @@ import { IRoleType } from './interfaces';
 import { AccessDeniedComponent } from './pages/access-denied/access-denied.component';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { SigUpComponent } from './pages/auth/sign-up/signup.component';
-import { DashboardAdminComponent } from './pages/dashboard-admin/dashboard-admin.component';
 import { DashboardUsuarioComponent } from './components/dashboard-usuario/dashboard-usuario.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { ProfileComponent } from './pages/profile/profile.component';
@@ -39,15 +38,6 @@ export const routes: Routes = [
     path: 'dashboard-user',
     component: DashboardUsuarioComponent,
     canActivate: [AuthGuard],
-  },
-  {
-    path: 'dashboard-admin',
-    component: DashboardAdminComponent,
-    canActivate: [AuthGuard],
-    data: {
-      name: 'dashboard admin',
-      showInSidebar: true,
-    },
   },
   {
     path: 'signup',
