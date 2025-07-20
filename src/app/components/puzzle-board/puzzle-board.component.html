@@ -1,0 +1,48 @@
+<div class="puzzle-main-layout">
+  <!-- Opciones de imágenes a la izquierda -->
+  <aside class="sidebar">
+    <h2>Rompecabezas</h2>
+    <div class="image-selector">
+      <h3>Opciones de imagen:</h3>
+      <div class="image-options">
+        @for (image of availableImages; track $index) {
+          <button class="image-option" [class.active]="currentImage === image" (click)="changeImage(image)">
+            <img [src]="image" alt="Opción {{$index + 1}}" />
+          </button>
+        }
+      </div>
+    </div>
+    <button class="reset-button" (click)="resetGame()">Reiniciar juego</button>
+    <div class="move-counter">
+      Movimientos: {{ moveCounter }}
+    </div>
+  </aside>
+  <!-- Tablero en el centro -->
+  <section class="puzzle-board-section">
+    <div class="puzzle-board" [style.grid-template-columns]="'repeat(' + boardSize + ', 1fr)'">
+      @for (row of range(boardSize); track row) {
+        @for (col of range(boardSize); track col) {
+          <div 
+            class="puzzle-piece" 
+            *ngIf="getPieceAtPosition(row, col) as piece"
+            [class.selected]="isPieceSelected(piece)" 
+            (click)="selectPiece(piece)"
+            [style.background-image]="'url(' + currentImage + ')'"
+            [style.background-position]="getBackgroundPosition(piece)"
+            [style.background-size]="getBackgroundSize()"
+          ></div>
+        }
+      }
+    </div>
+    <div class="completion-message" *ngIf="isCompleted">
+      ¡Felicidades! Has completado el rompecabezas.
+    </div>
+  </section>
+  <!-- Imagen de referencia a la derecha -->
+  <aside class="reference-sidebar">
+    <div class="reference-image">
+      <h4>Imagen de referencia:</h4>
+      <img [src]="currentImage" alt="Imagen de referencia" />
+    </div>
+  </aside>
+</div>
