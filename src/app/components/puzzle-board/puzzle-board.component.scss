@@ -1,9 +1,11 @@
+@import '../../../assets/utils/_variables';
+
 .puzzle-main-layout {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: stretch; /* Estirar todos los elementos al mismo alto */
   justify-content: center;
-  gap: 32px;
+  gap: 16px; /* Reducir separación entre opciones, tablero y referencia */
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
@@ -12,29 +14,32 @@
 }
 
 .sidebar {
-  width: 300px;
+  width: 280px; // Unificar ancho con reference-sidebar
+  height: 100%; /* Ajustar la altura para que coincida con el tablero */
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 4px 24px rgba(0,0,0,0.10);
   padding: 24px 18px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between; /* Distribuir elementos verticalmente */
   align-items: center;
   gap: 24px;
 }
 
 .reference-sidebar {
-  width: 260px;
+  width: 280px; // Unificar ancho con sidebar
+  height: 100%; /* Ocupa toda la altura para alinear con sidebar y tablero */
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between; /* Distribuir verticalmente */
   padding: 0 10px;
 }
 
 .sidebar h2 {
   color: #333;
-  font-size: 2rem;
+  font-size: $h2-font-size; // Usar tamaño de título global para simetría
   margin-bottom: 10px;
 }
 
@@ -134,7 +139,9 @@
 }
 
 .puzzle-board-section {
+  height: 100%; /* Ocupa toda la altura de la fila */
   flex: 1;
+  flex-grow: 1; /* Permitir que el tablero ocupe el espacio restante */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -147,12 +154,12 @@
   width: 100%;
   max-width: 500px;
   aspect-ratio: 1/1;
-  margin: 20px auto;
-  border: 3px solid #333;
-  padding: 8px;
-  border-radius: 10px;
-  background-color: #f8f9fa;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 10px auto; /* Acercar el tablero a los paneles laterales */
+  border: 1px solid $light-widget-border; // Borde más sutil acorde a proyecto
+  padding: $base-spacing;           // Espaciado acorde a variables globales
+  border-radius: 16px;              // Radio de borde consistente
+  background-color: $white;         // Fondo blanco como otras tarjetas
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10); // Sombra uniforme
 }
 
 .reset-button {
@@ -196,12 +203,12 @@
   width: 100%;
   max-width: 500px;
   aspect-ratio: 1/1;
-  margin: 20px auto;
-  border: 3px solid #333;
-  padding: 8px;
-  border-radius: 10px;
-  background-color: #f8f9fa;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 10px auto; /* Acercar el tablero a los paneles laterales */
+  border: 1px solid $light-widget-border; // Borde más sutil acorde a proyecto
+  padding: $base-spacing;           // Espaciado acorde a variables globales
+  border-radius: 16px;              // Radio de borde consistente
+  background-color: $white;         // Fondo blanco como otras tarjetas
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10); // Sombra uniforme
 }
 
 .puzzle-piece {
