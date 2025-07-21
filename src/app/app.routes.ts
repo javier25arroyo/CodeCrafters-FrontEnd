@@ -66,8 +66,8 @@ export const routes: Routes = [
     component: TeamComponent,
   },
   {
-    path: 'suggestions',
-    component: SuggestionComponent, 
+    path: 'secuencia',
+    component: GameSequenceComponent, 
     canActivate: [AuthGuard],      
   },
   {
