@@ -16,12 +16,31 @@ import { PreferenceListPageComponent } from './pages/preferenceList/preference-l
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { FondoBonitoComponent } from './fondo-bonito/fondo-bonito.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { LandingPageComponent } from './pages/landing-page/landing-page.component'; 
 
 export const routes: Routes = [
+  {
+    path: '',
+    component: LandingPageComponent,
+  },
   {
     path: 'login',
     component: LoginComponent,
     canActivate: [GuestGuard],
+  },
+  {
+    path: 'game-gallery',
+    loadComponent: () =>
+      import('./game-gallery/game-gallery.component').then(
+        (m) => m.GameGalleryComponent
+      ),
+  },
+  {
+    path: 'dashboard-user',
+    loadComponent: () =>
+      import('./components/dashboard-usuario/dashboard-usuario.component').then(
+        (m) => m.DashboardUsuarioComponent
+      ),
   },
   {
     path: 'signup',
@@ -29,9 +48,9 @@ export const routes: Routes = [
     canActivate: [GuestGuard],
   },
   {
-  path: 'forgot-password',
-  component: ForgotPasswordComponent,
-  canActivate: [GuestGuard], 
+    path: 'forgot-password',
+    component: ForgotPasswordComponent,
+    canActivate: [GuestGuard],
   },
   {
     path: 'reset-password',
@@ -41,13 +60,9 @@ export const routes: Routes = [
     path: 'access-denied',
     component: AccessDeniedComponent,
   },
-    {   
-       path: 'fondo-bonito', component: FondoBonitoComponent 
-      },
   {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full',
+    path: 'fondo-bonito',
+    component: FondoBonitoComponent,
   },
   {
     path: 'app',
@@ -62,81 +77,58 @@ export const routes: Routes = [
       {
         path: 'users',
         component: UsersComponent,
-        canActivate:[AdminRoleGuard],
-        data: { 
-          authorities: [
-            IRoleType.admin, 
-            IRoleType.superAdmin
-          ],
+        canActivate: [AdminRoleGuard],
+        data: {
+          authorities: [IRoleType.admin, IRoleType.superAdmin],
           name: 'Users',
-          showInSidebar: true
-        }
+          showInSidebar: true,
+        },
       },
       {
         path: 'dashboard',
         component: DashboardComponent,
-        data: { 
-          authorities: [
-            IRoleType.admin, 
-            IRoleType.superAdmin,
-            IRoleType.user
-          ],
+        data: {
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'Dashboard',
-          showInSidebar: true
-        }
+          showInSidebar: true,
+        },
       },
       {
         path: 'profile',
         component: ProfileComponent,
-        data: { 
-          authorities: [
-            IRoleType.admin, 
-            IRoleType.superAdmin,
-            IRoleType.user
-          ],
+        data: {
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'profile',
-          showInSidebar: false
-        }
+          showInSidebar: false,
+        },
       },
       {
         path: 'games',
         component: GamesComponent,
-        data: { 
-          authorities: [
-            IRoleType.admin, 
-            IRoleType.superAdmin,
-            IRoleType.user,
-          ],
+        data: {
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'games',
-          showInSidebar: true
-        }
+          showInSidebar: true,
+        },
       },
       {
         path: 'orders',
         component: OrdersComponent,
-        data: { 
-          authorities: [
-            IRoleType.admin, 
-            IRoleType.superAdmin,
-            IRoleType.user,
-          ],
+        data: {
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'orders',
-          showInSidebar: true
-        }
+          showInSidebar: true,
+        },
       },
       {
         path: 'preference-list',
         component: PreferenceListPageComponent,
-        data: { 
-          authorities: [
-            IRoleType.admin, 
-            IRoleType.superAdmin,
-            IRoleType.user,
-          ],
+        data: {
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'preference list',
-          showInSidebar: true
-        }
-      }
+          showInSidebar: true,
+        },
+      },
     ],
   },
-];
+]
