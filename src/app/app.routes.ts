@@ -34,6 +34,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'puzzle-board',
+    loadComponent: () =>
+      import('./components/puzzle-board/puzzle-board.component').then(
+        (m) => m.PuzzleBoardComponent
+      ),
+  },
+  {
     path: 'dashboard-user',
     loadComponent: () =>
       import('./components/dashboard-usuario/dashboard-usuario.component').then(

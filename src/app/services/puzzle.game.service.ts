@@ -21,11 +21,11 @@ export class PuzzleService {
   private totalPieces = this.boardSize * this.boardSize;
   // Imágenes disponibles
   private availableImages: string[] = [
-    'assets/img-rompecabezas/1.png',
-    'assets/img-rompecabezas/2.png',
-    'assets/img-rompecabezas/3.png',
-    'assets/img-rompecabezas/4.png',
-    'assets/img-rompecabezas/5.png'
+    'assets/img/img-rompecabezas/1.png',
+    'assets/img/img-rompecabezas/2.png',
+    'assets/img/img-rompecabezas/3.png',
+    'assets/img/img-rompecabezas/4.png',
+    'assets/img/img-rompecabezas/5.png'
   ];
   // Imagen seleccionada actualmente
   private currentImage = this.availableImages[0];
@@ -224,7 +224,7 @@ export class PuzzleService {
       this.initializeGame();
     };
     img.onerror = () => {
-      console.warn(`No se pudo cargar la imagen: ${imageUrl}.`);
+      console.warn(`Could not load image: ${imageUrl}.`);
       this.initializeGame();
     };
     img.src = imageUrl;

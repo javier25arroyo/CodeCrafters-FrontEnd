@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PuzzleService, PuzzlePiece } from '../../services/puzzle.service';
+import { PuzzleService, PuzzlePiece } from '../../services/puzzle.game.service';
 
 @Component({
   selector: 'puzzle-board',
@@ -21,17 +21,17 @@ export class PuzzleBoardComponent implements OnInit {
 
   ngOnInit() {
     // Suscribirse a los cambios en el tablero
-    this.puzzleService.puzzleBoard$.subscribe(pieces => {
+    this.puzzleService.puzzleBoard$.subscribe((pieces: PuzzlePiece[]) => {
       this.pieces = pieces;
     });
     
     // Suscribirse a los cambios en el estado de completado
-    this.puzzleService.isCompleted$.subscribe(isCompleted => {
+    this.puzzleService.isCompleted$.subscribe((isCompleted: boolean) => {
       this.isCompleted = isCompleted;
     });
 
     // Suscribirse al contador de movimientos
-    this.puzzleService.moveCounter$.subscribe(moves => {
+    this.puzzleService.moveCounter$.subscribe((moves: number) => {
       this.moveCounter = moves;
     });
 
