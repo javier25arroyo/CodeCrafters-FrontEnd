@@ -14,8 +14,9 @@ import { LandingPageComponent } from './pages/landing-page/landing-page.componen
 import { ProfileComponent } from './pages/profile/profile.component';
 import { GameGalleryComponent } from './game-gallery/game-gallery.component';
 import { TeamComponent } from './pages/team/team.component';
-import { SuggestionComponent } from './pages/suggestions/suggestion.component'; 
 import { CrosswordGameComponent } from './pages/crossword-game/crossword-game.component';
+import { GameSequenceComponent } from './pages/games/game-sequence/game-sequence.component'; 
+import { SuggestionComponent } from './pages/suggestion/suggestion.component';
 
 export const routes: Routes = [
   {
@@ -61,11 +62,6 @@ export const routes: Routes = [
     component: FondoBonitoComponent,
   },
   {
-    path: 'suggestion',
-    component: SuggestionComponent, 
-  },
-
-  {
     path: 'team',
     component: TeamComponent,
   },
@@ -78,9 +74,13 @@ export const routes: Routes = [
     path: 'crossword',
     component: CrosswordGameComponent,
     canActivate: [AuthGuard],
-    data: {
-      authorities: [IRoleType.user], 
-    },
+    data: { authorities: [IRoleType.user] },
+  },
+  {
+    path: 'suggestions',
+    component: SuggestionComponent,
+    canActivate: [AuthGuard],
+    data: { authorities: [IRoleType.user] },
   },
   {
     path: 'app',
