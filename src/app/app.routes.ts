@@ -9,14 +9,13 @@ import { IRoleType } from './interfaces';
 import { AccessDeniedComponent } from './pages/access-denied/access-denied.component';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { SigUpComponent } from './pages/auth/sign-up/signup.component';
-import { DashboardAdminComponent } from './pages/dashboard-admin/dashboard-admin.component';
 import { DashboardUsuarioComponent } from './components/dashboard-usuario/dashboard-usuario.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { GameGalleryComponent } from './game-gallery/game-gallery.component';
 import { TeamComponent } from './pages/team/team.component';
-import { SuggestionComponent } from './ages/suggestions/suggestion.component'; 
-
+import { GameSequenceComponent } from './pages/games/game-sequence/game-sequence.component'; 
+import { SuggestionComponent } from './pages/suggestion/suggestion.component';
 
 export const routes: Routes = [
   {
@@ -41,15 +40,6 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'dashboard-admin',
-    component: DashboardAdminComponent,
-    canActivate: [AuthGuard],
-    data: {
-      name: 'dashboard admin',
-      showInSidebar: true,
-    },
-  },
-  {
     path: 'signup',
     component: SigUpComponent,
   },
@@ -71,11 +61,6 @@ export const routes: Routes = [
     component: FondoBonitoComponent,
   },
   {
-    path: 'suggestion',
-    component: SuggestionComponent, 
-  },
-
-  {
     path: 'team',
     component: TeamComponent,
   },
@@ -83,6 +68,14 @@ export const routes: Routes = [
     path: 'suggestions',
     component: SuggestionComponent, 
     canActivate: [AuthGuard],      
+  },
+  {
+    path: 'secuencia',
+    component: GameSequenceComponent,
+    canActivate: [AuthGuard],
+    data: {
+      authorities: [IRoleType.user],
+    },
   },
   {
     path: 'app',
