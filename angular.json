@@ -65,9 +65,17 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "headers": {
+              "Cross-Origin-Opener-Policy": "same-origin-allow-popups"
+            }
+          },
           "configurations": {
             "production": {
-              "buildTarget": "demo-angular-front:build:production"
+              "buildTarget": "demo-angular-front:build:production",
+              "headers": {
+                "Cross-Origin-Opener-Policy": "same-origin-allow-popups"
+              }
             },
             "development": {
               "buildTarget": "demo-angular-front:build:development"

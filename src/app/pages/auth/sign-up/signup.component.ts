@@ -16,11 +16,12 @@ export class SigUpComponent {
   public signUpError!: String;
   public validSignup!: boolean;
   public passwordFieldType: string = 'password';
+  public confirmPasswordValue: string = '';
 
   @ViewChild('name') nameModel!: NgModel;
-  @ViewChild('lastname') lastnameModel!: NgModel;
   @ViewChild('email') emailModel!: NgModel;
   @ViewChild('password') passwordModel!: NgModel;
+  @ViewChild('confirmPassword') confirmPasswordModel!: NgModel;
 
   public user: IUser = {};
 
@@ -32,13 +33,14 @@ export class SigUpComponent {
     this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
   }
 
+  public passwordsMatch(): boolean {
+    return this.user.password === this.confirmPasswordValue;
+  }
+
   public handleSignup(event: Event) {
     event.preventDefault();
     if (!this.nameModel.valid) {
       this.nameModel.control.markAsTouched();
-    }
-    if (!this.lastnameModel.valid) {
-      this.lastnameModel.control.markAsTouched();
     }
     if (!this.emailModel.valid) {
       this.emailModel.control.markAsTouched();
@@ -46,11 +48,15 @@ export class SigUpComponent {
     if (!this.passwordModel.valid) {
       this.passwordModel.control.markAsTouched();
     }
-    if (this.emailModel.valid && this.passwordModel.valid) {
-      this.authService.signup(this.user).subscribe({
-        next: () => this.validSignup = true,
-        error: (err: any) => (this.signUpError = err.description),
-      });
+    if (!this.confirmPasswordModel.valid) {
+      this.confirmPasswordModel.control.markAsTouched();
+    }
+    
+    if (this.nameModel.valid && this.emailModel.valid && this.passwordModel.valid && this.confirmPasswordModel.valid && this.passwordsMatch()) {
+        this.authService.signup(this.user).subscribe({
+          next: () => this.validSignup = true,
+          error: (err: any) => (this.signUpError = err.description || err.message),
+        });
     }
   }
 }

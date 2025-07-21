@@ -95,6 +95,16 @@ export class AuthService {
     return this.http.post<ILoginResponse>('auth/signup', user);
   }
 
+  public signupWithImage(user: IUser, profileImage: File): Observable<ILoginResponse> {
+    const formData = new FormData();
+    formData.append('name', user.name || '');
+    formData.append('email', user.email || '');
+    formData.append('password', user.password || '');
+    formData.append('profileImage', profileImage);
+
+    return this.http.post<ILoginResponse>('auth/signup-with-image', formData);
+  }
+
   public logout() {
     this.accessToken = '';
     localStorage.removeItem('access_token');
@@ -134,5 +144,16 @@ public resetPassword(email: string, newPassword: string): Observable<MessageResp
     .set('email', email)
     .set('newPassword', newPassword);
   return this.http.post<MessageResponse>('auth/reset-password', null, { params });
+}
+
+public loginWithGoogle(idToken: string): Observable<ILoginResponse> {
+  return this.http.post<ILoginResponse>('auth/google', { idToken }).pipe(
+    tap((response: any) => {
+      this.accessToken = response.token;
+      this.expiresIn = response.expiresIn;
+      this.user = response.authUser;
+      this.save();
+    })
+  );
 }
 }
