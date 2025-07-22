@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router, NavigationEnd, RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { filter } from 'rxjs/operators';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-nav',
@@ -12,8 +13,8 @@ import { filter } from 'rxjs/operators';
 })
 export class NavComponent implements OnInit {
   isLoggedIn = false;
+  authService: AuthService = inject(AuthService);
 
-  // 👇 Cambio aquí: public en vez de private
   constructor(public router: Router) {}
 
   ngOnInit(): void {
@@ -27,12 +28,11 @@ export class NavComponent implements OnInit {
   }
 
   checkLoginStatus(): void {
-    const user = localStorage.getItem('auth_user');
-    this.isLoggedIn = !!user;
+    this.isLoggedIn = this.authService.check();
   }
 
   logout(): void {
-    localStorage.removeItem('auth_user');
+    this.authService.logout();
     this.isLoggedIn = false;
     this.router.navigate(['/']);
   }
