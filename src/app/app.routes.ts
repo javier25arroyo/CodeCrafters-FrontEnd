@@ -15,10 +15,11 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { GameGalleryComponent } from './game-gallery/game-gallery.component';
 import { TeamComponent } from './pages/team/team.component';
 import { CrosswordGameComponent } from './pages/games/crossword-game/crossword-game.component';
-import { GameSequenceComponent } from './pages/games/game-sequence/game-sequence.component'; 
+import { GameSequenceComponent } from './pages/games/game-sequence/game-sequence.component';
 import { MemoryGameComponent } from './pages/games/memorycard-game/memorycard-game.component';
 import { SuggestionComponent } from './pages/suggestion/suggestion.component';
-import { UserProfileComponent } from './pages/user-profile/user-profile.component'; 
+import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+import { PuzzleBoardComponent } from './pages/games/puzzle-board/puzzle-board.component';
 
 export const routes: Routes = [
   {
@@ -32,24 +33,21 @@ export const routes: Routes = [
   },
   {
     path: 'game-gallery',
-    loadComponent: () =>
-      import('./game-gallery/game-gallery.component').then(
-        (m) => m.GameGalleryComponent
-      ),
+    component: GameGalleryComponent,
+    canActivate: [AuthGuard],
+    data: {
+      authorities: [IRoleType.user],
+    },
   },
   {
     path: 'puzzle-board',
-    loadComponent: () =>
-      import('./pages/games/puzzle-board/puzzle-board.component').then(
-        (m) => m.PuzzleBoardComponent
-      ),
+    component: PuzzleBoardComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'dashboard-user',
-    loadComponent: () =>
-      import('./components/dashboard-usuario/dashboard-usuario.component').then(
-        (m) => m.DashboardUsuarioComponent
-      ),
+    component: DashboardUsuarioComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'signup',
@@ -78,8 +76,8 @@ export const routes: Routes = [
   },
   {
     path: 'secuencia',
-    component: GameSequenceComponent, 
-    canActivate: [AuthGuard],      
+    component: GameSequenceComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'crossword',
@@ -100,19 +98,6 @@ export const routes: Routes = [
     data: { authorities: [IRoleType.user] },
   },
   {
-    path: 'game-gallery',
-    component: GameGalleryComponent,
-    canActivate: [AuthGuard],
-    data: {
-      authorities: [IRoleType.user],
-    },
-  },
-  {
-    path: 'dashboard-user',
-    component: DashboardUsuarioComponent,
-    canActivate: [AuthGuard],
-  },
-  {
     path: 'user-profile',
     component: UserProfileComponent,
     canActivate: [AuthGuard],
@@ -120,7 +105,6 @@ export const routes: Routes = [
       authorities: [IRoleType.user],
     },
   },
-
   {
     path: 'app',
     component: AppLayoutComponent,
@@ -143,7 +127,7 @@ export const routes: Routes = [
           name: 'profile',
           showInSidebar: false,
         },
-      }
+      },
     ],
   },
 ];
