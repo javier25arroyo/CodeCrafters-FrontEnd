@@ -1,9 +1,8 @@
 <div class="puzzle-main-layout">
-  <!-- Opciones de imágenes a la izquierda -->
   <aside class="sidebar">
-    <h2>Puzzle</h2>
+    <h2>Rompecabezas</h2>
     <div class="image-selector">
-      <h3>Image options:</h3>
+      <h3>Imagen de referencia:</h3>
       <div class="image-options">
         @for (image of availableImages; track $index) {
           <button class="image-option" [class.active]="currentImage === image" (click)="changeImage(image)">
@@ -12,9 +11,9 @@
         }
       </div>
     </div>
-    <button class="reset-button" (click)="resetGame()">Reboot</button>
+    <button class="reset-button" (click)="resetGame()">Reiniciar</button>
     <div class="move-counter">
-      Moves: {{ moveCounter }}
+        Movimientos: {{ moveCounter }}
     </div>
   </aside>
   <!-- Tablero en el centro -->
@@ -35,13 +34,13 @@
       }
     </div>
     <div class="completion-message" *ngIf="isCompleted">
-      ¡Congratulations!
+      ¡Felicidades🪄!
     </div>
   </section>
   <!-- Imagen de referencia a la derecha -->
   <aside class="reference-sidebar">
     <div class="reference-image">
-      <h4>Reference:</h4>
+      <h4>Referencia:</h4>
       <img [src]="currentImage" alt="Reference image" />
     </div>
   </aside>
