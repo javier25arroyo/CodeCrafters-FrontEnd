@@ -16,6 +16,7 @@ import { GameGalleryComponent } from './game-gallery/game-gallery.component';
 import { TeamComponent } from './pages/team/team.component';
 import { GameSequenceComponent } from './pages/games/game-sequence/game-sequence.component'; 
 import { SuggestionComponent } from './pages/suggestion/suggestion.component';
+import { UserProfileComponent } from './pages/user-profile/user-profile.component'; 
 
 export const routes: Routes = [
   {
@@ -25,19 +26,6 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-  },
-  {
-    path: 'game-gallery',
-    component: GameGalleryComponent,
-    canActivate: [AuthGuard],
-    data: {
-      authorities: [IRoleType.user],
-    },
-  },
-  {
-    path: 'dashboard-user',
-    component: DashboardUsuarioComponent,
-    canActivate: [AuthGuard],
   },
   {
     path: 'signup',
@@ -78,6 +66,29 @@ export const routes: Routes = [
     },
   },
   {
+    path: 'game-gallery',
+    component: GameGalleryComponent,
+    canActivate: [AuthGuard],
+    data: {
+      authorities: [IRoleType.user],
+    },
+  },
+  {
+    path: 'dashboard-user',
+    component: DashboardUsuarioComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'user-profile',
+    component: UserProfileComponent,
+    canActivate: [AuthGuard],
+    data: {
+      authorities: [IRoleType.user],
+    },
+  },
+
+  // 👉 RUTAS QUE USAN AppLayout (sidebar, navbar, etc.)
+  {
     path: 'app',
     component: AppLayoutComponent,
     canActivate: [AuthGuard],
@@ -99,7 +110,7 @@ export const routes: Routes = [
           name: 'profile',
           showInSidebar: false,
         },
-      },
+      }
     ],
   },
 ];

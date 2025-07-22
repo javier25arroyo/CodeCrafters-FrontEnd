@@ -1,7 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { BaseService } from './base-service';
 import { ISearch, IUser } from '../interfaces';
-import { Observable, catchError, tap, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AlertService } from './alert.service';
 
 @Injectable({
@@ -13,18 +13,23 @@ export class UserService extends BaseService<IUser> {
   get users$() {
     return this.userListSignal;
   }
-  public search: ISearch = { 
+
+  public search: ISearch = {
     page: 1,
     size: 5
-  }
+  };
+
   public totalItems: any = [];
   private alertService: AlertService = inject(AlertService);
 
   getAll() {
-    this.findAllWithParams({ page: this.search.page, size: this.search.size}).subscribe({
+    this.findAllWithParams({ page: this.search.page, size: this.search.size }).subscribe({
       next: (response: any) => {
-        this.search = {...this.search, ...response.meta};
-        this.totalItems = Array.from({length: this.search.totalPages ? this.search.totalPages: 0}, (_, i) => i+1);
+        this.search = { ...this.search, ...response.meta };
+        this.totalItems = Array.from(
+          { length: this.search.totalPages ?? 0 },
+          (_, i) => i + 1
+        );
         this.userListSignal.set(response.data);
       },
       error: (err: any) => {
@@ -33,7 +38,6 @@ export class UserService extends BaseService<IUser> {
     });
   }
 
-
   save(user: IUser) {
     this.add(user).subscribe({
       next: (response: any) => {
@@ -41,7 +45,7 @@ export class UserService extends BaseService<IUser> {
         this.getAll();
       },
       error: (err: any) => {
-        this.alertService.displayAlert('error', 'An error occurred adding the user','center', 'top', ['error-snackbar']);
+        this.alertService.displayAlert('error', 'An error occurred adding the user', 'center', 'top', ['error-snackbar']);
         console.error('error', err);
       }
     });
@@ -54,7 +58,7 @@ export class UserService extends BaseService<IUser> {
         this.getAll();
       },
       error: (err: any) => {
-        this.alertService.displayAlert('error', 'An error occurred updating the user','center', 'top', ['error-snackbar']);
+        this.alertService.displayAlert('error', 'An error occurred updating the user', 'center', 'top', ['error-snackbar']);
         console.error('error', err);
       }
     });
@@ -67,9 +71,19 @@ export class UserService extends BaseService<IUser> {
         this.getAll();
       },
       error: (err: any) => {
-        this.alertService.displayAlert('error', 'An error occurred deleting the user','center', 'top', ['error-snackbar']);
+        this.alertService.displayAlert('error', 'An error occurred deleting the user', 'center', 'top', ['error-snackbar']);
         console.error('error', err);
       }
     });
+  }
+
+  // ✅ Obtener datos del usuario logueado desde 'users/me'
+getMyProfile(): Observable<IUser> {
+  return this.http.get<IUser>(`${this.source}/me`);
+}
+
+  // ✅ Actualizar el perfil (nombre, email, password)
+  updateProfile(id: number, data: { name: string; email: string; password: string }): Observable<any> {
+    return this.editCustomSource(`${id}`, data);
   }
 }

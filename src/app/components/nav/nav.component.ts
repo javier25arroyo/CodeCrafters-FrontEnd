@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, NavigationEnd, RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-nav',
@@ -10,11 +10,30 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./nav.component.scss'],
   imports: [NgIf, RouterLink]
 })
-export class NavComponent {
+export class NavComponent implements OnInit {
   isLoggedIn = false;
 
-  constructor(private router: Router) {
-    const user = localStorage.getItem('user');
+  // 👇 Cambio aquí: public en vez de private
+  constructor(public router: Router) {}
+
+  ngOnInit(): void {
+    this.checkLoginStatus();
+
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.checkLoginStatus();
+      });
+  }
+
+  checkLoginStatus(): void {
+    const user = localStorage.getItem('auth_user');
     this.isLoggedIn = !!user;
+  }
+
+  logout(): void {
+    localStorage.removeItem('auth_user');
+    this.isLoggedIn = false;
+    this.router.navigate(['/']);
   }
 }
