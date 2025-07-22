@@ -1,6 +1,18 @@
+<app-nav></app-nav>
+
 <div class="suggestion-container">
-  <h2>Déjanos tu sugerencia</h2>
-  <textarea [(ngModel)]="message" placeholder="Escribe tu sugerencia aquí"></textarea>
+  <h2>📝 Déjanos tu sugerencia</h2>
+
+  <textarea
+    [(ngModel)]="suggestionText"
+    placeholder="Escribe tu sugerencia..."
+    rows="5"
+  ></textarea>
+
   <button (click)="submit()">Enviar sugerencia</button>
-  <p *ngIf="infoMsg">{{ infoMsg }}</p>
+
+  <p class="success" *ngIf="successMsg">{{ successMsg }}</p>
+  <p class="error" *ngIf="infoMsg">{{ infoMsg }}</p>
 </div>
+
+<app-footer></app-footer>
