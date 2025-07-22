@@ -1,13 +1,19 @@
 import { Component } from "@angular/core";
 import { trigger, transition, style, animate } from "@angular/animations";
 import { DailyTipComponent } from "../daily-tip/daily-tip.component";
-import { CardInfoComponent } from "../card-info/card-info.component";
-
+import { CardInfoUserComponent } from "../card-info-user/card-info-user.component";
+import { NavComponent } from "../nav/nav.component";
+import { FooterComponent } from "../footer/footer.component";
 
 @Component({
   selector: "app-dashboard-usuario",
   standalone: true,
-  imports: [DailyTipComponent, CardInfoComponent],
+  imports: [
+    DailyTipComponent,
+    CardInfoUserComponent,
+    NavComponent,
+    FooterComponent
+  ],
   templateUrl: "./dashboard-usuario.component.html",
   styleUrls: ["./dashboard-usuario.component.scss"],
   animations: [

@@ -14,6 +14,7 @@
     .navbar-logo {
       display: flex;
       align-items: center;
+      cursor: pointer; // Hace clickeable el área del logo
 
       img {
         width: 50px;
@@ -23,6 +24,12 @@
       span {
         font-size: 2rem;
         font-weight: bold;
+        color: white; // Asegura que se vea blanco
+        transition: color 0.3s;
+
+        &:hover {
+          color: #bbdefb; // Azul clarito al pasar el mouse
+        }
       }
     }
 
@@ -58,6 +65,51 @@
           &:hover {
             background: #1565c0;
             color: white;
+          }
+        }
+      }
+
+      // Dropdown del usuario
+      .user-dropdown {
+        position: relative;
+
+        button {
+          background: none;
+          border: none;
+          color: white;
+          font-size: 1.2rem;
+          cursor: pointer;
+          font-weight: 500;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        .dropdown-menu {
+          position: absolute;
+          top: 120%;
+          right: 0;
+          background: white;
+          border-radius: 6px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+          list-style: none;
+          padding: 0.5rem 0;
+          min-width: 160px;
+          z-index: 1000;
+
+          li {
+            a {
+              display: block;
+              padding: 0.7rem 1rem;
+              color: #0d47a1;
+              text-decoration: none;
+              font-weight: 500;
+
+              &:hover {
+                background: #e3f2fd;
+              }
+            }
           }
         }
       }

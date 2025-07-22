@@ -1,5 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "card-info-game",
@@ -13,4 +14,13 @@ export class CardInfoGameComponent {
   @Input() description!: string;
   @Input() imageUrl!: string;
   @Input() buttonText!: string;
+  @Input() routerLink?: string;
+
+  constructor(private router: Router) {}
+
+  onCardClick() {
+    if (this.routerLink) {
+      this.router.navigate([this.routerLink]);
+    }
+  }
 }

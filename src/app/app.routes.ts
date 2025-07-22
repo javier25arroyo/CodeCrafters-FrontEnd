@@ -1,20 +1,24 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './pages/auth/login/login.component';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
-import { SigUpComponent } from './pages/auth/sign-up/signup.component';
-import { UsersComponent } from './pages/users/users.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { FondoBonitoComponent } from './fondo-bonito/fondo-bonito.component';
 import { AuthGuard } from './guards/auth.guard';
-import { AccessDeniedComponent } from './pages/access-denied/access-denied.component';
-import { AdminRoleGuard } from './guards/admin-role.guard';
 import { GuestGuard } from './guards/guest.guard';
 import { IRoleType } from './interfaces';
-import { ProfileComponent } from './pages/profile/profile.component';
-import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
-import { FondoBonitoComponent } from './fondo-bonito/fondo-bonito.component';
-import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { AccessDeniedComponent } from './pages/access-denied/access-denied.component';
+import { LoginComponent } from './pages/auth/login/login.component';
+import { SigUpComponent } from './pages/auth/sign-up/signup.component';
+import { DashboardUsuarioComponent } from './components/dashboard-usuario/dashboard-usuario.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { GameGalleryComponent } from './game-gallery/game-gallery.component';
 import { TeamComponent } from './pages/team/team.component';
-import { DashboardAdminComponent } from './pages/dashboard-admin/dashboard-admin.component';
+import { CrosswordGameComponent } from './pages/crossword-game/crossword-game.component';
+import { GameSequenceComponent } from './pages/games/game-sequence/game-sequence.component'; 
+import { MemoryGameComponent } from './pages/games/memorycard-game/memorycard-game.component';
+import { SuggestionComponent } from './pages/suggestion/suggestion.component';
+import { UserProfileComponent } from './pages/user-profile/user-profile.component'; 
 
 export const routes: Routes = [
   {
@@ -48,17 +52,8 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'dashboard-admin',
-    component: DashboardAdminComponent,
-    data: {
-      name: 'dashboard admin',
-      showInSidebar: true,
-    },
-  },
-  {
     path: 'signup',
     component: SigUpComponent,
-    canActivate: [GuestGuard],
   },
   {
     path: 'forgot-password',
@@ -82,26 +77,64 @@ export const routes: Routes = [
     component: TeamComponent,
   },
   {
+    path: 'secuencia',
+    component: GameSequenceComponent, 
+    canActivate: [AuthGuard],      
+  },
+  {
+    path: 'crossword',
+    component: CrosswordGameComponent,
+    canActivate: [AuthGuard],
+    data: { authorities: [IRoleType.user] },
+  },
+  {
+    path: 'memorycard-game',
+    component: MemoryGameComponent,
+    canActivate: [AuthGuard],
+    data: { authorities: [IRoleType.user] },
+  },
+  {
+    path: 'suggestions',
+    component: SuggestionComponent,
+    canActivate: [AuthGuard],
+    data: { authorities: [IRoleType.user] },
+  },
+  {
+    path: 'game-gallery',
+    component: GameGalleryComponent,
+    canActivate: [AuthGuard],
+    data: {
+      authorities: [IRoleType.user],
+    },
+  },
+  {
+    path: 'dashboard-user',
+    component: DashboardUsuarioComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'user-profile',
+    component: UserProfileComponent,
+    canActivate: [AuthGuard],
+    data: {
+      authorities: [IRoleType.user],
+    },
+  },
+
+  {
     path: 'app',
     component: AppLayoutComponent,
     canActivate: [AuthGuard],
     children: [
       {
-        path: 'app',
-        redirectTo: 'users',
-        pathMatch: 'full',
-      },
-      {
         path: 'users',
-        component: UsersComponent,
-        canActivate: [AdminRoleGuard],
+        component: ProfileComponent,
         data: {
           authorities: [IRoleType.admin, IRoleType.superAdmin],
           name: 'Users',
           showInSidebar: true,
         },
       },
-      
       {
         path: 'profile',
         component: ProfileComponent,
@@ -110,7 +143,7 @@ export const routes: Routes = [
           name: 'profile',
           showInSidebar: false,
         },
-      },
+      }
     ],
   },
 ];
