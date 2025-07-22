@@ -12,7 +12,7 @@ import { SigUpComponent } from './pages/auth/sign-up/signup.component';
 import { DashboardUsuarioComponent } from './components/dashboard-usuario/dashboard-usuario.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { GameGalleryComponent } from './game-gallery/game-gallery.component';
+import { GameGalleryComponent } from './pages/game-gallery/game-gallery.component';
 import { TeamComponent } from './pages/team/team.component';
 import { CrosswordGameComponent } from './pages/games/crossword-game/crossword-game.component';
 import { GameSequenceComponent } from './pages/games/game-sequence/game-sequence.component';
