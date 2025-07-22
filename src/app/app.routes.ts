@@ -16,6 +16,7 @@ import { GameGalleryComponent } from './game-gallery/game-gallery.component';
 import { TeamComponent } from './pages/team/team.component';
 import { CrosswordGameComponent } from './pages/crossword-game/crossword-game.component';
 import { GameSequenceComponent } from './pages/games/game-sequence/game-sequence.component'; 
+import { MemoryGameComponent } from './pages/games/memorycard-game/memorycard-game.component';
 import { SuggestionComponent } from './pages/suggestion/suggestion.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component'; 
 
@@ -65,6 +66,12 @@ export const routes: Routes = [
     data: { authorities: [IRoleType.user] },
   },
   {
+    path: 'memorycard-game',
+    component: MemoryGameComponent,
+    canActivate: [AuthGuard],
+    data: { authorities: [IRoleType.user] },
+  },
+  {
     path: 'suggestions',
     component: SuggestionComponent,
     canActivate: [AuthGuard],
@@ -92,7 +99,6 @@ export const routes: Routes = [
     },
   },
 
-  // 👉 RUTAS QUE USAN AppLayout (sidebar, navbar, etc.)
   {
     path: 'app',
     component: AppLayoutComponent,
