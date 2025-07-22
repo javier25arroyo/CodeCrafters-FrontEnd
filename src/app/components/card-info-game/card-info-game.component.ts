@@ -5,7 +5,7 @@ import { Router } from "@angular/router";
 @Component({
   selector: "card-info-game",
   standalone: true,
-  imports: [CommonModule], // <-- ¡ESTO ES LO QUE FALTA!
+  imports: [CommonModule], 
   templateUrl: "./card-info-game.component.html",
   styleUrls: ["./card-info-game.component.scss"],
 })
