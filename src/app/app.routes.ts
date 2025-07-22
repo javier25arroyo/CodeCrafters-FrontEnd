@@ -18,6 +18,8 @@ import { CrosswordGameComponent } from './pages/crossword-game/crossword-game.co
 import { GameSequenceComponent } from './pages/games/game-sequence/game-sequence.component'; 
 import { SuggestionComponent } from './pages/suggestion/suggestion.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component'; 
+import { AdminSuggestionsComponent } from './pages/admin-suggestions/admin-suggestions.component';
+
 
 export const routes: Routes = [
   {
@@ -71,6 +73,14 @@ export const routes: Routes = [
     data: { authorities: [IRoleType.user] },
   },
   {
+  path: 'admin-suggestions',
+  component: AdminSuggestionsComponent,
+  canActivate: [AuthGuard],
+  data: {
+    authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user]
+  }
+},
+  {
     path: 'game-gallery',
     component: GameGalleryComponent,
     canActivate: [AuthGuard],
@@ -92,7 +102,6 @@ export const routes: Routes = [
     },
   },
 
-  // 👉 RUTAS QUE USAN AppLayout (sidebar, navbar, etc.)
   {
     path: 'app',
     component: AppLayoutComponent,

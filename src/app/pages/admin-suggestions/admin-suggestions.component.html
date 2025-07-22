@@ -1,0 +1,37 @@
+<div class="suggestion-container">
+  <h2>Sugerencias de Usuarios</h2>
+
+  <p *ngIf="loading">Cargando sugerencias...</p>
+  <p *ngIf="error">{{ error }}</p>
+
+  <table *ngIf="!loading && suggestions.length > 0">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Usuario</th>
+        <th>Mensaje</th>
+        <th>Fecha</th>
+        <th>Estado</th>
+        <th>Cambiar Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let sug of suggestions">
+        <td>{{ sug.id }}</td>
+        <td>{{ sug.user?.name || 'Sin nombre' }}</td>
+        <td>{{ sug.message }}</td>
+        <td>{{ sug.date | date: 'short' }}</td>
+        <td>{{ sug.status }}</td>
+        <td>
+          <select [(ngModel)]="sug.status" (change)="actualizarEstado(sug.id, sug.status)">
+            <option value="pendiente">Pendiente</option>
+            <option value="revisado">Revisado</option>
+            <option value="resuelto">Resuelto</option>
+          </select>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!loading && suggestions.length === 0">No hay sugerencias registradas.</p>
+</div>
