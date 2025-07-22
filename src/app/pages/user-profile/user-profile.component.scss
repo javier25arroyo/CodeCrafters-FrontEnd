@@ -62,14 +62,13 @@
 
   .button-group {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     margin-top: 2rem;
     flex-wrap: wrap;
     gap: 1rem;
 
     button {
-      flex: 1;
-      padding: 0.9rem;
+      padding: 0.9rem 2rem;
       border: none;
       border-radius: 30px;
       font-weight: bold;
@@ -77,14 +76,11 @@
       font-size: 1rem;
       transition: background-color 0.3s ease;
 
-      &:first-of-type {
-        background-color: #bdc3c7;
-        color: #fff;
-      }
+      background-color: #0d47a1;
+      color: #fff;
 
-      &:last-of-type {
-        background-color: #000;
-        color: #fff;
+      &:hover {
+        background-color: #08306b;
       }
 
       &:disabled {

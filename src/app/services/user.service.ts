@@ -77,13 +77,7 @@ export class UserService extends BaseService<IUser> {
     });
   }
 
-  // ✅ Obtener datos del usuario logueado desde 'users/me'
 getMyProfile(): Observable<IUser> {
   return this.http.get<IUser>(`${this.source}/me`);
 }
-
-  // ✅ Actualizar el perfil (nombre, email, password)
-  updateProfile(id: number, data: { name: string; email: string; password: string }): Observable<any> {
-    return this.editCustomSource(`${id}`, data);
-  }
 }

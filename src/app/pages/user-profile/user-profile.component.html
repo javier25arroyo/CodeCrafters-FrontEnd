@@ -3,37 +3,17 @@
 <div class="profile-container">
   <h2>Mi perfil</h2>
 
-  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="profileForm">
     <label for="name">Nombre</label>
-    <input id="name" type="text" formControlName="name" />
-    <div *ngIf="profileForm.get('name')?.invalid && profileForm.get('name')?.touched" class="error">
-      El nombre es requerido.
-    </div>
+    <input id="name" type="text" formControlName="name" [disabled]="true" />
 
     <label for="email">Correo electrónico</label>
-    <input id="email" type="email" formControlName="email" />
-    <div *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched" class="error">
-      Ingresa un correo válido.
-    </div>
-
-    <label for="password">Contraseña</label>
-    <input id="password" type="password" formControlName="password" placeholder="Mínimo 6 caracteres" />
-    <div *ngIf="profileForm.get('password')?.invalid && profileForm.get('password')?.touched" class="error">
-      La contraseña debe tener al menos 6 caracteres.
-    </div>
-
-    <label for="confirmPassword">Confirmar contraseña</label>
-    <input id="confirmPassword" type="password" formControlName="confirmPassword" />
-    <div *ngIf="profileForm.hasError('passwordMismatch') && profileForm.get('confirmPassword')?.touched" class="error">
-      Las contraseñas no coinciden.
-    </div>
+    <input id="email" type="email" formControlName="email" [disabled]="true" />
 
     <div class="button-group">
-      <button type="submit" [disabled]="profileForm.invalid">Actualizar información</button>
       <button type="button" (click)="goToSuggestions()">Enviar sugerencias</button>
     </div>
 
-    <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
     <p class="errorMessage" *ngIf="errorMessage">{{ errorMessage }}</p>
   </form>
 </div>
