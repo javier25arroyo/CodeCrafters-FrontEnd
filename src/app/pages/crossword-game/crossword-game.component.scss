@@ -1,0 +1,135 @@
+.crossword-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem;
+}
+
+.timer {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.crossword-grid {
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+
+  td {
+    width: 36px; height: 36px;
+    border: 1px solid #003C7E;
+    padding: 0;
+  }
+  .black-cell {
+    width: 100%; height: 100%;
+    background-color: #000;
+  }
+  input.cell {
+    width: 100%; height: 100%;
+    border: none;
+    font-size: 18px;
+    text-align: center;
+    text-transform: uppercase;
+    background-color: #fff;
+  }
+  input.cell.correct   { background-color: #c8e6c9; }
+  input.cell.incorrect { background-color: #ffcdd2; }
+  input.unused         { background-color: #e0e0e0; }
+}
+
+.hints {
+  display: flex;
+  gap: 2rem;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+
+  .hint-section {
+    flex: 1;                     
+    
+    h3 {
+      font-size: 1.2rem;        
+      margin-bottom: 0.4rem;
+    }
+    
+    ul {
+      list-style: none;
+      padding: 0;
+      
+      li {
+        font-size: 1rem;         
+        margin: 0.3rem 0;
+      }
+    }
+  }
+}
+
+
+.controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  position: relative; 
+}
+
+.btn-check, .btn-reveal, .btn-reset {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  transition: background-color 0.2s;
+  position: relative;
+  z-index: 2;
+}
+
+.btn-check { background-color: #003C7E; }
+.btn-check:hover  { background-color: #002359; }
+
+.btn-reveal { background-color: #FF8F00; }
+.btn-reveal:hover { background-color: #E67600; }
+
+.btn-reset { background-color: #B71C1C; }
+.btn-reset:hover  { background-color: #8E1414; }
+
+.feedback {
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+
+.crossword-container,
+.crossword-grid,
+.hints {
+  pointer-events: auto;
+}
+
+.controls {
+  position: relative !important;
+  z-index: 1000 !important;
+  pointer-events: auto !important;
+}
+
+.controls button {
+  pointer-events: auto !important;
+}
+
+.help-counter {
+  margin: 0 1rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.cell-wrapper {
+  position: relative;
+}
+
+.clue-number {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  font-size: 0.6rem;
+  font-weight: bold;
+  color: #333;
+  user-select: none;
+  pointer-events: none;
+}

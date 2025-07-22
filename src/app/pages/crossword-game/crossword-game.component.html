@@ -1,0 +1,77 @@
+<div class="crossword-container">
+  <div class="timer">Tiempo: {{ timer }}</div>
+
+  <table class="crossword-grid">
+  <tr *ngFor="let row of grid; let ri = index">
+    <td *ngFor="let cell of row; let ci = index">
+      <ng-container *ngIf="cell === null; else editTpl">
+        <div class="black-cell"></div>
+      </ng-container>
+      <ng-template #editTpl>
+        <div class="cell-wrapper">
+          <span *ngIf="clueNumbers[ri + '-' + ci]" class="clue-number">
+            {{ clueNumbers[ri + '-' + ci] }}
+          </span>
+          <input
+            maxlength="1"
+            [value]="userGrid[ri][ci]"
+            (input)="onInputChange($event, ri, ci)"
+            [disabled]="!isEditableCell(ri,ci)"
+            class="cell"
+            [ngClass]="{
+              correct:    cellStatus[ri][ci]==='correct',
+              incorrect:  cellStatus[ri][ci]==='incorrect',
+              unused:     !usedMask[ri][ci]
+            }"
+          />
+        </div>
+      </ng-template>
+    </td>
+  </tr>
+</table>
+
+
+  <div class="hints">
+  <div class="hint-section">
+    <h3>Horizontales</h3>
+    <ul>
+      <li *ngFor="let h of horizontalHints">
+        {{ clueNumbers[h.x + '-' + h.y] }}. 
+        ({{ h.word.length }} letras) {{ h.clue }}
+      </li>
+    </ul>
+  </div>
+
+  <div class="hint-section">
+    <h3>Verticales</h3>
+    <ul>
+      <li *ngFor="let h of verticalHints">
+        {{ clueNumbers[h.x + '-' + h.y] }}. 
+        ({{ h.word.length }} letras) {{ h.clue }}
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+  <div class="controls">
+    <button class="btn-check"  (click)="checkAnswers()">Revisar respuestas</button>
+    <button class="btn-reset"  (click)="resetGame()">Reiniciar</button>
+    <button 
+      class="btn-reveal" 
+      (click)="revealLetter()" 
+      [disabled]="revealLeft === 0"
+    >
+      Revelar letra
+    </button>
+    <span class="help-counter">Ayudas: {{ revealLeft }}</span>
+  </div>
+
+    
+
+  <div *ngIf="isCorrect!==null" class="feedback">
+    <p *ngIf="isCorrect; else wrongTpl">✅ ¡Todas correctas!</p>
+    <ng-template #wrongTpl>❌ Hay errores. Revisa las palabras.</ng-template>
+  </div>
+</div>
+
