@@ -72,4 +72,8 @@ export class UserService extends BaseService<IUser> {
       }
     });
   }
+
+  resetPassword(userId: number): Observable<any> {
+  return this.http.post(`${this.source}/${userId}/reset-password`, {});
+}
 }

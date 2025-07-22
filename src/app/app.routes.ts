@@ -17,6 +17,7 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { FondoBonitoComponent } from './fondo-bonito/fondo-bonito.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component'; 
+import { AdminUserFormComponent } from './components/admin-user/admin-user-form/admin-user-form.component';
 
 export const routes: Routes = [
   {
@@ -84,6 +85,30 @@ export const routes: Routes = [
           showInSidebar: true,
         },
       },
+      {
+         path: 'users/create',
+         loadComponent: () =>
+         import('./components/admin-user/admin-user-form/admin-user-form.component').then(
+        (m) => m.AdminUserFormComponent
+                                ),
+        canActivate: [AdminRoleGuard],
+        data: {
+       authorities: [IRoleType.admin, IRoleType.superAdmin],
+            },
+          },
+  {
+  path: 'users/edit/:id',
+  loadComponent: () =>
+    import('./components/admin-user/admin-user-form/admin-user-form.component').then(
+      (m) => m.AdminUserFormComponent
+    ),
+  canActivate: [AdminRoleGuard],
+  data: {
+    authorities: [IRoleType.admin, IRoleType.superAdmin],
+  },
+    },
+    
+  
       {
         path: 'dashboard',
         component: DashboardComponent,

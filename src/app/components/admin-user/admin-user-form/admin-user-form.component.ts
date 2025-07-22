@@ -1,60 +1,75 @@
+// admin-user-form.component.ts
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UserService } from '../../services/user.service';
-import { IUser } from '../../interfaces';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule, ActivatedRoute, Router } from '@angular/router';
+import { IUser } from '../../../interfaces';
+import { UserService } from '../../../services/user.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-user-form',
-  templateUrl: './user-form.component.html',
+  selector: 'app-admin-user-form',
+  standalone: true,
+  imports: [ReactiveFormsModule, RouterModule, CommonModule],
+  templateUrl: './admin-user-form.component.html',
 })
-export class UserFormComponent implements OnInit {
+export class AdminUserFormComponent implements OnInit {
   form: FormGroup;
-  userId: string | null = null;
+  isEdit = false;
+  userId?: number;
 
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
-    private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
+      lastname: [''],
       email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
       role: ['', Validators.required],
-      password: [''],
     });
   }
 
   ngOnInit(): void {
-    this.userId = this.route.snapshot.paramMap.get('id');
-    if (this.userId) {
-      this.userService.findById(this.userId).subscribe((user: IUser) => {
-        this.form.patchValue({
-          name: user.name,
-          email: user.email,
-          role: user.role?.id,
-        });
-      });
-    }
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      if (id) {
+        this.isEdit = true;
+        this.userId = +id;
+        this.loadUser(this.userId);
+        this.form.get('password')?.clearValidators();
+        this.form.get('password')?.updateValueAndValidity();
+      }
+    });
   }
 
-  onSubmit() {
+ loadUser(id: number): void {
+  const users = this.userService.users$(); 
+  const user = users.find(u => u.id === id);
+  if (user) {
+    this.form.patchValue({
+      name: user.name,
+      lastname: user.lastname,
+      email: user.email,
+      role: user.role?.name,
+    });
+  }
+}
+
+  submit(): void {
     if (this.form.invalid) return;
 
-    const user: IUser = this.form.value;
+    const userData: IUser = this.form.value;
 
-    if (this.userId) {
-      user.id = +this.userId;
-      this.userService.update(user);
+    if (this.isEdit && this.userId) {
+      userData.id = this.userId;
+      this.userService.update(userData);
     } else {
-      this.userService.save(user);
+      this.userService.save(userData);
     }
 
-    this.router.navigate(['/admin/users']);
-  }
-
-  onCancel() {
-    this.router.navigate(['/admin/users']);
+    this.router.navigate(['/app/users']);
   }
 }

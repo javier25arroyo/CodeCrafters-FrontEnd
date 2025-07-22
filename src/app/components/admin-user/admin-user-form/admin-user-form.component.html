@@ -1,48 +1,47 @@
-<div class="user-management-container">
-  <div class="header">
-    <h1>Gestión de Usuarios</h1>
-  </div>
+<div class="user-form-container">
+  <h2>{{ isEdit ? 'Editar Usuario' : 'Crear Usuario' }}</h2>
 
-  <div class="search-bar">
-    <input
-      type="text"
-      [(ngModel)]="search.filter"
-      placeholder="Buscar usuario..."
-      (input)="userService.getAll()"
-    />
-  </div>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div>
+      <label for="name">Nombre:</label>
+      <input id="name" type="text" formControlName="name" />
+      <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="error">
+        El nombre es requerido.
+      </div>
+    </div>
 
-  <div class="user-table">
-    <table>
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Email</th>
-          <th>Rol</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of users$()">
-          <td>{{ user.name }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.role?.name }}</td>
-          <td>
-            <button [routerLink]="['/admin/users/form', user.id]">Editar</button>
-            <button (click)="onDelete(user)">Eliminar</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
 
-  <div class="pagination">
-    <button
-      *ngFor="let i of totalItems"
-      [disabled]="i === search.page"
-      (click)="onPageChange(i)"
-    >
-      {{ i }}
+    <div>
+      <label for="email">Email:</label>
+      <input id="email" type="email" formControlName="email" />
+      <div *ngIf="form.get('email')?.invalid && form.get('email')?.touched" class="error">
+        Ingresa un email válido.
+      </div>
+    </div>
+
+    <div>
+      <label for="password">Contraseña:</label>
+      <input id="password" type="password" formControlName="password" [attr.required]="!isEdit ? true : null" />
+      <div *ngIf="form.get('password')?.invalid && form.get('password')?.touched && !isEdit" class="error">
+        La contraseña es requerida.
+      </div>
+    </div>
+
+    <div>
+      <label for="role">Rol:</label>
+      <select id="role" formControlName="role">
+        <option value="">Seleccione un rol</option>
+        <option value="admin">Admin</option>
+        <option value="user">Usuario</option>
+        <option value="superAdmin">Super Admin</option>
+      </select>
+      <div *ngIf="form.get('role')?.invalid && form.get('role')?.touched" class="error">
+        El rol es requerido.
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="form.invalid">
+      {{ isEdit ? 'Actualizar' : 'Crear' }}
     </button>
-  </div>
+  </form>
 </div>
