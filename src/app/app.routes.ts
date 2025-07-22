@@ -14,7 +14,7 @@ import { LandingPageComponent } from './pages/landing-page/landing-page.componen
 import { ProfileComponent } from './pages/profile/profile.component';
 import { GameGalleryComponent } from './game-gallery/game-gallery.component';
 import { TeamComponent } from './pages/team/team.component';
-import { CrosswordGameComponent } from './pages/crossword-game/crossword-game.component';
+import { CrosswordGameComponent } from './pages/games/crossword-game/crossword-game.component';
 import { GameSequenceComponent } from './pages/games/game-sequence/game-sequence.component'; 
 import { MemoryGameComponent } from './pages/games/memorycard-game/memorycard-game.component';
 import { SuggestionComponent } from './pages/suggestion/suggestion.component';
@@ -28,6 +28,28 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [GuestGuard],
+  },
+  {
+    path: 'game-gallery',
+    loadComponent: () =>
+      import('./game-gallery/game-gallery.component').then(
+        (m) => m.GameGalleryComponent
+      ),
+  },
+  {
+    path: 'puzzle-board',
+    loadComponent: () =>
+      import('./pages/games/puzzle-board/puzzle-board.component').then(
+        (m) => m.PuzzleBoardComponent
+      ),
+  },
+  {
+    path: 'dashboard-user',
+    loadComponent: () =>
+      import('./components/dashboard-usuario/dashboard-usuario.component').then(
+        (m) => m.DashboardUsuarioComponent
+      ),
   },
   {
     path: 'signup',
