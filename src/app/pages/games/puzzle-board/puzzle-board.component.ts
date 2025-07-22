@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PuzzleService, PuzzlePiece } from '../../services/puzzle.game.service';
+import { PuzzleService, PuzzlePiece } from '../../../services/puzzle.game.service';
 
 @Component({
   selector: 'puzzle-board',
   templateUrl: './puzzle-board.component.html',
   styleUrls: ['./puzzle-board.component.scss'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule],
+  providers: [PuzzleService]
 })
 export class PuzzleBoardComponent implements OnInit {
   boardSize: number = 3;

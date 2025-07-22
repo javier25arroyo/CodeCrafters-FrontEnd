@@ -1,13 +1,15 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
 
 export const GuestGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
-  const authService = inject(AuthService);
+  
+  // Verificar directamente el token en localStorage sin usar AuthService
+  const token = localStorage.getItem('access_token');
+  
+  if (!token) return true;
 
-  if (!authService.check()) return true;
-
-  router.navigateByUrl('/app/dashboard');
+  // Redirigir a dashboard de usuario por defecto
+  router.navigateByUrl('/dashboard-user');
   return false;
 };
