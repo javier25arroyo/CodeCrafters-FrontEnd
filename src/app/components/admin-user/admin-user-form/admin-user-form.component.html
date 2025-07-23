@@ -10,7 +10,6 @@
       </div>
     </div>
 
-
     <div>
       <label for="email">Email:</label>
       <input id="email" type="email" formControlName="email" />
@@ -28,17 +27,15 @@
     </div>
 
     <div>
-      <label for="role">Rol:</label>
-      <select id="role" formControlName="role">
-        <option value="">Seleccione un rol</option>
-        <option value="admin">Admin</option>
-        <option value="user">Usuario</option>
-        <option value="superAdmin">Super Admin</option>
-      </select>
-      <div *ngIf="form.get('role')?.invalid && form.get('role')?.touched" class="error">
-        El rol es requerido.
-      </div>
-    </div>
+  <label for="role">Rol:</label>
+  <select id="role" formControlName="role">
+    <option [ngValue]="null">Seleccione un rol</option>
+    <option *ngFor="let r of roles" [ngValue]="r">{{ r.description }}</option>
+  </select>
+  <div *ngIf="form.get('role')?.invalid && form.get('role')?.touched" class="error">
+    El rol es requerido.
+  </div>
+</div>
 
     <button type="submit" [disabled]="form.invalid">
       {{ isEdit ? 'Actualizar' : 'Crear' }}

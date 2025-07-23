@@ -1,8 +1,7 @@
-// admin-user-form.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
-import { IUser } from '../../../interfaces';
+import { IUser, IRole } from '../../../interfaces';
 import { UserService } from '../../../services/user.service';
 import { CommonModule } from '@angular/common';
 
@@ -17,6 +16,13 @@ export class AdminUserFormComponent implements OnInit {
   isEdit = false;
   userId?: number;
 
+ roles = [
+  { name: 'ROLE_ADMIN', description: 'Administrador' },
+  { name: 'ROLE_USER', description: 'Usuario' },
+  { name: 'ROLE_SUPER_ADMIN', description: 'Super Administrador' },
+];
+
+
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
@@ -25,10 +31,9 @@ export class AdminUserFormComponent implements OnInit {
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
-      lastname: [''],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
-      role: ['', Validators.required],
+      role: [null, Validators.required],  // role como objeto completo
     });
   }
 
@@ -39,29 +44,36 @@ export class AdminUserFormComponent implements OnInit {
         this.isEdit = true;
         this.userId = +id;
         this.loadUser(this.userId);
+        // En edición, contraseña no es requerida
         this.form.get('password')?.clearValidators();
         this.form.get('password')?.updateValueAndValidity();
       }
     });
   }
 
- loadUser(id: number): void {
-  const users = this.userService.users$(); 
-  const user = users.find(u => u.id === id);
-  if (user) {
-    this.form.patchValue({
-      name: user.name,
-      lastname: user.lastname,
-      email: user.email,
-      role: user.role?.name,
-    });
+  loadUser(id: number): void {
+    const users = this.userService.users$();
+    const user = users.find(u => u.id === id);
+    if (user) {
+      this.form.patchValue({
+        name: user.name,
+        email: user.email,
+        password: '',  // opcional limpiar contraseña al editar
+        role: this.roles.find(r => r.name === user.role?.name) || null,
+      });
+    }
   }
-}
 
   submit(): void {
     if (this.form.invalid) return;
 
-    const userData: IUser = this.form.value;
+    const formValue = this.form.value;
+
+    // Construimos usuario para backend con role objeto completo
+    const userData: IUser = {
+      ...formValue,
+      role: formValue.role,  // role ya es objeto IRole completo
+    };
 
     if (this.isEdit && this.userId) {
       userData.id = this.userId;
