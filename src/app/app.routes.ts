@@ -9,7 +9,7 @@ import { IRoleType } from './interfaces';
 import { AccessDeniedComponent } from './pages/access-denied/access-denied.component';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { SigUpComponent } from './pages/auth/sign-up/signup.component';
-import { DashboardUsuarioComponent } from './components/dashboard-usuario/dashboard-usuario.component';
+import { DashboardUsuarioComponent } from './pages/dashboard-usuario/dashboard-usuario.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { GameGalleryComponent } from './pages/game-gallery/game-gallery.component';
@@ -18,9 +18,12 @@ import { CrosswordGameComponent } from './pages/games/crossword-game/crossword-g
 import { GameSequenceComponent } from './pages/games/game-sequence/game-sequence.component';
 import { MemoryGameComponent } from './pages/games/memorycard-game/memorycard-game.component';
 import { SuggestionComponent } from './pages/suggestion/suggestion.component';
+import { AdminSuggestionsComponent } from './pages/admin-suggestions/admin-suggestions.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { PuzzleBoardComponent } from './pages/games/puzzle-board/puzzle-board.component';
+import { DashboardAdminComponent } from './pages/dashboard-admin/dashboard-admin.component';
 import { AdminRoleGuard } from './guards/admin-role.guard';
+
 
 export const routes: Routes = [
   {
@@ -93,6 +96,27 @@ export const routes: Routes = [
     data: { authorities: [IRoleType.user] },
   },
   {
+  path: 'admin-suggestions',
+  component: AdminSuggestionsComponent,
+  canActivate: [AuthGuard],
+  data: {
+    authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user]
+  }
+},
+  {
+    path: 'game-gallery',
+    component: GameGalleryComponent,
+    canActivate: [AuthGuard],
+    data: {
+      authorities: [IRoleType.user],
+    },
+  },
+  {
+    path: 'dashboard-user',
+    component: DashboardUsuarioComponent,
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'suggestions',
     component: SuggestionComponent,
     canActivate: [AuthGuard],
@@ -158,5 +182,10 @@ export const routes: Routes = [
         },
       },
     ],
+  },
+  {
+    path: 'dashboard-admin',
+    component: DashboardAdminComponent,
+    canActivate: [AuthGuard],
   },
 ];

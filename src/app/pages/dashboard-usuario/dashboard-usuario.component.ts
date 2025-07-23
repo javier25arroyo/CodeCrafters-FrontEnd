@@ -1,9 +1,9 @@
 import { Component } from "@angular/core";
 import { trigger, transition, style, animate } from "@angular/animations";
-import { DailyTipComponent } from "../daily-tip/daily-tip.component";
-import { CardInfoUserComponent } from "../card-info-user/card-info-user.component";
-import { NavComponent } from "../nav/nav.component";
-import { FooterComponent } from "../footer/footer.component";
+import { DailyTipComponent } from "../../components/daily-tip/daily-tip.component";
+import { CardInfoUserComponent } from "../../components/card-info-user/card-info-user.component";
+import { NavComponent } from "../../components/nav/nav.component";
+import { FooterComponent } from "../../components/footer/footer.component";
 
 @Component({
   selector: "app-dashboard-usuario",

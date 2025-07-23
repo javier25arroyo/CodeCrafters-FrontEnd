@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NavComponent } from '../../../components/nav/nav.component';
 
 @Component({
   selector: 'app-game-sequence',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NavComponent],
   templateUrl: './game-sequence.component.html',
   styleUrls: ['./game-sequence.component.scss']
 })
@@ -38,14 +39,11 @@ export class GameSequenceComponent {
     let step = Math.floor(Math.random() * 3) + 2;
 
     if (this.level === 1) {
-      // Suma
       this.sequence = Array.from({ length: 5 }, (_, i) => start + i * step);
     } else if (this.level === 2) {
-      // Multiplicación
       step = Math.floor(Math.random() * 2) + 2;
       this.sequence = Array.from({ length: 5 }, (_, i) => start * Math.pow(step, i));
     } else if (this.level === 3) {
-      // Suma y resta
       this.sequence = [start];
       for (let i = 1; i < 5; i++) {
         const prev = this.sequence[i - 1];

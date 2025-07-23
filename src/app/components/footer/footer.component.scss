@@ -1,10 +1,14 @@
 .footer {
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
+  position: relative;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   background: #0d47a1;
   color: white;
   text-align: center;
-  padding: 2rem 5%;
+  padding: 2rem 0; /* Adjust padding to ensure it fits within the edges */
+  margin: 0; /* Remove any margin that might cause misalignment */
+  z-index: 1; /* Lower z-index to avoid overlapping with header */
 
   .footer-logo {
     display: flex;
