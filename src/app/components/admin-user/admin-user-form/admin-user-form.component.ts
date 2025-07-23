@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule, ActivatedRoute, Router } from '@angular/router';
-import { IUser, IRole } from '../../../interfaces';
+import { RouterModule } from '@angular/router';
+import { IUser } from '../../../interfaces';
 import { UserService } from '../../../services/user.service';
 import { CommonModule } from '@angular/common';
 
@@ -10,77 +10,43 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [ReactiveFormsModule, RouterModule, CommonModule],
   templateUrl: './admin-user-form.component.html',
+  styleUrls: ['./admin-user-form.component.scss']
 })
 export class AdminUserFormComponent implements OnInit {
-  form: FormGroup;
-  isEdit = false;
-  userId?: number;
+  @Input() userToEdit!: IUser;
+  @Output() cancel = new EventEmitter<void>();
+  @Output() updated = new EventEmitter<void>();
 
-  // Lista con roles que incluyen id y name para enviar al backend
- roles = [
-  { id: 1, name: 'ROLE_ADMIN', description: 'Administrador' },
-  { id: 2, name: 'ROLE_USER', description: 'Usuario' },
-  { name: 'ROLE_SUPER_ADMIN', description: 'Super Administrador' },
-];
+  form!: FormGroup;
+  
 
-  constructor(
-    private fb: FormBuilder,
-    private userService: UserService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {
-    this.form = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-      role: [null, Validators.required],  // role como objeto completo
-    });
-  }
+  constructor(private fb: FormBuilder, private userService: UserService) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      if (id) {
-        this.isEdit = true;
-        this.userId = +id;
-        this.loadUser(this.userId);
-        // En edición, contraseña no es requerida
-        this.form.get('password')?.clearValidators();
-        this.form.get('password')?.updateValueAndValidity();
-      }
+    this.form = this.fb.group({
+      name: [this.userToEdit?.name || '', Validators.required],
+      email: [this.userToEdit?.email || '', [Validators.required, Validators.email]],
+      active: [this.userToEdit?.active || false]
     });
-  }
 
-  loadUser(id: number): void {
-    const users = this.userService.users$();
-    const user = users.find(u => u.id === id);
-    if (user) {
-      this.form.patchValue({
-        name: user.name,
-        email: user.email,
-        password: '',  // opcional limpiar contraseña al editar
-        role: this.roles.find(r => r.name === user.role?.name) || null,
-      });
-    }
   }
 
   submit(): void {
-  if (this.form.invalid) return;
+  if (this.form.valid) {
+    const updatedUser = {
+      id: this.userToEdit.id, // Usamos el ID del usuario seleccionado, aunque no esté en el form
+      name: this.form.value.name,
+      email: this.form.value.email,
+    };
 
-  const formValue = this.form.value;
-
-  const userData: IUser = {
-    ...formValue,
-    role: formValue.role,
-  };
-
-  if (this.isEdit && this.userId) {
-    userData.id = this.userId;
-    this.userService.update(userData); 
-    this.router.navigate(['/app/users']); 
-  } else {
-    this.userService.save(userData);
-    this.router.navigate(['/app/users']); 
+    this.userService.update(updatedUser); 
+    alert('Usuario actualizado correctamente');
+    this.updated.emit();  
   }
 }
+
+  onCancel() {
+    this.cancel.emit();
   }
+}
+

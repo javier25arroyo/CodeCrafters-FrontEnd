@@ -3,15 +3,7 @@
     <h1>Gestión de Usuarios</h1>
   </div>
 
-  <div class="search-bar">
-    <input
-      type="text"
-      [(ngModel)]="search.filter"
-      placeholder="Buscar usuario..."
-      (input)="onSearch()"
-      [disabled]="loading"
-    />
-  </div>
+  
 
   <div class="user-table">
     <table>
@@ -29,9 +21,11 @@
           <td>{{ user.email }}</td>
           <td>{{ user.role?.name }}</td>
           <td>
-            <button [disabled]="loading" (click)="editUser(user)">Editar</button>
+            <button (click)="onEditClick(user)">Editar</button>
             <button [disabled]="loading" (click)="deleteUser(user)">Eliminar</button>
-            <button [disabled]="loading" (click)="resetPassword(user)">Reiniciar Contraseña</button>
+            <button (click)="toggleUserActive(user)">
+             {{ user.active ? 'Activar' : 'Desactivar' }}
+            </button>
           </td>
         </tr>
       </tbody>

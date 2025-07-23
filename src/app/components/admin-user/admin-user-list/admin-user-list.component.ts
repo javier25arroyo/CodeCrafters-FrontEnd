@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { IUser } from '../../../interfaces';
 import { UserService } from '../../../services/user.service';
@@ -11,9 +11,12 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './admin-user-list.component.html',
+  styleUrls: ['./admin-user-list.component.scss'] 
 })
 export class AdminUserListComponent implements OnInit {
-  users: IUser[] = [];
+  @Output() editUser = new EventEmitter<IUser>();
+  @Input() users: IUser[] = [];
+  
   search = { filter: '', page: 1, size: 5, totalPages: 0 };
   totalPagesArray: number[] = [];
   loading = false;
@@ -60,12 +63,12 @@ loadUsers(): void {
     this.loadUsers();
   }
 
-  editUser(user: IUser): void {
+  goToeditUser(user: IUser): void {
   if (!user.id) {
     this.alertService.displayAlert('error', 'Usuario sin ID válido');
     return;
   }
-  this.router.navigate(['/app/users/edit', user.id]); // Aquí navegas a editar
+  this.router.navigate(['/app/users/edit', user.id]); 
 }
 
   deleteUser(user: IUser): void {
@@ -76,22 +79,23 @@ loadUsers(): void {
   this.userService.delete(user); 
 }
 
-resetPassword(user: IUser): void {
-  if (!user.id) {
-    this.alertService.displayAlert('error', 'Usuario sin ID válido');
-    return;
-  }
-  this.userService.resetPassword(user.id).subscribe({  
-    next: () => {
-      this.alertService.displayAlert('success', 'Contraseña reseteada correctamente');
+toggleUserActive(user: IUser): void {
+  if (!user.id) return;
+
+  this.userService.toggleEnabled(user.id).subscribe({
+    next: (response: any) => {
+      this.alertService.displayAlert('success', response.message || 'Estado actualizado');
+      user.active = !user.active;
     },
     error: () => {
-      this.alertService.displayAlert('error', 'Error al resetear la contraseña');
+      this.alertService.displayAlert('error', 'Error al actualizar el estado');
     }
   });
+}
+
+onEditClick(user: IUser) {
+    this.editUser.emit(user);
   }
 
-  goToCreate(): void {
-    this.router.navigate(['/app/users/create']);
-  }
+  
 }

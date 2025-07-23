@@ -1,44 +1,24 @@
 <div class="user-form-container">
-  <h2>{{ isEdit ? 'Editar Usuario' : 'Crear Usuario' }}</h2>
+  <h2>Editar Usuario</h2>
 
   <form [formGroup]="form" (ngSubmit)="submit()">
-    <div>
+    <div class="form-group">
       <label for="name">Nombre:</label>
       <input id="name" type="text" formControlName="name" />
-      <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="error">
-        El nombre es requerido.
-      </div>
     </div>
 
-    <div>
+    <div class="form-group">
       <label for="email">Email:</label>
       <input id="email" type="email" formControlName="email" />
-      <div *ngIf="form.get('email')?.invalid && form.get('email')?.touched" class="error">
-        Ingresa un email válido.
-      </div>
     </div>
 
-    <div>
-      <label for="password">Contraseña:</label>
-      <input id="password" type="password" formControlName="password" [attr.required]="!isEdit ? true : null" />
-      <div *ngIf="form.get('password')?.invalid && form.get('password')?.touched && !isEdit" class="error">
-        La contraseña es requerida.
-      </div>
+   
+
+    <div class="form-actions">
+        <button type="button" (click)="onCancel()">Cancelar</button>
+      <button type="submit" [disabled]="form.invalid">Actualizar</button>
     </div>
-
-    <div>
-  <label for="role">Rol:</label>
-  <select id="role" formControlName="role">
-    <option [ngValue]="null">Seleccione un rol</option>
-    <option *ngFor="let r of roles" [ngValue]="r">{{ r.description }}</option>
-  </select>
-  <div *ngIf="form.get('role')?.invalid && form.get('role')?.touched" class="error">
-    El rol es requerido.
-  </div>
-</div>
-
-    <button type="submit" [disabled]="form.invalid">
-      {{ isEdit ? 'Actualizar' : 'Crear' }}
-    </button>
   </form>
 </div>
+
+

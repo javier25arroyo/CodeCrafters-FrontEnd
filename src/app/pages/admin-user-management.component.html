@@ -1,0 +1,20 @@
+<section class="admin-users-page">
+  
+<app-admin-user-form
+    *ngIf="selectedUser"
+    [userToEdit]="selectedUser"
+    (cancel)="onCancelEdit()"
+    (updated)="onUserUpdated()"
+  ></app-admin-user-form>
+  
+  <app-admin-user-list 
+  [users] = "users"
+  (editUser)="onEditUser($event)"
+  ></app-admin-user-list>
+
+  <div style="margin-top: 10px; text-align: center;">
+    <button class="btn-volver" [routerLink]="['/dashboard-admin']">
+      Volver
+    </button>
+  </div>
+</section>

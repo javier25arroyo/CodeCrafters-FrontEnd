@@ -24,7 +24,6 @@ import { PuzzleBoardComponent } from './pages/games/puzzle-board/puzzle-board.co
 import { DashboardAdminComponent } from './pages/dashboard-admin/dashboard-admin.component';
 import { AdminRoleGuard } from './guards/admin-role.guard';
 
-
 export const routes: Routes = [
   {
     path: '',
@@ -96,25 +95,12 @@ export const routes: Routes = [
     data: { authorities: [IRoleType.user] },
   },
   {
-  path: 'admin-suggestions',
-  component: AdminSuggestionsComponent,
-  canActivate: [AuthGuard],
-  data: {
-    authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user]
-  }
-},
-  {
-    path: 'game-gallery',
-    component: GameGalleryComponent,
+    path: 'admin-suggestions',
+    component: AdminSuggestionsComponent,
     canActivate: [AuthGuard],
     data: {
-      authorities: [IRoleType.user],
-    },
-  },
-  {
-    path: 'dashboard-user',
-    component: DashboardUsuarioComponent,
-    canActivate: [AuthGuard],
+      authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user]
+    }
   },
   {
     path: 'suggestions',
@@ -137,41 +123,52 @@ export const routes: Routes = [
     children: [
       {
         path: 'users',
-  loadComponent: () =>
-    import('./components/admin-user/admin-user-list/admin-user-list.component').then(
-      (m) => m.AdminUserListComponent
-    ),
-  canActivate: [AdminRoleGuard],
-  data: {
-    authorities: [IRoleType.admin, IRoleType.superAdmin],
-    name: 'Users',
-    showInSidebar: true,
-  },
-},
-      {
-         path: 'users/create',
-         loadComponent: () =>
-         import('./components/admin-user/admin-user-form/admin-user-form.component').then(
-        (m) => m.AdminUserFormComponent
-                                ),
+        loadComponent: () =>
+          import('./components/admin-user/admin-user-list/admin-user-list.component').then(
+            (m) => m.AdminUserListComponent
+          ),
         canActivate: [AdminRoleGuard],
         data: {
-       authorities: [IRoleType.admin, IRoleType.superAdmin],
-            },
-          },
-  {
-  path: 'users/edit/:id',
-  loadComponent: () =>
-    import('./components/admin-user/admin-user-form/admin-user-form.component').then(
-      (m) => m.AdminUserFormComponent
-    ),
-  canActivate: [AdminRoleGuard],
-  data: {
-    authorities: [IRoleType.admin, IRoleType.superAdmin],
-  },
-    },
-    
-  
+          authorities: [IRoleType.admin, IRoleType.superAdmin],
+          name: 'Users',
+          showInSidebar: true,
+        },
+      },
+      {
+        path: 'users/create',
+        loadComponent: () =>
+          import('./components/admin-user/admin-user-form/admin-user-form.component').then(
+            (m) => m.AdminUserFormComponent
+          ),
+        canActivate: [AdminRoleGuard],
+        data: {
+          authorities: [IRoleType.admin, IRoleType.superAdmin],
+        },
+      },
+      {
+        path: 'users/edit/:id',
+        loadComponent: () =>
+          import('./components/admin-user/admin-user-form/admin-user-form.component').then(
+            (m) => m.AdminUserFormComponent
+          ),
+        canActivate: [AdminRoleGuard],
+        data: {
+          authorities: [IRoleType.admin, IRoleType.superAdmin],
+        },
+      },
+      {
+        path: 'users/management',
+        loadComponent: () =>
+          import('./pages/admin-user-management.component').then(
+            (m) => m.AdminUserManagementComponent
+          ),
+        canActivate: [AdminRoleGuard],
+        data: {
+          authorities: [IRoleType.admin, IRoleType.superAdmin],
+          name: 'User Management',
+          showInSidebar: false,
+        },
+      },
       {
         path: 'profile',
         component: ProfileComponent,
@@ -188,4 +185,5 @@ export const routes: Routes = [
     component: DashboardAdminComponent,
     canActivate: [AuthGuard],
   },
+ 
 ];
