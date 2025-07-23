@@ -1,0 +1,38 @@
+<div class="container" (mouseup)="endSelection()">
+  <h2>🔠 Sopa de Letras</h2>
+
+  <div class="info">
+    <p><strong>Nivel:</strong> {{ level }} / {{ maxLevels }}</p>
+    <p><strong>Puntaje:</strong> {{ score }}</p>
+    <p><strong>Palabras por encontrar:</strong> {{ words.join(', ') }}</p>
+    <p><strong>Encontradas:</strong>
+      <ng-container *ngIf="foundWords.length > 0; else noFound">
+        {{ foundWords.join(', ') }}
+      </ng-container>
+      <ng-template #noFound>Ninguna</ng-template>
+    </p>
+    <p class="message">{{ message }}</p>
+  </div>
+
+  <div class="grid" (dragstart)="$event.preventDefault()">
+    <div *ngFor="let row of grid; let i = index" class="row">
+      <span
+        *ngFor="let letter of row; let j = index"
+        class="cell"
+        (mousedown)="startSelection(i, j)"
+        (mouseenter)="extendSelection(i, j)"
+        [class.selected]="isSelected(i, j)"
+      >
+        {{ letter }}
+      </span>
+    </div>
+  </div>
+
+  <button class="restart-btn" (click)="restartGame()" aria-label="Reiniciar el juego">
+    🔄 Reiniciar Juego
+  </button>
+
+  <p *ngIf="restartCount >= maxRestarts" class="warning">
+    ⚠️ Límite de reinicio alcanzado.
+  </p>
+</div>
