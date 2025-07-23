@@ -9,7 +9,7 @@ import { IRoleType } from './interfaces';
 import { AccessDeniedComponent } from './pages/access-denied/access-denied.component';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { SigUpComponent } from './pages/auth/sign-up/signup.component';
-import { DashboardUsuarioComponent } from './components/dashboard-usuario/dashboard-usuario.component';
+import { DashboardUsuarioComponent } from './pages/dashboard-usuario/dashboard-usuario.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { GameGalleryComponent } from './pages/game-gallery/game-gallery.component';
@@ -21,6 +21,7 @@ import { SuggestionComponent } from './pages/suggestion/suggestion.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { PuzzleBoardComponent } from './pages/games/puzzle-board/puzzle-board.component';
 import { WordSearchGameComponent } from './pages/games/word-search-game/word-search-game.component';
+import { DashboardAdminComponent } from './pages/dashboard-admin/dashboard-admin.component';
 
 
 export const routes: Routes = [
@@ -138,5 +139,10 @@ export const routes: Routes = [
         },
       },
     ],
+  },
+  {
+    path: 'dashboard-admin',
+    component: DashboardAdminComponent,
+    canActivate: [AuthGuard],
   },
 ];
