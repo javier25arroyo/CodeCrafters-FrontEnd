@@ -20,7 +20,6 @@ import { MemoryGameComponent } from './pages/games/memorycard-game/memorycard-ga
 import { SuggestionComponent } from './pages/suggestion/suggestion.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component'; 
 import { AdminSuggestionsComponent } from './pages/admin-suggestions/admin-suggestions.component';
-import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { PuzzleBoardComponent } from './pages/games/puzzle-board/puzzle-board.component';
 import { DashboardAdminComponent } from './pages/dashboard-admin/dashboard-admin.component';
 
@@ -116,6 +115,7 @@ export const routes: Routes = [
     component: DashboardUsuarioComponent,
     canActivate: [AuthGuard],
   },
+  {
     path: 'suggestions',
     component: SuggestionComponent,
     canActivate: [AuthGuard],
@@ -128,31 +128,6 @@ export const routes: Routes = [
     data: {
       authorities: [IRoleType.user],
     },
-  },
-  {
-    path: 'app',
-    component: AppLayoutComponent,
-    canActivate: [AuthGuard],
-    children: [
-      {
-        path: 'users',
-        component: ProfileComponent,
-        data: {
-          authorities: [IRoleType.admin, IRoleType.superAdmin],
-          name: 'Users',
-          showInSidebar: true,
-        },
-      },
-      {
-        path: 'profile',
-        component: ProfileComponent,
-        data: {
-          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
-          name: 'profile',
-          showInSidebar: false,
-        },
-      },
-    ],
   },
   {
     path: 'dashboard-admin',
