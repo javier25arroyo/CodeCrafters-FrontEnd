@@ -1,3 +1,5 @@
+<app-nav-admin></app-nav-admin>
+
 <section class="admin-users-page">
   
 <app-admin-user-form
@@ -12,11 +14,9 @@
   (editUser)="onEditUser($event)"
   ></app-admin-user-list>
 
-<app-admin-game-list></app-admin-game-list>
 
-  <div style="margin-top: 10px; text-align: center;">
-    <button class="btn-volver" [routerLink]="['/dashboard-admin']">
-      Volver
-    </button>
-  </div>
+
+  
 </section>
+
+<app-footer></app-footer>

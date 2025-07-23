@@ -1,3 +1,4 @@
+
 import { Routes } from '@angular/router';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
@@ -23,6 +24,9 @@ import { UserProfileComponent } from './pages/user-profile/user-profile.componen
 import { PuzzleBoardComponent } from './pages/games/puzzle-board/puzzle-board.component';
 import { DashboardAdminComponent } from './pages/dashboard-admin/dashboard-admin.component';
 import { AdminRoleGuard } from './guards/admin-role.guard';
+import { AdminUserListComponent } from './components/admin-user/admin-user-list/admin-user-list.component';
+import { AdminUserFormComponent } from './components/admin-user/admin-user-form/admin-user-form.component';
+import { AdminUserManagementComponent } from './pages/admin-user-management/admin-user-management.component';
 
 export const routes: Routes = [
   {
@@ -123,10 +127,7 @@ export const routes: Routes = [
     children: [
       {
         path: 'users',
-        loadComponent: () =>
-          import('./components/admin-user/admin-user-list/admin-user-list.component').then(
-            (m) => m.AdminUserListComponent
-          ),
+        component: AdminUserListComponent,
         canActivate: [AdminRoleGuard],
         data: {
           authorities: [IRoleType.admin, IRoleType.superAdmin],
@@ -135,40 +136,14 @@ export const routes: Routes = [
         },
       },
       {
-        path: 'users/create',
-        loadComponent: () =>
-          import('./components/admin-user/admin-user-form/admin-user-form.component').then(
-            (m) => m.AdminUserFormComponent
-          ),
-        canActivate: [AdminRoleGuard],
-        data: {
-          authorities: [IRoleType.admin, IRoleType.superAdmin],
-        },
-      },
-      {
         path: 'users/edit/:id',
-        loadComponent: () =>
-          import('./components/admin-user/admin-user-form/admin-user-form.component').then(
-            (m) => m.AdminUserFormComponent
-          ),
+        component: AdminUserFormComponent,
         canActivate: [AdminRoleGuard],
         data: {
           authorities: [IRoleType.admin, IRoleType.superAdmin],
         },
       },
-      {
-        path: 'users/management',
-        loadComponent: () =>
-          import('./pages/admin-user-management.component').then(
-            (m) => m.AdminUserManagementComponent
-          ),
-        canActivate: [AdminRoleGuard],
-        data: {
-          authorities: [IRoleType.admin, IRoleType.superAdmin],
-          name: 'User Management',
-          showInSidebar: false,
-        },
-      },
+      
       {
         path: 'profile',
         component: ProfileComponent,
@@ -181,9 +156,19 @@ export const routes: Routes = [
     ],
   },
   {
+    path: 'users/management',
+    component: AdminUserManagementComponent,
+    canActivate: [AdminRoleGuard],
+    data: {
+      authorities: [IRoleType.admin, IRoleType.superAdmin],
+      name: 'User Management',
+      showInSidebar: false,
+    },
+  },
+  {
     path: 'dashboard-admin',
     component: DashboardAdminComponent,
     canActivate: [AuthGuard],
   },
- 
+
 ];
