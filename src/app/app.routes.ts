@@ -22,6 +22,7 @@ import { SuggestionComponent } from './pages/suggestion/suggestion.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { PuzzleBoardComponent } from './pages/games/puzzle-board/puzzle-board.component';
 import { DashboardAdminComponent } from './pages/dashboard-admin/dashboard-admin.component';
+import { AdminSuggestionsComponent } from './pages/admin-suggestions/admin-suggestions.component';
 
 export const routes: Routes = [
   {
@@ -39,6 +40,14 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     data: {
       authorities: [IRoleType.user],
+    },
+  },
+  {
+    path: 'admin-suggestions',
+    component: AdminSuggestionsComponent,
+    canActivate: [AuthGuard],
+    data: {
+      authorities: [IRoleType.admin, IRoleType.superAdmin],
     },
   },
   {

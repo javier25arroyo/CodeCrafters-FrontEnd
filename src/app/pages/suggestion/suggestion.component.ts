@@ -62,7 +62,7 @@ export class SuggestionComponent {
       message: this.suggestionText
     };
 
-    this.http.post('http://localhost:8080/api/suggestions', body, { headers }).subscribe({
+    this.http.post('http://localhost:8080/suggestions', body, { headers }).subscribe({
       next: () => {
         this.successMsg = '¡Gracias por tu sugerencia!';
         this.infoMsg = '';

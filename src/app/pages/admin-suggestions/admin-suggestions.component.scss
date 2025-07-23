@@ -1,0 +1,84 @@
+.suggestions-wrapper {
+  max-width: 1000px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #1a237e;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+
+    th {
+      background-color: #f1f1f1;
+      padding: 1rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    td {
+      padding: 0.8rem;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .dropdown {
+      padding: 0.5rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      background-color: #f9f9f9;
+    }
+
+    .save-btn {
+      padding: 0.5rem 1rem;
+      background-color: #1976d2;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-weight: 500;
+
+      &:hover {
+        background-color: #0d47a1;
+      }
+    }
+
+    .success-msg {
+      margin-top: 0.5rem;
+      color: #2e7d32;
+      font-size: 0.85rem;
+      animation: fadeInOut 3s ease-in-out;
+    }
+  }
+
+  .error {
+    color: red;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
