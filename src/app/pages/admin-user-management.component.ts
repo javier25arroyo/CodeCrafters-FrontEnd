@@ -6,6 +6,8 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IUser } from '../interfaces';
 import { UserService } from '../../app/services/user.service';
+import { AdminGameListComponent } from '../components/games/game-list/admin-game-list.component';
+
 
 @Component({
   selector: 'app-admin-user-management',
@@ -17,6 +19,7 @@ import { UserService } from '../../app/services/user.service';
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
+    AdminGameListComponent
   ],
   templateUrl: './admin-user-management.component.html',
   styleUrls: ['./admin-user-management.component.scss'],

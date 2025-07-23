@@ -1,7 +1,11 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { BaseService } from './base-service';
-import { IGame } from '../interfaces';
+import { IGame, IResponse } from '../interfaces';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { map } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +14,8 @@ export class GameService extends BaseService<IGame>{
   protected override source: string = 'games';
   private itemListSignal = signal<IGame[]>([]);
   private snackBar = inject(MatSnackBar);
+  
+
   
   get items$() {
     return this.itemListSignal
@@ -79,5 +85,9 @@ export class GameService extends BaseService<IGame>{
       }
     })
   }
+getAllGames(): Observable<IGame[]> {
+  return this.http.get<IResponse<IGame[]>>(`games`)
+    .pipe(map(response => response.data));
+}
 
 }
