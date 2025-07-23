@@ -18,9 +18,12 @@ import { CrosswordGameComponent } from './pages/games/crossword-game/crossword-g
 import { GameSequenceComponent } from './pages/games/game-sequence/game-sequence.component';
 import { MemoryGameComponent } from './pages/games/memorycard-game/memorycard-game.component';
 import { SuggestionComponent } from './pages/suggestion/suggestion.component';
+import { UserProfileComponent } from './pages/user-profile/user-profile.component'; 
+import { AdminSuggestionsComponent } from './pages/admin-suggestions/admin-suggestions.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { PuzzleBoardComponent } from './pages/games/puzzle-board/puzzle-board.component';
 import { DashboardAdminComponent } from './pages/dashboard-admin/dashboard-admin.component';
+
 
 export const routes: Routes = [
   {
@@ -93,6 +96,26 @@ export const routes: Routes = [
     data: { authorities: [IRoleType.user] },
   },
   {
+  path: 'admin-suggestions',
+  component: AdminSuggestionsComponent,
+  canActivate: [AuthGuard],
+  data: {
+    authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user]
+  }
+},
+  {
+    path: 'game-gallery',
+    component: GameGalleryComponent,
+    canActivate: [AuthGuard],
+    data: {
+      authorities: [IRoleType.user],
+    },
+  },
+  {
+    path: 'dashboard-user',
+    component: DashboardUsuarioComponent,
+    canActivate: [AuthGuard],
+  },
     path: 'suggestions',
     component: SuggestionComponent,
     canActivate: [AuthGuard],
