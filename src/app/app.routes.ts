@@ -9,7 +9,7 @@ import { IRoleType } from './interfaces';
 import { AccessDeniedComponent } from './pages/access-denied/access-denied.component';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { SigUpComponent } from './pages/auth/sign-up/signup.component';
-import { DashboardUsuarioComponent } from './components/dashboard-usuario/dashboard-usuario.component';
+import { DashboardUsuarioComponent } from './pages/dashboard-usuario/dashboard-usuario.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { GameGalleryComponent } from './pages/game-gallery/game-gallery.component';
