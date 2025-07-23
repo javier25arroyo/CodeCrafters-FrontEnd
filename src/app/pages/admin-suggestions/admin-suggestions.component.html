@@ -1,0 +1,40 @@
+<div class="suggestions-wrapper">
+  <h2>📬 Sugerencias Recibidas</h2>
+
+  <div *ngIf="error" class="error">{{ error }}</div>
+  <div *ngIf="suggestions.length === 0 && !error">No hay sugerencias.</div>
+
+  <table *ngIf="suggestions.length > 0">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Mensaje</th>
+        <th>Estado</th>
+        <th>Fecha</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let s of suggestions">
+        <td>{{ s.id }}</td>
+        <td>{{ s.message }}</td>
+        <td>
+          <select [(ngModel)]="s.status" class="dropdown">
+            <option value="pendiente">Pendiente</option>
+            <option value="procesado">Procesado</option>
+            <option value="rechazado">Rechazado</option>
+          </select>
+        </td>
+        <td>{{ s.date | date: 'short' }}</td>
+        <td>
+          <button (click)="actualizarEstado(s.id, s.status)" class="save-btn">
+            Guardar
+          </button>
+          <div *ngIf="estadoActualizado[s.id]" class="success-msg">
+            ✅ Estado actualizado
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

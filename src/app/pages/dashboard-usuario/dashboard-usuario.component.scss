@@ -1,0 +1,99 @@
+.dashboard-bg {
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  /* Fondo eliminado para usar el fondo global */
+}
+
+.dashboard-overlay {
+  /* Fondo eliminado para usar el fondo global */
+  display: none;
+}
+
+.dashboard-content {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 16px;
+  z-index: 1;
+  font-family: 'Lexend', 'Noto Sans', sans-serif;
+}
+
+.dashboard-main {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 24px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dashboard-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #191d28;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.dashboard-section {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(400px, 1fr)); /* Display two cards side by side */
+  gap: 2rem; /* Spacing between cards */
+  width: 80%; /* Adjust section width */
+  max-width: 1200px; /* Limit maximum width */
+  padding: 1rem; /* Add padding around the section */
+  margin: 0 auto 4rem; /* Center section and add spacing below */
+  justify-content: center; /* Centra los elementos horizontalmente */
+}
+
+.dashboard-tip {
+  width: 100%;
+  margin-top: 36px;
+  margin-bottom: 2rem; /* Add space below the daily tip section */
+}
+
+.dashboard-card {
+  background-color: #ffffff;
+  border-radius: 16px; /* Rounded corners */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Subtle shadow */
+  padding: 2rem; /* Internal spacing */
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.dashboard-card:hover {
+  transform: scale(1.1); /* Zoom effect on hover */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25); /* Enhanced shadow on hover */
+}
+
+.dashboard-card-image {
+  max-width: 80%; /* Adjust image size */
+  height: auto;
+  margin-bottom: 1.5rem; /* Spacing below image */
+}
+
+.dashboard-card-title {
+  font-size: 1.8rem; /* Larger title size */
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #0d47a1; /* Blue color for title */
+}
+
+.dashboard-card-description {
+  font-size: 1.2rem; /* Larger description size */
+  color: #555;
+  line-height: 1.6; /* Improved line spacing */
+}
+
+@media (max-width: 768px) {
+  .dashboard-section {
+    grid-template-columns: 1fr; /* Una tarjeta por fila */
+    gap: 1rem; /* Espaciado reducido entre tarjetas */
+  }
+}
