@@ -44,14 +44,40 @@
 }
 
 .dashboard-section {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Group cards in a responsive grid */
+  gap: 24px; /* Reduce gap for better grouping */
   width: 100%;
-  align-items: center;
+  align-items: stretch;
 }
 
 .dashboard-tip {
   width: 100%;
   margin-top: 36px;
+}
+
+.dashboard-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.dashboard-card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #191d28;
+  margin-bottom: 12px;
+}
+
+.dashboard-card-content {
+  font-size: 1rem;
+  color: #555;
 }

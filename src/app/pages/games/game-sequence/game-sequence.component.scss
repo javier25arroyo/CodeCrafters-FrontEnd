@@ -1,24 +1,31 @@
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
   height: 100vh;
   width: 100vw;
-  background: linear-gradient(to bottom, #dbeafe, #ffffff);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem;
   box-sizing: border-box;
 }
 
+app-nav {
+  flex-shrink: 0;
+  margin-bottom: 2rem; /* Add space below the header */
+}
+
 .container {
+  flex-grow: 0; /* Prevent stretching */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   max-width: 800px;
-  background-color: #fff9f0;
   padding: 3rem;
-  border-radius: 20px;
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+  border-radius: 12px; /* Adjusted for rectangle shape */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Floating effect */
   text-align: center;
   font-size: 2rem;
+  border-top: 4px solid #ffa726; /* Top border */
+  border-bottom: 4px solid #ffa726; /* Bottom border */
 }
 
 .sequence {
@@ -35,7 +42,7 @@ input {
   font-size: 1.8rem;
   border-radius: 12px;
   border: 1px solid #ccc;
-  width: 250px;
+  width: 350px; /* Increased width for placeholder text */
 }
 
 button {
