@@ -15,82 +15,85 @@
         <div class="login-main">
           <form (ngSubmit)="handleSignup($event)" autocomplete="off" #frm="ngForm">
             <div class="mb-3">
-              <h4>Sign up account</h4>
+              <h4>Crear cuenta</h4>
             </div>
 
             <div class="form-group mb-3">
               <label for="name" class="form-label mb-2">
-                Name
+                Nombre
               </label>
               <input #name="ngModel" type="text" class="form-control" id="name" name="name"
-                placeholder="User" [(ngModel)]="user.name" [ngClass]="{
+                placeholder="Usuario" [(ngModel)]="user.name" [ngClass]="{
                   'is-invalid': name.invalid && name.touched,
                   'is-valid': name.valid && name.touched
                 }" required />
               <div *ngIf="name.invalid" class="invalid-feedback">
-                Please add a valid name
-              </div>
-            </div>
-            <div class="form-group mb-3">
-              <label for="lastname" class="form-label mb-2">
-                Lastname
-              </label>
-              <input #lastname="ngModel" type="text" class="form-control" id="lastname" name="lastname"
-                placeholder="Lastname" [(ngModel)]="user.lastname" [ngClass]="{
-                  'is-invalid': lastname.invalid && lastname.touched,
-                  'is-valid': lastname.valid && lastname.touched
-                }" required />
-              <div *ngIf="lastname.invalid" class="invalid-feedback">
-                Please add a valid lastname
+                Por favor, ingresa un nombre válido
               </div>
             </div>
 
             <div class="form-group mb-3">
               <label for="email" class="form-label mb-2">
-                Email Address
+                Correo electrónico
               </label>
               <input #email="ngModel" type="text" class="form-control" id="email" name="email"
-                placeholder="Email" [(ngModel)]="user.email" [ngClass]="{
+                placeholder="Correo electrónico" [(ngModel)]="user.email" [ngClass]="{
                   'is-invalid': email.invalid && email.touched,
                   'is-valid': email.valid && email.touched
                 }" required />
               <div *ngIf="email.invalid" class="invalid-feedback">
-                Please add a valid email
+                Por favor, ingresa un correo válido
               </div>
             </div>
 
-            <div class="form-group mb-5">
-              <label for="password" class="form-label mb-2">Password</label>
+            <div class="form-group mb-3">
+              <label for="password" class="form-label mb-2">Contraseña</label>
               <div class="form-input position-relative">
                 <input #password="ngModel" [type]="passwordFieldType" class="form-control" id="password" name="password"
-                  placeholder="Password" [(ngModel)]="user.password" [ngClass]="{
+                  placeholder="Contraseña" [(ngModel)]="user.password" [ngClass]="{
                     'is-invalid': password.invalid && password.touched,
                     'is-valid': password.valid && password.touched
                   }" required minlength="8" />
                 <div *ngIf="password.invalid && password.touched" class="invalid-feedback">
-                  Password must be at least 8 characters long.
+                  La contraseña debe tener al menos 8 caracteres.
                 </div>
                 <div *ngIf="password.valid && password.touched" class="valid-feedback">
-                  Password looks good!
+                  ¡La contraseña es válida!
                 </div>
               </div>
-              <div class="mt-3 form-check">
-                <input type="checkbox" class="form-check-input" id="showPassword" (change)="togglePasswordVisibility()">
-                <label class="form-check-label" for="showPassword">Show Password</label>
+            </div>
+
+            <div class="form-group mb-3">
+              <label for="confirmPassword" class="form-label mb-2">Confirmar contraseña</label>
+              <div class="form-input position-relative">
+                <input #confirmPassword="ngModel" [type]="passwordFieldType" class="form-control" id="confirmPassword" name="confirmPassword"
+                  placeholder="Confirmar contraseña" [(ngModel)]="confirmPasswordValue" [ngClass]="{
+                    'is-invalid': (confirmPassword.invalid && confirmPassword.touched) || (confirmPassword.touched && !passwordsMatch()),
+                    'is-valid': confirmPassword.valid && confirmPassword.touched && passwordsMatch()
+                  }" required minlength="8" />
+                <div *ngIf="confirmPassword.invalid && confirmPassword.touched" class="invalid-feedback">
+                  Por favor, confirma tu contraseña.
+                </div>
+                <div *ngIf="confirmPassword.valid && confirmPassword.touched && !passwordsMatch()" class="invalid-feedback">
+                  Las contraseñas no coinciden.
+                </div>
+                <div *ngIf="confirmPassword.valid && confirmPassword.touched && passwordsMatch()" class="valid-feedback">
+                  ¡Las contraseñas coinciden!
+                </div>
               </div>
             </div>
 
             <div class="form-group mb-0">
               <button class="btn btn-primary btn-block w-100" type="submit">
-                Sign up
+                Registrarse
               </button>
               @if(signUpError) {
                 <p class="text-danger">{{signUpError}}</p>
               } @else if (validSignup){
-                <p class="text-success">User registered, please go to login</p>
+                <p class="text-success">Usuario registrado, por favor inicia sesión</p>
               }
             </div>
-            <a href="/login">Go Login</a>
+            <a href="/login">Ir a iniciar sesión</a>
           </form>
         </div>
       </div>

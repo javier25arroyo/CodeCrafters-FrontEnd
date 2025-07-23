@@ -1,14 +1,27 @@
 <nav class="navbar">
   <div class="navbar-container">
-    <div class="navbar-logo">
-      <img src="assets/img/Logo/MentanaLogo.png" alt="Mentana Logo">
+    <a class="navbar-logo" routerLink="/">
+      <img src="assets/img/Logo/Logo sin fondo.png" alt="Mentana Logo" />
       <span>Mentana</span>
-    </div>
+    </a>
+
     <ul class="navbar-links">
-      <li><a routerLink="/">Inicio</a></li>
-      <li *ngIf="isLoggedIn"><a routerLink="/app/games">Juegos</a></li>
-      <li><button class="action-btn" routerLink="/login">Iniciar sesión</button></li>
-      <li><button class="action-btn" routerLink="/signup">Registrarse</button></li>
+      <!-- Cuando NO está logueado -->
+      <ng-container *ngIf="!isLoggedIn">
+        <li><button class="action-btn" routerLink="/login">Iniciar sesión</button></li>
+        <li><button class="action-btn" routerLink="/signup">Registrarse</button></li>
+      </ng-container>
+
+      <!-- Cuando SÍ está logueado -->
+      <ng-container *ngIf="isLoggedIn">
+        <li *ngIf="!router.url.startsWith('/dashboard-user')">
+          <button class="action-btn" routerLink="/dashboard-user">⬅ Volver</button>
+        </li>
+        <li *ngIf="!router.url.startsWith('/user-profile')">
+          <button class="action-btn" routerLink="/user-profile">Ver perfil</button>
+        </li>
+        <li><button class="action-btn" (click)="logout()">Cerrar sesión</button></li>
+      </ng-container>
     </ul>
   </div>
 </nav>

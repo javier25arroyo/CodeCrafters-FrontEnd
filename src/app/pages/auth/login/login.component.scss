@@ -56,4 +56,27 @@
 .invalid-feedback {
   margin-top: 5px; /* Agrega espacio entre el mensaje y el ícono */
 }
+
+.divider {
+  text-align: center;
+  position: relative;
+  margin: 20px 0;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: #dee2e6;
+  }
+  
+  .divider-text {
+    background-color: white;
+    padding: 0 15px;
+    color: #6c757d;
+    font-size: 14px;
+  }
+}
 }

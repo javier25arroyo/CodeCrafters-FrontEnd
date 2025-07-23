@@ -1,4 +1,4 @@
-<div class="card-info-game-root">
+<div class="card-info-game-root" (click)="onCardClick()" [style.cursor]="routerLink ? 'pointer' : 'default'">
   <div
     class="card-info-game-image"
     [ngStyle]="{ 'background-image': 'url(' + imageUrl + ')' }"
