@@ -1,0 +1,67 @@
+.dashboard-admin {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between; /* Espaciado entre el contenido y el footer */
+  padding: 2rem;
+  background: linear-gradient(to bottom, #0d47a1 20%, #ffffff 80%); /* Fondo con gradiente */
+}
+
+.dashboard-title {
+  font-size: 3rem; /* Tamaño más grande para destacar el título */
+  font-weight: bold;
+  margin: 3rem 0 2rem; /* Espaciado entre el título y el header */
+  color: #0d47a1; /* Color azul para el título */
+  text-align: center; /* Centrar el texto */
+}
+
+.dashboard-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Ajuste de tamaño mínimo */
+  gap: 2rem; /* Espaciado más amplio */
+  width: 80%; /* Ajustar el ancho del contenido */
+  max-width: 1000px; /* Limitar el ancho máximo */
+  padding: 1rem; /* Espaciado interno */
+  margin: 0 auto 4rem; /* Espaciado adicional entre las tarjetas y el footer */
+}
+
+.dashboard-card {
+  background-color: #ffffff;
+  border-radius: 16px; /* Bordes más redondeados */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada */
+  padding: 2rem; /* Espaciado interno más amplio */
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.dashboard-card:hover {
+  transform: scale(1.1); /* Efecto de zoom más notable */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25); /* Sombra más intensa al pasar el mouse */
+}
+
+.dashboard-card-image {
+  max-width: 80%; /* Ajuste de tamaño de imagen */
+  height: auto;
+  margin-bottom: 1.5rem; /* Espaciado más amplio debajo de la imagen */
+}
+
+.dashboard-card-title {
+  font-size: 1.8rem; /* Tamaño más grande para el título de la tarjeta */
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #0d47a1; /* Color azul para el título de la tarjeta */
+}
+
+.dashboard-card-description {
+  font-size: 1.2rem; /* Tamaño más grande para la descripción */
+  color: #555;
+  line-height: 1.6; /* Mejor espaciado entre líneas */
+}
+
+.app-footer {
+  align-self: stretch; /* Asegurar que el footer ocupe todo el ancho */
+  margin-top: auto; /* Mantener el footer pegado al fondo */
+  text-align: center; /* Centrar el texto del footer */
+}

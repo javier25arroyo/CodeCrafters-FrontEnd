@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'card-info-user',            
@@ -13,5 +14,16 @@ export class CardInfoUserComponent {
   @Input() description?: string;
   @Input() imageUrl?: string;
   @Input() buttonText: string = 'Acción';
+  @Input() routerLink?: string;
   @Output() buttonClick = new EventEmitter<void>();
+
+  constructor(private router: Router) {}
+
+  onButtonClick() {
+    if (this.routerLink) {
+      this.router.navigate([this.routerLink]);
+    } else {
+      this.buttonClick.emit();
+    }
+  }
 }

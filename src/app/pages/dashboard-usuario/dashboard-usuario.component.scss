@@ -1,0 +1,82 @@
+.dashboard-bg {
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  /* Fondo eliminado para usar el fondo global */
+}
+
+.dashboard-overlay {
+  /* Fondo eliminado para usar el fondo global */
+  display: none;
+}
+
+.dashboard-content {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 16px;
+  z-index: 1;
+  font-family: 'Lexend', 'Noto Sans', sans-serif;
+}
+
+.dashboard-main {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 24px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dashboard-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #191d28;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.dashboard-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); /* Adjusted card width */
+  gap: 1.5rem; /* Uniform spacing */
+  padding: 2rem; /* Add padding around the section */
+  justify-content: center;
+}
+
+.dashboard-tip {
+  width: 100%;
+  margin-top: 36px;
+  margin-bottom: 2rem; /* Add space below the daily tip section */
+}
+
+.dashboard-card {
+  background-color: #ffffff;
+  border-radius: 12px; /* Softer corners */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.dashboard-card:hover {
+  transform: scale(1.05); /* Slight zoom effect */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.dashboard-card-title {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #191d28;
+  margin-bottom: 16px;
+}
+
+.dashboard-card-content {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.5;
+}

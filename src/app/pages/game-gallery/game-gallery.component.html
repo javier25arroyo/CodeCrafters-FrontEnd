@@ -1,0 +1,65 @@
+<app-nav></app-nav>
+<div class="game-gallery-root">
+  <div class="game-gallery-container">
+    <div class="game-gallery-header">
+      <p>Selecciona un juego</p>
+    </div>
+    <div class="game-gallery-grid">
+      <card-info-game
+        title="Sopa de Letras"
+        description="Estimula tu mente."
+        buttonText="Jugar"
+        imageUrl="assets/img/gameGallery/juego1.png"
+      ></card-info-game>
+      <a routerLink="/puzzle-board" class="game-link">
+        <card-info-game
+          title="Rompecabezas"
+          description="Rompecabezas divertidos"
+          buttonText="Jugar"
+          imageUrl="assets/img/gameGallery/juego2.png"
+        ></card-info-game>
+      </a>
+      <card-info-game
+        title="Ahorcado"
+        description="Adivina la palabra"
+        buttonText="Jugar"
+        imageUrl="assets/img/gameGallery/juego3.png"
+      ></card-info-game>
+      <card-info-game
+        title="Juego de Secuencia"
+        description="Eningma Matematico."
+        buttonText="Jugar"
+        imageUrl="assets/img/gameGallery/juego4.png"
+        routerLink="/secuencia"
+      ></card-info-game>
+      <card-info-game
+        title="Ajedrez"
+        description="Desafia a la IA"
+        buttonText="Jugar"
+        imageUrl="assets/img/gameGallery/juego5.png"
+      ></card-info-game>
+      <card-info-game
+        title="Cartas Memoria"
+        description="Adivina sus pares."
+        buttonText="Jugar"
+        imageUrl="assets/img/gameGallery/juego6.png"
+        routerLink="/memorycard-game"
+      ></card-info-game>
+      <card-info-game
+        title="Crucigrama"
+        description="Crucigrama divertido."
+        buttonText="Jugar"
+        imageUrl="assets/img/gameGallery/juego7.png"
+        routerLink="/crossword"
+      ></card-info-game>
+      <card-info-game
+        title="Recuerda la melodia"
+        description="Cantala si la sabes."
+        buttonText="Jugar"
+        imageUrl="assets/img/gameGallery/juego8.png"
+      ></card-info-game>
+     
+    </div>
+     <daily-tip></daily-tip>
+  </div>
+</div>

@@ -5,13 +5,13 @@ import { filter } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-nav',
+  selector: 'app-nav-admin',
   standalone: true,
-  templateUrl: './nav.component.html',
-  styleUrls: ['./nav.component.scss'],
+  templateUrl: './nav-admin.component.html',
+  styleUrls: ['./nav-admin.component.scss'],
   imports: [NgIf, RouterLink]
 })
-export class NavComponent implements OnInit {
+export class NavAdminComponent implements OnInit {
   isLoggedIn = false;
   authService: AuthService = inject(AuthService);
 
@@ -35,5 +35,9 @@ export class NavComponent implements OnInit {
     this.authService.logout();
     this.isLoggedIn = false;
     this.router.navigate(['/']);
+  }
+
+  navigateBack() {
+    this.router.navigate(['/dashboard-admin']);
   }
 }

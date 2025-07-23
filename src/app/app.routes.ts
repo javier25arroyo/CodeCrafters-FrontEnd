@@ -9,16 +9,20 @@ import { IRoleType } from './interfaces';
 import { AccessDeniedComponent } from './pages/access-denied/access-denied.component';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { SigUpComponent } from './pages/auth/sign-up/signup.component';
-import { DashboardUsuarioComponent } from './components/dashboard-usuario/dashboard-usuario.component';
+import { DashboardUsuarioComponent } from './pages/dashboard-usuario/dashboard-usuario.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { GameGalleryComponent } from './game-gallery/game-gallery.component';
+import { GameGalleryComponent } from './pages/game-gallery/game-gallery.component';
 import { TeamComponent } from './pages/team/team.component';
-import { CrosswordGameComponent } from './pages/crossword-game/crossword-game.component';
-import { GameSequenceComponent } from './pages/games/game-sequence/game-sequence.component'; 
+import { CrosswordGameComponent } from './pages/games/crossword-game/crossword-game.component';
+import { GameSequenceComponent } from './pages/games/game-sequence/game-sequence.component';
+import { MemoryGameComponent } from './pages/games/memorycard-game/memorycard-game.component';
 import { SuggestionComponent } from './pages/suggestion/suggestion.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component'; 
 import { AdminSuggestionsComponent } from './pages/admin-suggestions/admin-suggestions.component';
+import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+import { PuzzleBoardComponent } from './pages/games/puzzle-board/puzzle-board.component';
+import { DashboardAdminComponent } from './pages/dashboard-admin/dashboard-admin.component';
 
 
 export const routes: Routes = [
@@ -29,6 +33,25 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [GuestGuard],
+  },
+  {
+    path: 'game-gallery',
+    component: GameGalleryComponent,
+    canActivate: [AuthGuard],
+    data: {
+      authorities: [IRoleType.user],
+    },
+  },
+  {
+    path: 'puzzle-board',
+    component: PuzzleBoardComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'dashboard-user',
+    component: DashboardUsuarioComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'signup',
@@ -57,8 +80,8 @@ export const routes: Routes = [
   },
   {
     path: 'secuencia',
-    component: GameSequenceComponent, 
-    canActivate: [AuthGuard],      
+    component: GameSequenceComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'crossword',
@@ -67,8 +90,8 @@ export const routes: Routes = [
     data: { authorities: [IRoleType.user] },
   },
   {
-    path: 'suggestions',
-    component: SuggestionComponent,
+    path: 'memorycard-game',
+    component: MemoryGameComponent,
     canActivate: [AuthGuard],
     data: { authorities: [IRoleType.user] },
   },
@@ -93,6 +116,11 @@ export const routes: Routes = [
     component: DashboardUsuarioComponent,
     canActivate: [AuthGuard],
   },
+    path: 'suggestions',
+    component: SuggestionComponent,
+    canActivate: [AuthGuard],
+    data: { authorities: [IRoleType.user] },
+  },
   {
     path: 'user-profile',
     component: UserProfileComponent,
@@ -101,7 +129,6 @@ export const routes: Routes = [
       authorities: [IRoleType.user],
     },
   },
-
   {
     path: 'app',
     component: AppLayoutComponent,
@@ -124,7 +151,12 @@ export const routes: Routes = [
           name: 'profile',
           showInSidebar: false,
         },
-      }
+      },
     ],
+  },
+  {
+    path: 'dashboard-admin',
+    component: DashboardAdminComponent,
+    canActivate: [AuthGuard],
   },
 ];

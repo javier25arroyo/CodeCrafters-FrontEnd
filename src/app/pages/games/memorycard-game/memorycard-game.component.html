@@ -1,0 +1,27 @@
+<app-nav></app-nav>
+<div class="game-container">
+  <h1>🧠 Juego de Memoria</h1>
+
+  <div class="game-board">
+    <div
+      *ngFor="let card of cards"
+      class="card"
+      [class.flipped]="card.isFlipped"
+      [class.matched]="card.isMatched"
+      (click)="flipCard(card)"
+    >
+      <div class="card-inner">
+        <div class="card-front">
+          <span class="card-icon">🎴</span>
+        </div>
+        <div class="card-back">
+          <span class="card-emoji">{{ card.image }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="restart-btn" (click)="resetGame()">
+    🔄 Nuevo Juego
+  </button>
+</div>
