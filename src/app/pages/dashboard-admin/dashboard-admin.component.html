@@ -1,0 +1,39 @@
+<app-nav-admin></app-nav-admin>
+
+<div class="dashboard-bg">
+  <div class="dashboard-overlay"></div>
+
+  <div class="dashboard-content">
+    <main class="dashboard-main">
+      <h2 class="dashboard-title">Panel de Administración</h2>
+
+      <section class="dashboard-section">
+        <card-info-user
+          title="Gestión de usuarios"
+          description="Administra los usuarios registrados en la plataforma."
+          buttonText="Ir a gestión"
+          imageUrl="assets/img/dashboardAdmin/users.png"
+        ></card-info-user>
+
+        <card-info-user
+          title="Estadísticas"
+          description="Consulta estadísticas generales de la plataforma."
+          buttonText="Ver estadísticas"
+          imageUrl="assets/img/dashboardAdmin/stats.png"
+        ></card-info-user>
+
+        <card-info-user
+          title="Configuración"
+          description="Ajusta las configuraciones de la plataforma."
+          buttonText="Ir a configuración"
+          imageUrl="assets/img/dashboardAdmin/settings.png"
+        ></card-info-user>
+      </section>
+
+      <section class="dashboard-tip">
+      </section>
+    </main>
+  </div>
+</div>
+
+<app-footer></app-footer>

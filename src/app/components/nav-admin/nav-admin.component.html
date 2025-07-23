@@ -1,0 +1,25 @@
+<nav class="navbar">
+  <div class="navbar-container">
+    <a class="navbar-logo" routerLink="/">
+      <img src="assets/img/Logo/Logo sin fondo.png" alt="Mentana Logo" />
+      <span>Mentana</span>
+    </a>
+
+    <ul class="navbar-links">
+      <!-- Cuando NO está logueado -->
+      <ng-container *ngIf="!isLoggedIn">
+        <li><button class="action-btn" routerLink="/login">Iniciar sesión</button></li>
+        <li><button class="action-btn" routerLink="/signup">Registrarse</button></li>
+      </ng-container>
+
+      <!-- Cuando SÍ está logueado -->
+      <ng-container *ngIf="isLoggedIn">
+        <li *ngIf="!router.url.startsWith('/dashboard-admin')">
+          <button class="action-btn" routerLink="/dashboard-admin">⬅ Volver</button>
+        </li>
+        
+        <li><button class="action-btn" (click)="logout()">Cerrar sesión</button></li>
+      </ng-container>
+    </ul>
+  </div>
+</nav>
