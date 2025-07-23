@@ -17,6 +17,7 @@ import { TeamComponent } from './pages/team/team.component';
 import { CrosswordGameComponent } from './pages/games/crossword-game/crossword-game.component';
 import { GameSequenceComponent } from './pages/games/game-sequence/game-sequence.component';
 import { MemoryGameComponent } from './pages/games/memorycard-game/memorycard-game.component';
+import { WordSearchGameComponent } from './pages/games/word-search-game/word-search-game.component';
 import { SuggestionComponent } from './pages/suggestion/suggestion.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { PuzzleBoardComponent } from './pages/games/puzzle-board/puzzle-board.component';
@@ -79,6 +80,12 @@ export const routes: Routes = [
     path: 'secuencia',
     component: GameSequenceComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'word-search-game',
+    component: WordSearchGameComponent,
+    canActivate: [AuthGuard],
+    data: { authorities: [IRoleType.user] },
   },
   {
     path: 'crossword',
