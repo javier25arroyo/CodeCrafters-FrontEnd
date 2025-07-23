@@ -61,12 +61,12 @@ loadUsers(): void {
   }
 
   editUser(user: IUser): void {
-    if (!user.id) {
-      this.alertService.displayAlert('error', 'Usuario sin ID válido');
-      return;
-    }
-    this.router.navigate(['/admin/users/form', user.id]);
+  if (!user.id) {
+    this.alertService.displayAlert('error', 'Usuario sin ID válido');
+    return;
   }
+  this.router.navigate(['/app/users/edit', user.id]); // Aquí navegas a editar
+}
 
   deleteUser(user: IUser): void {
   if (!user.id) {
@@ -92,6 +92,6 @@ resetPassword(user: IUser): void {
   }
 
   goToCreate(): void {
-    this.router.navigate(['/admin/users/form']);
+    this.router.navigate(['/app/users/create']);
   }
 }

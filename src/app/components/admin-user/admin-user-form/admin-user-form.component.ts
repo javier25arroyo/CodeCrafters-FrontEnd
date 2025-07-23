@@ -16,12 +16,12 @@ export class AdminUserFormComponent implements OnInit {
   isEdit = false;
   userId?: number;
 
+  // Lista con roles que incluyen id y name para enviar al backend
  roles = [
-  { name: 'ROLE_ADMIN', description: 'Administrador' },
-  { name: 'ROLE_USER', description: 'Usuario' },
+  { id: 1, name: 'ROLE_ADMIN', description: 'Administrador' },
+  { id: 2, name: 'ROLE_USER', description: 'Usuario' },
   { name: 'ROLE_SUPER_ADMIN', description: 'Super Administrador' },
 ];
-
 
   constructor(
     private fb: FormBuilder,
@@ -65,23 +65,22 @@ export class AdminUserFormComponent implements OnInit {
   }
 
   submit(): void {
-    if (this.form.invalid) return;
+  if (this.form.invalid) return;
 
-    const formValue = this.form.value;
+  const formValue = this.form.value;
 
-    // Construimos usuario para backend con role objeto completo
-    const userData: IUser = {
-      ...formValue,
-      role: formValue.role,  // role ya es objeto IRole completo
-    };
+  const userData: IUser = {
+    ...formValue,
+    role: formValue.role,
+  };
 
-    if (this.isEdit && this.userId) {
-      userData.id = this.userId;
-      this.userService.update(userData);
-    } else {
-      this.userService.save(userData);
-    }
-
-    this.router.navigate(['/app/users']);
+  if (this.isEdit && this.userId) {
+    userData.id = this.userId;
+    this.userService.update(userData); 
+    this.router.navigate(['/app/users']); 
+  } else {
+    this.userService.save(userData);
+    this.router.navigate(['/app/users']); 
   }
 }
+  }

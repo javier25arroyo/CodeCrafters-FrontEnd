@@ -113,13 +113,17 @@ export const routes: Routes = [
     children: [
       {
         path: 'users',
-        component: ProfileComponent,
-        data: {
-          authorities: [IRoleType.admin, IRoleType.superAdmin],
-          name: 'Users',
-          showInSidebar: true,
-        },
-      },
+  loadComponent: () =>
+    import('./components/admin-user/admin-user-list/admin-user-list.component').then(
+      (m) => m.AdminUserListComponent
+    ),
+  canActivate: [AdminRoleGuard],
+  data: {
+    authorities: [IRoleType.admin, IRoleType.superAdmin],
+    name: 'Users',
+    showInSidebar: true,
+  },
+},
       {
          path: 'users/create',
          loadComponent: () =>
