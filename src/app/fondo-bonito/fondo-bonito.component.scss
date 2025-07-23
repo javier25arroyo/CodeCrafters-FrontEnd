@@ -4,6 +4,9 @@
   z-index: -10;
   width: 100vw;
   height: 100vh;
-  background: radial-gradient(125% 125% at 50% 10%, #fff 40%, #0d91ea 100%);
-  pointer-events: none; 
+  background: radial-gradient(125% 125% at 50% 10%, #fff 40%, #0d47a1 100%); /* Gradiente blanco y azul */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 5px; /* Ajuste de espacio */
 }

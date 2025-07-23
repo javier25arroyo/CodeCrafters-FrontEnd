@@ -2,15 +2,12 @@
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
+  /* Fondo eliminado para usar el fondo global */
 }
 
 .dashboard-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(125% 125% at 50% 10%, #fff 40%, #1385b9 100%);
+  /* Fondo eliminado para usar el fondo global */
+  display: none;
 }
 
 .dashboard-content {
@@ -44,14 +41,42 @@
 }
 
 .dashboard-section {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-  width: 100%;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid with better card sizing */
+  gap: 1.5rem; /* Uniform spacing */
+  padding: 2rem; /* Add padding around the section */
+  justify-content: center;
 }
 
 .dashboard-tip {
   width: 100%;
   margin-top: 36px;
+  margin-bottom: 2rem; /* Add space below the daily tip section */
+}
+
+.dashboard-card {
+  background-color: #ffffff;
+  border-radius: 12px; /* Softer corners */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.dashboard-card:hover {
+  transform: scale(1.05); /* Slight zoom effect */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.dashboard-card-title {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #191d28;
+  margin-bottom: 16px;
+}
+
+.dashboard-card-content {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.5;
 }
