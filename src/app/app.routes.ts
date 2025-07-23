@@ -20,7 +20,9 @@ import { MemoryGameComponent } from './pages/games/memorycard-game/memorycard-ga
 import { SuggestionComponent } from './pages/suggestion/suggestion.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { PuzzleBoardComponent } from './pages/games/puzzle-board/puzzle-board.component';
+import { WordSearchGameComponent } from './pages/games/word-search-game/word-search-game.component';
 import { DashboardAdminComponent } from './pages/dashboard-admin/dashboard-admin.component';
+
 
 export const routes: Routes = [
   {
@@ -80,6 +82,13 @@ export const routes: Routes = [
     component: GameSequenceComponent,
     canActivate: [AuthGuard],
   },
+  {
+  path: 'word-search',
+  component: WordSearchGameComponent,
+  canActivate: [AuthGuard],
+  data: { authorities: [IRoleType.user] },
+},
+
   {
     path: 'crossword',
     component: CrosswordGameComponent,
