@@ -39,15 +39,8 @@ export class AdminUserFormComponent implements OnInit {
       email: this.form.value.email,
     };
 
-    this.userService.update(updatedUser).subscribe({
-      next: () => {
-        this.updated.emit();
-      },
-      error: (err) => {
-        console.error('Update failed', err);
-        // Optionally, display an error message to the user
-      }
-    });
+    this.userService.update(updatedUser); 
+    this.updated.emit();  
   }
 }
 
