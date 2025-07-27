@@ -1,8 +1,9 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { BaseService } from './base-service';
-import { ISearch, IUser } from '../interfaces';
+import { IGame, ISearch, IUser } from '../interfaces';
 import { Observable } from 'rxjs';
 import { AlertService } from './alert.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -77,7 +78,16 @@ export class UserService extends BaseService<IUser> {
     });
   }
 
-getMyProfile(): Observable<IUser> {
+
+  
+  getMyProfile(): Observable<IUser> {
   return this.http.get<IUser>(`${this.source}/me`);
 }
+
+toggleEnabled(userId: number) {
+  return this.http.patch(`${this.source}/${userId}/toggle-enabled`, {});
+}
+
+
+
 }

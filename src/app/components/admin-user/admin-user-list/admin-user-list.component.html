@@ -1,0 +1,48 @@
+<div class="user-management-container">
+  <div class="header">
+    <h1>Gestión de Usuarios</h1>
+  </div>
+
+  
+
+  <div class="user-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Rol</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.role?.name }}</td>
+          <td>
+            <button (click)="onEditClick(user)">Editar</button>
+            <button [disabled]="loading" (click)="deleteUser(user)">Eliminar</button>
+            <button (click)="toggleUserActive(user)">
+             {{ user.active ? 'Activar' : 'Desactivar' }}
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination">
+    <button
+      *ngFor="let i of totalPagesArray"
+      [disabled]="i === search.page || loading"
+      (click)="onPageChange(i)"
+    >
+      {{ i }}
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="loading-indicator">
+    Cargando usuarios...
+  </div>
+</div>
