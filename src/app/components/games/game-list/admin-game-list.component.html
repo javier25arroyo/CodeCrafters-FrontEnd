@@ -1,0 +1,25 @@
+<div class="game-list-container">
+  <h2>Listado de Juegos</h2>
+
+  <table *ngIf="games && games.length > 0; else noData">
+
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let game of games">
+        <td>{{ game.id }}</td>
+        <td>{{ game.name }}</td>
+        <td>{{ game.description }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #noData>
+    <p>No hay juegos registrados.</p>
+  </ng-template>
+</div>

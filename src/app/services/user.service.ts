@@ -77,7 +77,16 @@ export class UserService extends BaseService<IUser> {
     });
   }
 
-getMyProfile(): Observable<IUser> {
+
+  
+  getMyProfile(): Observable<IUser> {
   return this.http.get<IUser>(`${this.source}/me`);
 }
+
+toggleEnabled(userId: number) {
+  return this.http.patch(`${this.source}/${userId}/toggle-enabled`, {});
+}
+
+
+
 }
