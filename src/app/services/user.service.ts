@@ -1,9 +1,8 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { BaseService } from './base-service';
-import { IGame, ISearch, IUser } from '../interfaces';
+import { ISearch, IUser } from '../interfaces';
 import { Observable } from 'rxjs';
 import { AlertService } from './alert.service';
-import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',

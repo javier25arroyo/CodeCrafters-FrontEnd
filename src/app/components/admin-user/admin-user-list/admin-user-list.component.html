@@ -24,7 +24,7 @@
             <button (click)="onEditClick(user)">Editar</button>
             <button [disabled]="loading" (click)="deleteUser(user)">Eliminar</button>
             <button (click)="toggleUserActive(user)">
-             {{ user.active ? 'Activar' : 'Desactivar' }}
+             {{ user.active ? 'Desactivar' : 'Activar' }}
             </button>
           </td>
         </tr>

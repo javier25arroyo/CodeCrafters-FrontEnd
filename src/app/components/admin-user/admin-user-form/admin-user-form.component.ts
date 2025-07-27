@@ -34,13 +34,12 @@ export class AdminUserFormComponent implements OnInit {
   submit(): void {
   if (this.form.valid) {
     const updatedUser = {
-      id: this.userToEdit.id, // Usamos el ID del usuario seleccionado, aunque no esté en el form
+      id: this.userToEdit.id, 
       name: this.form.value.name,
       email: this.form.value.email,
     };
 
     this.userService.update(updatedUser); 
-    alert('Usuario actualizado correctamente');
     this.updated.emit();  
   }
 }
