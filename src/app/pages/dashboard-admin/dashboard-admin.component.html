@@ -8,6 +8,13 @@
       <h2 class="dashboard-title">Panel de Administración</h2>
 
       <section class="dashboard-section">
+        <card-info-user
+          title="Gestión de usuarios"
+          description="Administra los usuarios registrados en la plataforma."
+          buttonText="Ir a gestión"
+          imageUrl="assets/img/dashboardAdmin/users.png"
+          [routerLink]="['/users/management']"
+        ></card-info-user>
 
         <card-info-user
           title="Sugerencias"

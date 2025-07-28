@@ -1,0 +1,24 @@
+<div class="user-form-container">
+  <h2>Editar Usuario</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="form-group">
+      <label for="name">Nombre:</label>
+      <input id="name" type="text" formControlName="name" />
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input id="email" type="email" formControlName="email" />
+    </div>
+
+   
+
+    <div class="form-actions">
+        <button type="button" (click)="onCancel()">Cancelar</button>
+      <button type="submit" [disabled]="form.invalid">Actualizar</button>
+    </div>
+  </form>
+</div>
+
+
