@@ -23,6 +23,7 @@ import { UserProfileComponent } from './pages/user-profile/user-profile.componen
 import { PuzzleBoardComponent } from './pages/games/puzzle-board/puzzle-board.component';
 import { DashboardAdminComponent } from './pages/dashboard-admin/dashboard-admin.component';
 import { AdminSuggestionsComponent } from './pages/admin-suggestions/admin-suggestions.component';
+import { CaregiverDashboardComponent } from './pages/caregiver-dashboard/caregiver-dashboard.component'; 
 
 export const routes: Routes = [
   {
@@ -59,6 +60,12 @@ export const routes: Routes = [
     path: 'dashboard-user',
     component: DashboardUsuarioComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'caregiver-dashboard',
+    component: CaregiverDashboardComponent,
+    data: { 
+      authorities: [IRoleType.caregiver] }
   },
   {
     path: 'signup',
@@ -140,7 +147,7 @@ export const routes: Routes = [
         path: 'profile',
         component: ProfileComponent,
         data: {
-          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user, IRoleType.caregiver],
           name: 'profile',
           showInSidebar: false,
         },

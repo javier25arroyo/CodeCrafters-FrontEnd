@@ -1,0 +1,27 @@
+.stats-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem;
+
+  .search-box,
+  .stats-box {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: #fff;
+  }
+
+  .input-group {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .user-info {
+    margin-top: 1rem;
+    background-color: #f9f9f9;
+    padding: 0.75rem;
+    border-radius: 4px;
+  }
+}

@@ -23,7 +23,9 @@ export class SigUpComponent {
   @ViewChild('password') passwordModel!: NgModel;
   @ViewChild('confirmPassword') confirmPasswordModel!: NgModel;
 
-  public user: IUser = {};
+  public user: IUser = {
+    isCaregiver: false
+  };
 
   constructor(private router: Router, 
     private authService: AuthService

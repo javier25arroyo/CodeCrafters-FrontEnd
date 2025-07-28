@@ -4,6 +4,7 @@ import { FormsModule, NgModel } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { GoogleButtonComponent } from '../../../components/google-button/google-button.component';
+import { IRoleType } from '../../../interfaces';
 
 @Component({
   selector: 'app-login',
@@ -46,28 +47,44 @@ export class LoginComponent {
     if (this.emailModel.valid && this.passwordModel.valid) {
       this.authService.login(this.loginForm).subscribe({
         next: () => {
-          // Usa hasRole para verificar si el usuario es admin o superAdmin
           if (
-            this.authService.hasRole('ADMIN') ||
-            this.authService.isSuperAdmin()
-          ) {
-            this.router.navigateByUrl('/dashboard-admin');
-          } else {
-            this.router.navigateByUrl('/dashboard-user');
-          }
-        },
+          this.authService.hasRole(IRoleType.admin) ||
+          this.authService.hasRole(IRoleType.superAdmin)
+        ) {
+          this.router.navigateByUrl('/dashboard-admin');
+          return;
+        }
+
+        // 2) Caregiver → dashboard de cuidadores
+        if (this.authService.hasRole(IRoleType.caregiver)) {
+          this.router.navigateByUrl('/caregiver-dashboard');
+          return;
+        }
+
+        // 3) Cualquier otro → dashboard de usuario normal
+        this.router.navigateByUrl('/dashboard-user');
+      },
         error: (err: any) => (this.loginError = err.error.description),
       });
     }
   }
 
   public onGoogleLoginSuccess(response: any) {
-    if (this.authService.hasRole('ADMIN') || this.authService.isSuperAdmin()) {
-      this.router.navigateByUrl('/dashboard-admin');
-    } else {
-      this.router.navigateByUrl('/dashboard-user');
-    }
+    if (
+    this.authService.hasRole(IRoleType.admin) ||
+    this.authService.hasRole(IRoleType.superAdmin)
+  ) {
+    this.router.navigateByUrl('/dashboard-admin');
+    return;
   }
+
+  if (this.authService.hasRole(IRoleType.caregiver)) {
+    this.router.navigateByUrl('/caregiver-dashboard');
+    return;
+  }
+
+  this.router.navigateByUrl('/dashboard-user');
+}
 
   public onGoogleLoginError(error: string) {
     this.googleLoginError = error;

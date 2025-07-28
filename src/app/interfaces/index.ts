@@ -18,6 +18,7 @@ export interface IUser {
   active?: boolean;
   createdAt?: string;
   updatedAt?: string;
+  isCaregiver?: boolean;
   authorities?: IAuthority[];
   role?: IRole
 }
@@ -40,7 +41,8 @@ export enum IFeedbackStatus {
 export enum IRoleType {
   admin = "ROLE_ADMIN",
   user = "ROLE_USER",
-  superAdmin = 'ROLE_SUPER_ADMIN'
+  superAdmin = 'ROLE_SUPER_ADMIN',
+  caregiver = 'ROLE_CAREGIVER'
 }
 
 export interface IRole {
