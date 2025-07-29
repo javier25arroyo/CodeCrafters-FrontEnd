@@ -28,6 +28,7 @@ import { AdminRoleGuard } from './guards/admin-role.guard';
 import { AdminUserListComponent } from './components/admin-user/admin-user-list/admin-user-list.component';
 import { AdminUserFormComponent } from './components/admin-user/admin-user-form/admin-user-form.component';
 import { AdminUserManagementComponent } from './pages/admin-user-management/admin-user-management.component';
+import { MelodyMemoryComponent } from './pages/melody-memory/melody-memory.component';
 
 
 export const routes: Routes = [
@@ -187,4 +188,8 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
 
+  {
+    path: 'melody-memory',
+    component: MelodyMemoryComponent,
+  }
 ];
