@@ -39,13 +39,14 @@ export class AdminUserFormComponent implements OnInit {
       email: this.form.value.email,
     };
 
-    this.userService.update(updatedUser); 
-    this.updated.emit();  
+
+    this.userService.update(updatedUser);
+    this.updated.emit();
+
   }
 }
 
-  onCancel() {
+  onCancel(){
     this.cancel.emit();
   }
 }
-
