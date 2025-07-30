@@ -20,7 +20,6 @@ import { MemoryGameComponent } from './pages/games/memorycard-game/memorycard-ga
 import { SuggestionComponent } from './pages/suggestion/suggestion.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component'; 
 import { AdminSuggestionsComponent } from './pages/admin-suggestions/admin-suggestions.component';
-import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { PuzzleBoardComponent } from './pages/games/puzzle-board/puzzle-board.component';
 import { WordSearchGameComponent } from './pages/games/word-search-game/word-search-game.component';
 import { DashboardAdminComponent } from './pages/dashboard-admin/dashboard-admin.component';
@@ -124,6 +123,7 @@ export const routes: Routes = [
     component: DashboardUsuarioComponent,
     canActivate: [AuthGuard],
   },
+  {
     path: 'suggestions',
     component: SuggestionComponent,
     canActivate: [AuthGuard],
