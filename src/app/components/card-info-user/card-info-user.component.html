@@ -2,7 +2,7 @@
   <div class="card-content">
     <p class="title">{{ title }}</p>
     <p class="description">{{ description }}</p>
-    <button class="action-btn" (click)="onButtonClick()">
+    <button class="action-btn" [routerLink]="routerLink">
       <span class="truncate">{{ buttonText }}</span>
       <!-- Puedes poner aquí un SVG real o quitarlo por ahora -->
       <!-- <svg ...>...</svg> -->

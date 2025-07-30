@@ -17,19 +17,23 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
   padding: 0 16px;
   z-index: 1;
   font-family: 'Lexend', 'Noto Sans', sans-serif;
 }
 
 .dashboard-main {
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 24px 0 0 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center; /* Centrado vertical */
+  height: 100vh;            /* Ocupar toda la pantalla */
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 0 0 0;
+  text-align: center;
 }
 
 .dashboard-title {
@@ -41,59 +45,64 @@
 }
 
 .dashboard-section {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(400px, 1fr)); /* Display two cards side by side */
-  gap: 2rem; /* Spacing between cards */
-  width: 80%; /* Adjust section width */
-  max-width: 1200px; /* Limit maximum width */
-  padding: 1rem; /* Add padding around the section */
-  margin: 0 auto 4rem; /* Center section and add spacing below */
-  justify-content: center; /* Centra los elementos horizontalmente */
+  display: flex; /* Usamos flex en lugar de grid para centrar una sola tarjeta */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+  padding: 1rem;
+  margin-bottom: 2rem;
 }
 
 .dashboard-tip {
   width: 100%;
-  margin-top: 36px;
-  margin-bottom: 2rem; /* Add space below the daily tip section */
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .dashboard-card {
   background-color: #ffffff;
-  border-radius: 16px; /* Rounded corners */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Subtle shadow */
-  padding: 2rem; /* Internal spacing */
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 2rem;
   text-align: center;
   cursor: pointer;
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .dashboard-card:hover {
-  transform: scale(1.1); /* Zoom effect on hover */
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25); /* Enhanced shadow on hover */
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
 }
 
 .dashboard-card-image {
-  max-width: 80%; /* Adjust image size */
+  max-width: 80%;
   height: auto;
-  margin-bottom: 1.5rem; /* Spacing below image */
+  margin-bottom: 1.5rem;
 }
 
 .dashboard-card-title {
-  font-size: 1.8rem; /* Larger title size */
+  font-size: 1.8rem;
   font-weight: bold;
   margin-bottom: 1rem;
-  color: #0d47a1; /* Blue color for title */
+  color: #0d47a1;
 }
 
 .dashboard-card-description {
-  font-size: 1.2rem; /* Larger description size */
+  font-size: 1.2rem;
   color: #555;
-  line-height: 1.6; /* Improved line spacing */
+  line-height: 1.6;
 }
 
 @media (max-width: 768px) {
   .dashboard-section {
-    grid-template-columns: 1fr; /* Una tarjeta por fila */
-    gap: 1rem; /* Espaciado reducido entre tarjetas */
+    max-width: 90%;
+    padding: 0 1rem;
+  }
+
+  .dashboard-main {
+    padding: 1rem 0;
+    height: auto;
   }
 }

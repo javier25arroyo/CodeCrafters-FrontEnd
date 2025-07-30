@@ -13,21 +13,17 @@
           description="Administra los usuarios registrados en la plataforma."
           buttonText="Ir a gestión"
           imageUrl="assets/img/dashboardAdmin/users.png"
+          [routerLink]="['/users/management']"
         ></card-info-user>
 
         <card-info-user
-          title="Estadísticas"
-          description="Consulta estadísticas generales de la plataforma."
-          buttonText="Ver estadísticas"
-          imageUrl="assets/img/dashboardAdmin/stats.png"
+          title="Sugerencias"
+          description="Listado de sugerencias de usuario."
+          buttonText="Ver sugerencias"
+          imageUrl="assets/img/dashboardAdmin/suggestions.png"
+          routerLink="/admin-suggestions"
         ></card-info-user>
 
-        <card-info-user
-          title="Configuración"
-          description="Ajusta las configuraciones de la plataforma."
-          buttonText="Ir a configuración"
-          imageUrl="assets/img/dashboardAdmin/settings.png"
-        ></card-info-user>
       </section>
 
       <section class="dashboard-tip">
