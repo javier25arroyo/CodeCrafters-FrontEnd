@@ -39,8 +39,10 @@ export class AdminUserFormComponent implements OnInit {
       email: this.form.value.email,
     };
 
+
     this.userService.update(updatedUser);
     this.updated.emit();
+
   }
 }
 
