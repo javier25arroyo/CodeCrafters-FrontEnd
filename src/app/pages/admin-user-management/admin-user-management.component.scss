@@ -1,0 +1,146 @@
+.btn-volver {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn-volver:hover {
+  background-color: #0056b3;
+}
+
+.user-management-container {
+  max-width: 1000px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+
+    h1 {
+      font-size: 2rem;
+      color: #2c3e50;
+    }
+
+    
+
+      &:hover {
+        background-color: #218838;
+      }
+    }
+  }
+
+  .search-bar {
+    margin-bottom: 1.5rem;
+
+    input {
+      width: 100%;
+      padding: 0.7rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+  }
+
+  .user-table {
+    overflow-x: auto;
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+
+      th, td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid #e0e0e0;
+      }
+
+      th {
+        background-color: #f2f2f2;
+        font-weight: 600;
+        color: #333;
+      }
+
+      td {
+        color: #555;
+      }
+
+      button {
+        margin-right: 0.5rem;
+        padding: 0.4rem 0.8rem;
+        font-size: 0.9rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        color: white;
+        transition: 0.3s ease;
+
+        &:nth-child(1) {
+          background-color: #007bff;
+
+          &:hover {
+            background-color: #0056b3;
+          }
+        }
+
+        &:nth-child(2) {
+          background-color: #dc3545;
+
+          &:hover {
+            background-color: #a71d2a;
+          }
+        }
+
+        &:nth-child(3) {
+          background-color: #ffc107;
+          color: #333;
+
+          &:hover {
+            background-color: #e0a800;
+          }
+        }
+      }
+    }
+  }
+
+  .pagination {
+    margin-top: 1.5rem;
+    text-align: center;
+
+    button {
+      margin: 0 0.3rem;
+      padding: 0.5rem 0.9rem;
+      border: none;
+      border-radius: 6px;
+      background-color: #e0e0e0;
+      cursor: pointer;
+      font-weight: 500;
+
+      &:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
+
+      &:hover:not(:disabled) {
+        background-color: #999;
+        color: white;
+      }
+    }
+  }
+
+  .loading-indicator {
+    margin-top: 2rem;
+    text-align: center;
+    font-style: italic;
+    color: #888;
+  }
+

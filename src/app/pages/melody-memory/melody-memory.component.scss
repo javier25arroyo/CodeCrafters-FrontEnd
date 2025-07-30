@@ -1,0 +1,46 @@
+.game-container {
+  text-align: center;
+  margin-top: 2rem;
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+
+    button {
+      padding: 1rem 2rem;
+      font-size: 1.3rem;
+      border: none;
+      background-color: #90caf9;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &.highlight {
+        background-color: #42a5f5;
+        transform: scale(1.1);
+        color: #fff;
+        box-shadow: 0 0 10px #42a5f5;
+      }
+
+      &:hover:not(.highlight) {
+        background-color: #64b5f6;
+      }
+    }
+  }
+
+  .restart-btn {
+    margin-top: 2rem;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    border: none;
+    background-color: #ffb74d;
+    border-radius: 10px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #ffa726;
+    }
+  }
+}
