@@ -100,7 +100,7 @@ export const routes: Routes = [
   {
 
 
-  path: 'word-search',
+  path: 'word-search-game',
   component: WordSearchGameComponent,
   canActivate: [AuthGuard],
   data: { authorities: [IRoleType.user] },
