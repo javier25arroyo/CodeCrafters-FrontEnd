@@ -69,6 +69,7 @@ export const routes: Routes = [
   {
     path: 'caregiver-dashboard',
     component: CaregiverDashboardComponent,
+    canActivate: [AuthGuard],
     data: { 
       authorities: [IRoleType.caregiver] }
   },
