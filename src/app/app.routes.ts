@@ -23,6 +23,7 @@ import { SuggestionComponent } from './pages/suggestion/suggestion.component';
 import { AdminSuggestionsComponent } from './pages/admin-suggestions/admin-suggestions.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { PuzzleBoardComponent } from './pages/games/puzzle-board/puzzle-board.component';
+import { WordSearchGameComponent } from './pages/games/word-search-game/word-search-game.component';
 import { DashboardAdminComponent } from './pages/dashboard-admin/dashboard-admin.component';
 import { AdminRoleGuard } from './guards/admin-role.guard';
 import { AdminUserListComponent } from './components/admin-user/admin-user-list/admin-user-list.component';
@@ -98,11 +99,14 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'word-search-game',
-    component: WordSearchGameComponent,
-    canActivate: [AuthGuard],
-    data: { authorities: [IRoleType.user] },
-  },
+
+
+  path: 'word-search',
+  component: WordSearchGameComponent,
+  canActivate: [AuthGuard],
+  data: { authorities: [IRoleType.user] },
+},
+
   {
     path: 'crossword',
     component: CrosswordGameComponent,
