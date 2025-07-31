@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PuzzleService, PuzzlePiece } from '../../../services/puzzle.game.service';
 import { NavComponent } from '../../../components/nav/nav.component';
+import { PuzzleService, PuzzlePiece, DifficultyLevel, DifficultyConfig } from '../../../services/puzzle.game.service';
 
 @Component({
   selector: 'puzzle-board',
@@ -18,6 +18,8 @@ export class PuzzleBoardComponent implements OnInit {
   availableImages: string[] = [];
   currentImage: string = '';
   moveCounter: number = 0;
+  currentDifficulty: DifficultyLevel = DifficultyLevel.EASY;
+  difficultyConfigs: DifficultyConfig[] = [];
   
   constructor(private puzzleService: PuzzleService) {}
 
@@ -37,6 +39,11 @@ export class PuzzleBoardComponent implements OnInit {
       this.moveCounter = moves;
     });
 
+    // Suscribirse a los cambios de dificultad
+    this.puzzleService.difficulty$.subscribe((difficulty: DifficultyLevel) => {
+      this.currentDifficulty = difficulty;
+    });
+
     // Obtener la imagen actual
     this.currentImage = this.puzzleService.getCurrentImage();
     
@@ -45,6 +52,9 @@ export class PuzzleBoardComponent implements OnInit {
     
     // Obtener imágenes disponibles
     this.availableImages = this.puzzleService.getAvailableImages();
+
+    // Obtener configuraciones de dificultad
+    this.difficultyConfigs = this.puzzleService.getDifficultyConfigs();
   }
   
   // Manejar clic en una pieza
@@ -91,8 +101,6 @@ export class PuzzleBoardComponent implements OnInit {
     const row = piece.correctPosition.row;
     const col = piece.correctPosition.col;
     
-    // Para un grid de 3x3, cada pieza debe mostrar 1/3 de la imagen
-    // La fórmula es: (posición / (total-1)) * 100 para el desplazamiento
     const xPercent = (col / (this.boardSize - 1)) * 100;
     const yPercent = (row / (this.boardSize - 1)) * 100;
     
@@ -101,9 +109,18 @@ export class PuzzleBoardComponent implements OnInit {
 
   // Obtener el tamaño de fondo para el rompecabezas
   getBackgroundSize(): string {
-    // Para que cada pieza muestre correctamente su porción,
-    // el background-size debe ser exactamente el tamaño del grid completo
     const size = this.boardSize * 100;
     return `${size}% ${size}%`;
+  }
+
+  // Cambiar dificultad
+  changeDifficulty(difficulty: DifficultyLevel): void {
+    this.puzzleService.setDifficulty(difficulty);
+    this.boardSize = this.puzzleService.getBoardSize();
+  }
+
+  // Verificar si es la dificultad actual
+  isCurrentDifficulty(difficulty: DifficultyLevel): boolean {
+    return this.currentDifficulty === difficulty;
   }
 }

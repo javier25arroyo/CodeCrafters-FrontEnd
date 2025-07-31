@@ -3,8 +3,39 @@ import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
-const BOARD_SIZE = 3;
-const MAX_PIECES = BOARD_SIZE * BOARD_SIZE;
+export enum DifficultyLevel {
+  EASY = 'easy',
+  MEDIUM = 'medium',
+  HARD = 'hard'
+}
+
+export interface DifficultyConfig {
+  level: DifficultyLevel;
+  boardSize: number;
+  maxPieces: number;
+  label: string;
+}
+
+const DIFFICULTY_CONFIGS: Record<DifficultyLevel, DifficultyConfig> = {
+  [DifficultyLevel.EASY]: {
+    level: DifficultyLevel.EASY,
+    boardSize: 3,
+    maxPieces: 9,
+    label: 'Fácil (3x3)'
+  },
+  [DifficultyLevel.MEDIUM]: {
+    level: DifficultyLevel.MEDIUM,
+    boardSize: 4,
+    maxPieces: 16,
+    label: 'Medio (4x4)'
+  },
+  [DifficultyLevel.HARD]: {
+    level: DifficultyLevel.HARD,
+    boardSize: 5,
+    maxPieces: 25,
+    label: 'Difícil (5x5)'
+  }
+};
 
 export interface PuzzlePiece {
   id: number;
@@ -26,6 +57,8 @@ export class PuzzleService {
   ];
   
   private currentImage = this.availableImages[0];
+  private currentDifficulty: DifficultyLevel = DifficultyLevel.EASY;
+  
   private puzzleBoardSubject = new BehaviorSubject<PuzzlePiece[]>([]);
   puzzleBoard$ = this.puzzleBoardSubject.asObservable();
   
@@ -34,6 +67,9 @@ export class PuzzleService {
   
   private moveCounterSubject = new BehaviorSubject<number>(0);
   moveCounter$ = this.moveCounterSubject.asObservable();
+
+  private difficultySubject = new BehaviorSubject<DifficultyLevel>(DifficultyLevel.EASY);
+  difficulty$ = this.difficultySubject.asObservable();
   
   private selectedPiece: PuzzlePiece | null = null;
 
@@ -42,15 +78,16 @@ export class PuzzleService {
     this.initializeGame();
   }
 
-  private loadAvailableImages(): void {
-    this.currentImage = this.availableImages[0];
-    this.initializeGame();
+  private getCurrentConfig(): DifficultyConfig {
+    return DIFFICULTY_CONFIGS[this.currentDifficulty];
   }
 
   private divideImageIntoPieces(): string[] {
+    const config = this.getCurrentConfig();
     const pieces: string[] = [];
-    for (let row = 0; row < BOARD_SIZE; row++) {
-      for (let col = 0; col < BOARD_SIZE; col++) {
+    
+    for (let row = 0; row < config.boardSize; row++) {
+      for (let col = 0; col < config.boardSize; col++) {
         pieces.push(this.currentImage);
       }
     }
@@ -58,12 +95,13 @@ export class PuzzleService {
   }
 
   initializeGame(): void {
+    const config = this.getCurrentConfig();
     const pieces: PuzzlePiece[] = [];
     const dividedImages = this.divideImageIntoPieces();
 
-    for (let i = 0; i < MAX_PIECES; i++) {
-      const row = Math.floor(i / BOARD_SIZE);
-      const col = i % BOARD_SIZE;
+    for (let i = 0; i < config.maxPieces; i++) {
+      const row = Math.floor(i / config.boardSize);
+      const col = i % config.boardSize;
       
       pieces.push({
         id: i,
@@ -97,9 +135,11 @@ export class PuzzleService {
   }
 
   private shufflePieces(pieces: PuzzlePiece[]): void {
+    const config = this.getCurrentConfig();
     const availablePositions: { row: number, col: number }[] = [];
-    for (let row = 0; row < BOARD_SIZE; row++) {
-      for (let col = 0; col < BOARD_SIZE; col++) {
+    
+    for (let row = 0; row < config.boardSize; row++) {
+      for (let col = 0; col < config.boardSize; col++) {
         availablePositions.push({ row, col });
       }
     }
@@ -157,7 +197,7 @@ export class PuzzleService {
   }
 
   getBoardSize(): number {
-    return BOARD_SIZE;
+    return this.getCurrentConfig().boardSize;
   }
 
   isPieceSelected(piece: PuzzlePiece): boolean {
@@ -186,5 +226,25 @@ export class PuzzleService {
 
   getCurrentImage(): string {
     return this.currentImage;
+  }
+
+  // Nuevos métodos para manejar dificultad
+  setDifficulty(difficulty: DifficultyLevel): void {
+    this.currentDifficulty = difficulty;
+    this.difficultySubject.next(difficulty);
+    this.selectedPiece = null; // Resetear selección
+    this.initializeGame();
+  }
+
+  getCurrentDifficulty(): DifficultyLevel {
+    return this.currentDifficulty;
+  }
+
+  getDifficultyConfigs(): DifficultyConfig[] {
+    return Object.values(DIFFICULTY_CONFIGS);
+  }
+
+  getCurrentDifficultyConfig(): DifficultyConfig {
+    return this.getCurrentConfig();
   }
 }
