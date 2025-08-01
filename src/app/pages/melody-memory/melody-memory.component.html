@@ -6,12 +6,23 @@
 
   <div class="buttons">
     <button
-      *ngFor="let note of notes"
+      *ngFor="let note of notes; let i = index"
       (click)="pressNote(note)"
+      [ngClass]="['note-btn', 'note-color-' + i]"
       [class.highlight]="currentNotePlaying === note.freq"
     >
       🔊 {{ note.label }}
     </button>
+  </div>
+
+  
+  <div class="level-selector">
+    <p>Selecciona la dificultad:</p>
+    <div class="level-options">
+      <button class="level-btn" (click)="selectLevel('easy')" [class.selected]="selectedLevel === 'easy'">Fácil</button>
+      <button class="level-btn" (click)="selectLevel('medium')" [class.selected]="selectedLevel === 'medium'">Medio</button>
+      <button class="level-btn" (click)="selectLevel('hard')" [class.selected]="selectedLevel === 'hard'">Difícil</button>
+    </div>
   </div>
 
   <button class="restart-btn" (click)="startNewGame()">🔄 Reiniciar</button>
