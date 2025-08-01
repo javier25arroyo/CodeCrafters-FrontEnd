@@ -139,298 +139,396 @@
 }
 
 .puzzle-board-section {
-  height: 100%; /* Ocupa toda la altura de la fila */
   flex: 1;
-  flex-grow: 1; /* Permitir que el tablero ocupe el espacio restante */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 20px;
+  min-height: 100vh;
 }
 
 .puzzle-board {
   display: grid;
-  gap: 0;
-  width: 100%;
-  max-width: 500px;
-  aspect-ratio: 1/1;
-  margin: 10px auto; /* Acercar el tablero a los paneles laterales */
-  border: 1px solid $light-widget-border; // Borde más sutil acorde a proyecto
-  padding: $base-spacing;           // Espaciado acorde a variables globales
-  border-radius: 16px;              // Radio de borde consistente
-  background-color: $white;         // Fondo blanco como otras tarjetas
-  box-shadow: 0 4px 24px rgba(0,0,0,0.10); // Sombra uniforme
-}
+  gap: 2px;
+  border: 3px solid #333;
+  border-radius: 12px;
+  padding: 8px;
+  background-color: #2c2c2c;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
 
-.reset-button {
-  padding: 12px 24px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 1.1rem;
-  font-weight: bold;
-  margin-top: 15px;
-  transition: background-color 0.3s;
-  
-  &:hover {
-    background-color: #218838;
-    transform: translateY(-1px);
+  // Tamaños específicos según dificultad
+  &[style*="repeat(3,"] {
+    width: 400px;
+    height: 400px;
+    
+    .puzzle-piece {
+      min-height: 125px;
+      max-height: 125px;
+    }
   }
-}
-
-.completion-message {
-  margin-top: 20px;
-  padding: 15px;
-  background-color: #d4edda;
-  color: #155724;
-  border: 2px solid #c3e6cb;
-  border-radius: 8px;
-  font-weight: bold;
-  font-size: 1.2rem;
-  animation: pulse 1s infinite alternate;
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); }
-  100% { transform: scale(1.02); }
-}
-
-.puzzle-board {
-  display: grid;
-  gap: 3px;
-  width: 100%;
-  max-width: 500px;
-  aspect-ratio: 1/1;
-  margin: 10px auto; /* Acercar el tablero a los paneles laterales */
-  border: 1px solid $light-widget-border; // Borde más sutil acorde a proyecto
-  padding: $base-spacing;           // Espaciado acorde a variables globales
-  border-radius: 16px;              // Radio de borde consistente
-  background-color: $white;         // Fondo blanco como otras tarjetas
-  box-shadow: 0 4px 24px rgba(0,0,0,0.10); // Sombra uniforme
+  
+  &[style*="repeat(4,"] {
+    width: 480px;
+    height: 480px;
+    
+    .puzzle-piece {
+      min-height: 115px;
+      max-height: 115px;
+    }
+  }
+  
+  &[style*="repeat(5,"] {
+    width: 550px;
+    height: 550px;
+    
+    .puzzle-piece {
+      min-height: 105px;
+      max-height: 105px;
+    }
+  }
 }
 
 .puzzle-piece {
-  position: relative;
-  min-height: 120px;
-  border-radius: 4px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  aspect-ratio: 1/1;
-  background-repeat: no-repeat;
-  overflow: hidden;
-  border: 2px solid #ddd;
+  border: 2px solid #555;
+  border-radius: 8px;
   cursor: pointer;
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-  
+  transition: all 0.2s ease;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+
   &:hover {
-    transform: scale(1.03);
-    border-color: #999;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-color: #007bff;
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
   }
-  
+
   &.selected {
-    border: 3px solid #007bff;
-    box-shadow: 0 0 15px rgba(0, 123, 255, 0.7);
-    transform: scale(1.08) rotate(2deg);
+    border-color: #28a745;
+    border-width: 3px;
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+    z-index: 1;
   }
 }
 
-/* Tablets en horizontal y pantallas medianas */
-@media (min-width: 1201px) and (max-width: 1600px) {
-  .puzzle-main-layout {
-    max-width: 1500px;
-    gap: 40px;
-  }
-  .puzzle-board {
-    max-width: 600px;
-  }
-  .sidebar {
-    width: 250px;
-  }
-  .reference-sidebar {
-    width: 300px;
+// Imagen de referencia ajustada según dificultad
+.reference-sidebar {
+  width: 250px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-left: 1px solid #dee2e6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .reference-image {
+    text-align: center;
+    
+    h4 {
+      color: #333;
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+    }
+    
+    img {
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      
+      // Tamaños de referencia según dificultad
+      &[src*="1.png"], &[src*="2.png"], &[src*="3.png"], &[src*="4.png"], &[src*="5.png"] {
+        width: 180px;
+        height: 180px;
+        object-fit: cover;
+      }
+    }
   }
 }
 
+// Responsive design mejorado
 @media (max-width: 1200px) {
   .puzzle-main-layout {
-    gap: 20px;
-    padding: 20px;
-    max-width: 96vw;
-    flex-wrap: wrap;
-  }
-  
-  .sidebar {
-    width: 200px;
-    order: 1;
-  }
-  
-  .puzzle-board-section {
-    order: 2;
-    max-width: 500px;
-  }
-  
-  .reference-sidebar {
-    width: 220px;
-    order: 3;
-  }
-  
-  .reference-image img {
-    height: 140px;
-    max-width: 190px;
-  }
-  
-  .puzzle-board {
-    margin: 10px auto;
-  }
-}
-
-/* Tablets en vertical */
-@media (max-width: 992px) {
-  .puzzle-main-layout {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    gap: 16px;
-  }
-  
-  .sidebar {
-    width: 45%;
-    order: 1;
-  }
-  
-  .reference-sidebar {
-    width: 45%;
-    order: 2;
-  }
-  
-  .puzzle-board-section {
-    width: 100%;
-    order: 3;
-    margin-top: 20px;
-  }
-  
-  .puzzle-board {
-    max-width: 600px;
-  }
-  
-  .reference-image {
-    margin-top: 0;
-  }
-}
-
-/* Móviles en horizontal */
-@media (max-width: 768px) {
-  .puzzle-main-layout {
     flex-direction: column;
-    gap: 16px;
-    align-items: center;
-    padding: 16px;
   }
   
-  .sidebar, .reference-sidebar {
+  .reference-sidebar {
     width: 100%;
-    max-width: 400px;
-    order: unset;
-    margin-bottom: 10px;
+    border-left: none;
+    border-top: 1px solid #dee2e6;
+    padding: 15px;
+    
+    .reference-image img {
+      width: 150px;
+      height: 150px;
+    }
   }
   
-  .image-options {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
+  .puzzle-board {
+    &[style*="repeat(3,"] {
+      width: 350px;
+      height: 350px;
+    }
+    
+    &[style*="repeat(4,"] {
+      width: 400px;
+      height: 400px;
+      
+      .puzzle-piece {
+        min-height: 95px;
+        max-height: 95px;
+      }
+    }
+    
+    &[style*="repeat(5,"] {
+      width: 450px;
+      height: 450px;
+      
+      .puzzle-piece {
+        min-height: 85px;
+        max-height: 85px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid #dee2e6;
   }
   
-  .image-option {
-    width: calc(33% - 10px);
+  .puzzle-board-section {
+    padding: 10px;
   }
   
-  .image-option img {
-    height: 70px;
+  .puzzle-board {
+    &[style*="repeat(3,"] {
+      width: 300px;
+      height: 300px;
+      
+      .puzzle-piece {
+        min-height: 95px;
+        max-height: 95px;
+      }
+    }
+    
+    &[style*="repeat(4,"] {
+      width: 320px;
+      height: 320px;
+      
+      .puzzle-piece {
+        min-height: 75px;
+        max-height: 75px;
+      }
+    }
+    
+    &[style*="repeat(5,"] {
+      width: 350px;
+      height: 350px;
+      
+      .puzzle-piece {
+        min-height: 65px;
+        max-height: 65px;
+      }
+    }
   }
   
-  .reference-image img {
+  .reference-sidebar .reference-image img {
+    width: 120px;
     height: 120px;
   }
-  
-  .puzzle-board {
-    max-width: 100%;
-  }
 }
 
-/* Móviles pequeños */
 @media (max-width: 480px) {
-  .puzzle-main-layout {
-    padding: 10px;
+  .puzzle-board {
+    &[style*="repeat(3,"] {
+      width: 280px;
+      height: 280px;
+      
+      .puzzle-piece {
+        min-height: 85px;
+        max-height: 85px;
+      }
+    }
+    
+    &[style*="repeat(4,"] {
+      width: 300px;
+      height: 300px;
+      
+      .puzzle-piece {
+        min-height: 70px;
+        max-height: 70px;
+      }
+    }
+    
+    &[style*="repeat(5,"] {
+      width: 320px;
+      height: 320px;
+      
+      .puzzle-piece {
+        min-height: 60px;
+        max-height: 60px;
+      }
+    }
   }
   
-  .sidebar, .reference-sidebar {
-    padding: 16px 12px;
-  }
-  
-  .sidebar h2 {
-    font-size: 1.5rem;
-  }
-  
-  .image-option {
-    width: calc(50% - 10px);
-  }
-  
-  .image-option img {
-    height: 60px;
-  }
-  
-  .reference-image img {
+  .reference-sidebar .reference-image img {
+    width: 100px;
     height: 100px;
   }
-  
-  .puzzle-board {
-    gap: 0;
-    padding: 5px;
-    max-width: 300px;
-  }
-  
-  .puzzle-piece {
-    min-height: 60px;
-  }
-  
-  .reset-button {
-    padding: 10px 16px;
-    font-size: 1rem;
-  }
-  
-  .completion-message {
-    padding: 10px;
-    font-size: 1rem;
+}
+
+// Selector de dificultad mejorado
+.difficulty-selector {
+  width: 100%;
+  margin-bottom: 20px;
+
+  h3 {
+    color: #333;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    text-align: center;
   }
 }
 
-/* Dispositivos muy pequeños */
-@media (max-width: 360px) {
-  .puzzle-board {
-    max-width: 270px;
+.difficulty-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.difficulty-option {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  color: #333;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-align: center;
+
+  &:hover {
+    border-color: #007bff;
+    background-color: #e3f2fd;
+    transform: translateY(-1px);
+  }
+
+  &.active {
+    border-color: #007bff;
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 3px 10px rgba(0, 123, 255, 0.3);
+  }
+
+  // Indicadores visuales para cada dificultad
+  &:nth-child(1)::before {
+    content: "🟢 ";
   }
   
-  .image-option {
-    width: 100%;
-    margin-bottom: 5px;
+  &:nth-child(2)::before {
+    content: "🟡 ";
   }
   
-  .image-option img {
-    height: 55px;
+  &:nth-child(3)::before {
+    content: "🔴 ";
   }
-  
-  .reference-image h4 {
-    font-size: 1rem;
+}
+
+// Animación para el cambio de tamaño
+.puzzle-board {
+  animation: boardResize 0.5s ease-in-out;
+}
+
+@keyframes boardResize {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.7;
   }
-  
-  .reference-image img {
-    height: 90px;
+  100% {
+    transform: scale(1);
+    opacity: 1;
   }
-  
-  .reset-button {
-    padding: 8px 12px;
+}
+
+// Mensaje de completado mejorado
+.completion-message {
+  margin-top: 20px;
+  padding: 15px 25px;
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+  border-radius: 25px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.3);
+  animation: celebration 0.6s ease-in-out;
+}
+
+@keyframes celebration {
+  0% {
+    transform: scale(0.5) rotate(-5deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1) rotate(2deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+// Contador de movimientos mejorado
+.move-counter {
+  margin-top: 15px;
+  padding: 10px 15px;
+  background-color: #e9ecef;
+  border-radius: 20px;
+  font-weight: bold;
+  text-align: center;
+  color: #495057;
+  border: 2px solid #ced4da;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #f8f9fa;
+    border-color: #adb5bd;
+  }
+}
+
+// Botón de reinicio mejorado
+.reset-button {
+  width: 100%;
+  margin-top: 15px;
+  padding: 12px;
+  background: linear-gradient(135deg, #dc3545, #c82333);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+
+  &:hover {
+    background: linear-gradient(135deg, #c82333, #bd2130);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(220, 53, 69, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 }
