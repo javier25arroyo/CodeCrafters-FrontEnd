@@ -8,11 +8,11 @@
 
 app-nav {
   flex-shrink: 0;
-  margin-bottom: 2rem; /* Add space below the header */
+  margin-bottom: 2rem;
 }
 
 .container {
-  flex-grow: 0; /* Prevent stretching */
+  flex-grow: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,12 +20,12 @@ app-nav {
   width: 100%;
   max-width: 800px;
   padding: 3rem;
-  border-radius: 12px; /* Adjusted for rectangle shape */
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Floating effect */
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   text-align: center;
   font-size: 2rem;
-  border-top: 4px solid #ffa726; /* Top border */
-  border-bottom: 4px solid #ffa726; /* Bottom border */
+  border-top: 4px solid #ffa726;
+  border-bottom: 4px solid #ffa726;
 }
 
 .sequence {
@@ -42,11 +42,20 @@ input {
   font-size: 1.8rem;
   border-radius: 12px;
   border: 1px solid #ccc;
-  width: 350px; /* Increased width for placeholder text */
+  width: 350px;
+  margin-bottom: 1.5rem;
+}
+
+/* Nuevo grupo de botones horizontales */
+.actions {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: center;
+  margin-top: 1rem;
+  flex-wrap: wrap;
 }
 
 button {
-  margin: 1rem;
   padding: 1rem 2rem;
   font-size: 1.6rem;
   border: none;
@@ -55,6 +64,8 @@ button {
   color: white;
   cursor: pointer;
   transition: background-color 0.3s;
+  min-width: 170px;
+  text-align: center;
 }
 
 button:hover {

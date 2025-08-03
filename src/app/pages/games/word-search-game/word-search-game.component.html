@@ -1,8 +1,6 @@
-
 <app-nav></app-nav>
 
-
-<div class="container" (mouseup)="endSelection()">
+<div class="container">
   <h2>🔠 Sopa de Letras</h2>
 
   <div class="info">
@@ -18,28 +16,37 @@
     <p class="message">{{ message }}</p>
   </div>
 
-  <div class="grid" (dragstart)="$event.preventDefault()">
+  <div class="grid">
     <div *ngFor="let row of grid; let i = index" class="row">
       <span
         *ngFor="let letter of row; let j = index"
         class="cell"
-        (mousedown)="startSelection(i, j)"
-        (mouseenter)="extendSelection(i, j)"
-        [class.selected]="isSelected(i, j)"
-      >
+        (click)="toggleSelection(i, j)"
+        [class.selected]="isSelected(i, j)">
         {{ letter }}
       </span>
     </div>
   </div>
 
-  <button class="restart-btn" (click)="restartGame()" aria-label="Reiniciar el juego">
-    🔄 Reiniciar Juego
-  </button>
+  <div class="button-group">
+    <button
+      class="confirm-btn"
+      (click)="confirmSelection()"
+      [disabled]="gameCompleted || selectedCells.length === 0"
+      aria-label="Confirmar la palabra seleccionada">
+      ✅ Confirmar Palabra
+    </button>
+
+    <button
+      class="restart-btn"
+      (click)="restartGame()"
+      aria-label="Reiniciar el juego">
+      🔄 Reiniciar Juego
+    </button>
+  </div>
 
   <p *ngIf="restartCount >= maxRestarts" class="warning">
     ⚠️ Límite de reinicio alcanzado.
-
-
   </p>
 </div>
-
+<app-footer></app-footer>
