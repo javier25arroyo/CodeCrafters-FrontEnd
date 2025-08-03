@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { PuzzleApiService, PuzzleGameData } from './puzzle-api.service';
 
 export enum DifficultyLevel {
   EASY = 'easy',
@@ -73,15 +73,23 @@ export class PuzzleService {
   private difficultySubject = new BehaviorSubject<DifficultyLevel>(DifficultyLevel.EASY);
   difficulty$ = this.difficultySubject.asObservable();
 
-  private timeElapsedSubject = new BehaviorSubject<number>(0);
-  timeElapsed$ = this.timeElapsedSubject.asObservable();
-  
-  private selectedPiece: PuzzlePiece | null = null;
+  // Nuevas propiedades para tracking
+  private gameId: string = '';
+  private playerId: string = 'user-123'; // Esto debería venir del servicio de autenticación
   private gameStartTime: Date = new Date();
   private timerInterval: any;
   private currentTimeElapsed: number = 0;
 
-  constructor(private http: HttpClient) {
+  // Observable para el tiempo transcurrido
+  private timeElapsedSubject = new BehaviorSubject<number>(0);
+  timeElapsed$ = this.timeElapsedSubject.asObservable();
+  
+  private selectedPiece: PuzzlePiece | null = null;
+
+  constructor(
+    private http: HttpClient,
+    private puzzleApi: PuzzleApiService
+  ) {
     this.currentImage = this.availableImages[0];
     this.initializeGame();
   }
@@ -128,7 +136,21 @@ export class PuzzleService {
     // Detener timer anterior si existe
     this.stopTimer();
     
-    const pieces = this.divideImageIntoPieces();
+    const config = this.getCurrentConfig();
+    const pieces: PuzzlePiece[] = [];
+    const dividedImages = this.divideImageIntoPieces();
+
+    for (let i = 0; i < config.maxPieces; i++) {
+      const row = Math.floor(i / config.boardSize);
+      const col = i % config.boardSize;
+      
+      pieces.push({
+        id: i,
+        correctPosition: { row, col },
+        currentPosition: { row, col },
+        imageUrl: dividedImages[i]
+      });
+    }
     
     this.shufflePieces(pieces);
     this.ensureNotSolved(pieces);
@@ -138,8 +160,32 @@ export class PuzzleService {
     this.moveCounterSubject.next(0);
     this.timeElapsedSubject.next(0);
     
-    // Iniciar timer
-    this.startTimer();
+    // Iniciar nueva partida en el backend
+    this.startNewGame();
+  }
+
+  private startNewGame(): void {
+    this.gameStartTime = new Date();
+    this.currentTimeElapsed = 0;
+    
+    this.puzzleApi.startGame(
+      this.playerId, 
+      this.currentDifficulty, 
+      this.currentImage
+    ).subscribe({
+      next: (response) => {
+        if (response.success && response.gameId) {
+          this.gameId = response.gameId;
+          this.startTimer();
+          console.log('Partida iniciada:', response);
+        }
+      },
+      error: (error) => {
+        console.error('Error al iniciar partida:', error);
+        // Continuar con el juego localmente
+        this.startTimer();
+      }
+    });
   }
 
   private ensureNotSolved(pieces: PuzzlePiece[]): void {
@@ -199,8 +245,33 @@ export class PuzzleService {
     pieces[piece2Index].currentPosition = tempPosition;
 
     this.puzzleBoardSubject.next([...pieces]);
-    this.moveCounterSubject.next(this.moveCounterSubject.value + 1);
+    
+    const newMoveCount = this.moveCounterSubject.value + 1;
+    this.moveCounterSubject.next(newMoveCount);
+    
+    // Enviar progreso al backend cada 5 movimientos
+    if (newMoveCount % 5 === 0 && this.gameId) {
+      this.updateGameProgress();
+    }
+    
     this.checkCompletion();
+  }
+
+  private updateGameProgress(): void {
+    if (!this.gameId) return;
+
+    this.puzzleApi.updateGameProgress(
+      this.gameId,
+      this.moveCounterSubject.value,
+      this.currentTimeElapsed
+    ).subscribe({
+      next: (response) => {
+        console.log('Progreso actualizado:', response);
+      },
+      error: (error) => {
+        console.error('Error al actualizar progreso:', error);
+      }
+    });
   }
 
   private checkCompletion(): void {
@@ -211,15 +282,14 @@ export class PuzzleService {
     );
 
     this.isCompletedSubject.next(isCompleted);
-    
+
     if (isCompleted) {
       this.stopTimer();
+      this.submitFinalGameData(true);
     }
   }
 
   private startTimer(): void {
-    this.gameStartTime = new Date();
-    this.currentTimeElapsed = 0;
     this.timerInterval = setInterval(() => {
       this.currentTimeElapsed++;
       this.timeElapsedSubject.next(this.currentTimeElapsed);
@@ -231,6 +301,67 @@ export class PuzzleService {
       clearInterval(this.timerInterval);
       this.timerInterval = null;
     }
+  }
+
+  private submitFinalGameData(completed: boolean): void {
+    const gameData: PuzzleGameData = {
+      playerId: this.playerId,
+      gameId: this.gameId,
+      difficulty: this.currentDifficulty,
+      moveCount: this.moveCounterSubject.value,
+      timeElapsed: this.currentTimeElapsed,
+      completed,
+      imageUsed: this.currentImage,
+      startTime: this.gameStartTime,
+      endTime: new Date()
+    };
+
+    this.puzzleApi.submitGameData(gameData).subscribe({
+      next: (response) => {
+        console.log('Datos de juego enviados:', response);
+        if (response.success) {
+          console.log(`Partida ${completed ? 'completada' : 'abandonada'} registrada exitosamente`);
+        }
+      },
+      error: (error) => {
+        console.error('Error al enviar datos del juego:', error);
+      }
+    });
+
+    // También completar la partida específicamente
+    if (this.gameId) {
+      this.puzzleApi.completeGame(
+        this.gameId,
+        completed,
+        this.moveCounterSubject.value,
+        this.currentTimeElapsed
+      ).subscribe({
+        next: (response) => {
+          console.log('Partida completada:', response);
+        },
+        error: (error) => {
+          console.error('Error al completar partida:', error);
+        }
+      });
+    }
+  }
+
+  // Método público para obtener estadísticas
+  getPlayerStats(): void {
+    this.puzzleApi.getPlayerStats(this.playerId).subscribe({
+      next: (stats) => {
+        console.log('Estadísticas del jugador:', stats);
+      },
+      error: (error) => {
+        console.error('Error al obtener estadísticas:', error);
+      }
+    });
+  }
+
+  // Método para abandonar partida
+  abandonGame(): void {
+    this.stopTimer();
+    this.submitFinalGameData(false);
   }
 
   getPieceAtPosition(row: number, col: number): PuzzlePiece | undefined {
@@ -300,15 +431,13 @@ export class PuzzleService {
     return piece.backgroundSize;
   }
 
-  // Métodos para manejar estadísticas y abandono
-  abandonGame(): void {
-    this.stopTimer();
-  }
-
-  getPlayerStats(): void {
-  }
-
+  // Getter para el tiempo transcurrido actual
   getCurrentTimeElapsed(): number {
     return this.currentTimeElapsed;
+  }
+
+  // Getter para el ID del juego actual
+  getCurrentGameId(): string {
+    return this.gameId;
   }
 }
