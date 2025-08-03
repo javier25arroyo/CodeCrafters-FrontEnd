@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavComponent } from '../../../components/nav/nav.component';
-import { PuzzleService, PuzzlePiece, DifficultyLevel, DifficultyConfig } from '../../../services/puzzle.game.service';
+import { PuzzleService, PuzzlePiece, DifficultyLevel, DifficultyConfig } from './puzzle.game.service';
 
 @Component({
   selector: 'puzzle-board',
@@ -20,49 +20,44 @@ export class PuzzleBoardComponent implements OnInit {
   moveCounter: number = 0;
   currentDifficulty: DifficultyLevel = DifficultyLevel.EASY;
   difficultyConfigs: DifficultyConfig[] = [];
+  timeElapsed: number = 0;
   
-  constructor(private puzzleService: PuzzleService) {}
+  constructor(@Inject(PuzzleService) private puzzleService: PuzzleService) {}
 
   ngOnInit() {
-    // Suscribirse a los cambios en el tablero
     this.puzzleService.puzzleBoard$.subscribe((pieces: PuzzlePiece[]) => {
       this.pieces = pieces;
     });
     
-    // Suscribirse a los cambios en el estado de completado
     this.puzzleService.isCompleted$.subscribe((isCompleted: boolean) => {
       this.isCompleted = isCompleted;
     });
 
-    // Suscribirse al contador de movimientos
     this.puzzleService.moveCounter$.subscribe((moves: number) => {
       this.moveCounter = moves;
     });
 
-    // Suscribirse a los cambios de dificultad
     this.puzzleService.difficulty$.subscribe((difficulty: DifficultyLevel) => {
       this.currentDifficulty = difficulty;
     });
 
-    // Obtener la imagen actual
+    this.puzzleService.timeElapsed$.subscribe((time: number) => {
+      this.timeElapsed = time;
+    });
+
     this.currentImage = this.puzzleService.getCurrentImage();
     
-    // Obtener el tamaño del tablero
     this.boardSize = this.puzzleService.getBoardSize();
     
-    // Obtener imágenes disponibles
     this.availableImages = this.puzzleService.getAvailableImages();
 
-    // Obtener configuraciones de dificultad
     this.difficultyConfigs = this.puzzleService.getDifficultyConfigs();
   }
   
-  // Manejar clic en una pieza
   selectPiece(piece: PuzzlePiece): void {
     this.puzzleService.selectPiece(piece);
   }
   
-  // Verificar si una pieza está seleccionada
   isPieceSelected(piece: PuzzlePiece): boolean {
     return this.puzzleService.isPieceSelected(piece);
   }
@@ -78,12 +73,10 @@ export class PuzzleBoardComponent implements OnInit {
     this.puzzleService.initializeGame();
   }
   
-  // Obtener la pieza en una posición específica
   getPieceAtPosition(row: number, col: number): PuzzlePiece | undefined {
     return this.puzzleService.getPieceAtPosition(row, col);
   }
   
-  // Convertir índice a coordenadas de fila y columna
   getRowCol(index: number): { row: number, col: number } {
     return {
       row: Math.floor(index / this.boardSize),
@@ -98,19 +91,12 @@ export class PuzzleBoardComponent implements OnInit {
 
   // Obtener la posición de fondo para cada pieza
   getBackgroundPosition(piece: PuzzlePiece): string {
-    const row = piece.correctPosition.row;
-    const col = piece.correctPosition.col;
-    
-    const xPercent = (col / (this.boardSize - 1)) * 100;
-    const yPercent = (row / (this.boardSize - 1)) * 100;
-    
-    return `${xPercent}% ${yPercent}%`;
+    return piece.backgroundPosition;
   }
 
   // Obtener el tamaño de fondo para el rompecabezas
-  getBackgroundSize(): string {
-    const size = this.boardSize * 100;
-    return `${size}% ${size}%`;
+  getBackgroundSize(piece: PuzzlePiece): string {
+    return piece.backgroundSize;
   }
 
   // Cambiar dificultad
@@ -123,4 +109,12 @@ export class PuzzleBoardComponent implements OnInit {
   isCurrentDifficulty(difficulty: DifficultyLevel): boolean {
     return this.currentDifficulty === difficulty;
   }
+
+  // Método para formatear el tiempo
+  formatTime(seconds: number): string {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+  }
+
 }

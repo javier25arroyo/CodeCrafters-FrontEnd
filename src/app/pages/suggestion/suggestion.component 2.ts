@@ -71,7 +71,7 @@ export class SuggestionComponent {
       error: (error) => {
         this.infoMsg = 'Ocurrió un error al enviar tu sugerencia.';
         this.successMsg = '';
-        console.error('Error al enviar sugerencia:', error);
+        .error('Error al enviar sugerencia:', error);
       }
     });
   }
