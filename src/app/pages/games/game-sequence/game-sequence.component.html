@@ -1,11 +1,12 @@
 <app-nav></app-nav>
+
 <div class="container">
   <h2>🧠 Juego de Secuencia Numérica</h2>
 
-  <p><strong>Nivel:</strong> {{ level }} / {{ maxLevels }}</p>
+  <p><strong>Nivel:</strong> {{ level }} / {{ TOTAL_LEVELS }}</p>
   <p><strong>Puntaje:</strong> {{ score }}</p>
   <p><strong>Intentos restantes:</strong> {{ intentosRestantes }}</p>
-  <p><strong>Reinicios disponibles:</strong> {{ maxReinicios - reiniciosUsados }}</p>
+  <p><strong>Reinicios disponibles:</strong> {{ MAX_RESTARTS - reiniciosUsados }}</p>
 
   <div class="sequence">
     <span *ngFor="let num of sequence">
@@ -18,19 +19,26 @@
     [(ngModel)]="userAnswer"
     [disabled]="gameOver"
     placeholder="¿Cuál número falta?"
+    aria-label="¿Cuál número falta?"
   />
-  <button (click)="checkAnswer()" [disabled]="gameOver || !userAnswer">Verificar</button>
+
+  <div class="actions">
+    <button 
+      class="verify-btn"
+      (click)="checkAnswer()" 
+      [disabled]="gameOver || !userAnswer"
+    >
+      Verificar
+    </button>
+
+    <button 
+      class="restart-btn"
+      *ngIf="(MAX_RESTARTS - reiniciosUsados) > 0" 
+      (click)="restartGame()"
+    >
+      🔁 Reiniciar juego
+    </button>
+  </div>
 
   <p class="message">{{ message }}</p>
-
-  <button 
-    *ngIf="level > 1 && !gameOver && (maxReinicios - reiniciosUsados) > 0" 
-    (click)="restartGame()"
-  >
-    🔁 Reiniciar juego ({{ maxReinicios - reiniciosUsados }} restantes)
-  </button>
-
-  <button *ngIf="gameOver && (maxReinicios - reiniciosUsados) > 0" (click)="restartGame()">
-    🔄 Reiniciar juego desde el inicio
-  </button>
 </div>

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { NavComponent } from '../../components/nav/nav.component';
 import { FooterComponent } from '../../components/footer/footer.component';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-suggestion',
@@ -43,7 +44,6 @@ export class SuggestionComponent {
       return;
     }
 
-    // 🔧 Corregimos el token para eliminar comillas dobles
     const rawToken = localStorage.getItem('access_token');
     const token = rawToken ? rawToken.replace(/^"|"$/g, '') : null;
 
@@ -62,7 +62,7 @@ export class SuggestionComponent {
       message: this.suggestionText
     };
 
-    this.http.post('http://localhost:8080/suggestions', body, { headers }).subscribe({
+    this.http.post(`${environment.apiUrl}/suggestions`, body, { headers }).subscribe({
       next: () => {
         this.successMsg = '¡Gracias por tu sugerencia!';
         this.infoMsg = '';
