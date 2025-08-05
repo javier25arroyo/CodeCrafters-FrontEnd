@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { PuzzleApiService, PuzzleGameData } from './puzzle-api.service';
 
 export enum DifficultyLevel {
   EASY = 'easy',
@@ -86,10 +85,7 @@ export class PuzzleService {
   
   private selectedPiece: PuzzlePiece | null = null;
 
-  constructor(
-    private http: HttpClient,
-    private puzzleApi: PuzzleApiService
-  ) {
+  constructor(private http: HttpClient) {
     this.currentImage = this.availableImages[0];
     this.initializeGame();
   }
@@ -136,21 +132,7 @@ export class PuzzleService {
     // Detener timer anterior si existe
     this.stopTimer();
     
-    const config = this.getCurrentConfig();
-    const pieces: PuzzlePiece[] = [];
-    const dividedImages = this.divideImageIntoPieces();
-
-    for (let i = 0; i < config.maxPieces; i++) {
-      const row = Math.floor(i / config.boardSize);
-      const col = i % config.boardSize;
-      
-      pieces.push({
-        id: i,
-        correctPosition: { row, col },
-        currentPosition: { row, col },
-        imageUrl: dividedImages[i]
-      });
-    }
+    const pieces = this.divideImageIntoPieces();
     
     this.shufflePieces(pieces);
     this.ensureNotSolved(pieces);
@@ -160,32 +142,15 @@ export class PuzzleService {
     this.moveCounterSubject.next(0);
     this.timeElapsedSubject.next(0);
     
-    // Iniciar nueva partida en el backend
-    this.startNewGame();
+    // Iniciar timer
+    this.startTimer();
   }
 
   private startNewGame(): void {
     this.gameStartTime = new Date();
     this.currentTimeElapsed = 0;
-    
-    this.puzzleApi.startGame(
-      this.playerId, 
-      this.currentDifficulty, 
-      this.currentImage
-    ).subscribe({
-      next: (response) => {
-        if (response.success && response.gameId) {
-          this.gameId = response.gameId;
-          this.startTimer();
-          console.log('Partida iniciada:', response);
-        }
-      },
-      error: (error) => {
-        console.error('Error al iniciar partida:', error);
-        // Continuar con el juego localmente
-        this.startTimer();
-      }
-    });
+    console.log('Nueva partida iniciada');
+    // Aquí se podría implementar lógica para comunicarse con el backend
   }
 
   private ensureNotSolved(pieces: PuzzlePiece[]): void {
@@ -260,18 +225,12 @@ export class PuzzleService {
   private updateGameProgress(): void {
     if (!this.gameId) return;
 
-    this.puzzleApi.updateGameProgress(
-      this.gameId,
-      this.moveCounterSubject.value,
-      this.currentTimeElapsed
-    ).subscribe({
-      next: (response) => {
-        console.log('Progreso actualizado:', response);
-      },
-      error: (error) => {
-        console.error('Error al actualizar progreso:', error);
-      }
+    console.log('Progreso actualizado:', {
+      gameId: this.gameId,
+      moveCount: this.moveCounterSubject.value,
+      timeElapsed: this.currentTimeElapsed
     });
+    // Aquí se implementaría la lógica para enviar al backend
   }
 
   private checkCompletion(): void {
@@ -304,7 +263,7 @@ export class PuzzleService {
   }
 
   private submitFinalGameData(completed: boolean): void {
-    const gameData: PuzzleGameData = {
+    const gameData = {
       playerId: this.playerId,
       gameId: this.gameId,
       difficulty: this.currentDifficulty,
@@ -316,46 +275,16 @@ export class PuzzleService {
       endTime: new Date()
     };
 
-    this.puzzleApi.submitGameData(gameData).subscribe({
-      next: (response) => {
-        console.log('Datos de juego enviados:', response);
-        if (response.success) {
-          console.log(`Partida ${completed ? 'completada' : 'abandonada'} registrada exitosamente`);
-        }
-      },
-      error: (error) => {
-        console.error('Error al enviar datos del juego:', error);
-      }
-    });
-
-    // También completar la partida específicamente
-    if (this.gameId) {
-      this.puzzleApi.completeGame(
-        this.gameId,
-        completed,
-        this.moveCounterSubject.value,
-        this.currentTimeElapsed
-      ).subscribe({
-        next: (response) => {
-          console.log('Partida completada:', response);
-        },
-        error: (error) => {
-          console.error('Error al completar partida:', error);
-        }
-      });
-    }
+    console.log('Datos finales del juego:', gameData);
+    console.log(`Partida ${completed ? 'completada' : 'abandonada'} registrada localmente`);
+    
+    // Aquí se implementaría la lógica para enviar al backend
   }
 
   // Método público para obtener estadísticas
   getPlayerStats(): void {
-    this.puzzleApi.getPlayerStats(this.playerId).subscribe({
-      next: (stats) => {
-        console.log('Estadísticas del jugador:', stats);
-      },
-      error: (error) => {
-        console.error('Error al obtener estadísticas:', error);
-      }
-    });
+    console.log('Obteniendo estadísticas del jugador...', this.playerId);
+    // Aquí se implementaría la lógica para obtener estadísticas del backend
   }
 
   // Método para abandonar partida

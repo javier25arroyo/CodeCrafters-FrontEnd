@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface PuzzleGameData {
   playerId: string;
@@ -59,8 +60,6 @@ export class PuzzleApiService {
       catchError(this.handleError)
     );
   }
-
-  // Obtener estadísticas del jugador
   getPlayerStats(playerId: string): Observable<PuzzleStats> {
     return this.http.get<PuzzleStats>(
       `${this.apiUrl}/stats/${playerId}`,
@@ -70,7 +69,6 @@ export class PuzzleApiService {
     );
   }
 
-  // Obtener ranking de mejores jugadores
   getLeaderboard(difficulty?: string, limit: number = 10): Observable<any[]> {
     let url = `${this.apiUrl}/leaderboard?limit=${limit}`;
     if (difficulty) {
@@ -82,7 +80,6 @@ export class PuzzleApiService {
     );
   }
 
-  // Iniciar una nueva partida
   startGame(playerId: string, difficulty: string, imageUrl: string): Observable<PuzzleGameResponse> {
     const gameStartData = {
       playerId,
@@ -118,7 +115,6 @@ export class PuzzleApiService {
     );
   }
 
-  // Finalizar partida
   completeGame(gameId: string, completed: boolean, finalMoveCount: number, totalTime: number): Observable<PuzzleGameResponse> {
     const completionData = {
       gameId,
@@ -137,7 +133,6 @@ export class PuzzleApiService {
     );
   }
 
-  // Manejo de errores
   private handleError(error: any): Observable<never> {
     console.error('Error en PuzzleApiService:', error);
     

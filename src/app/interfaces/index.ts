@@ -92,3 +92,30 @@ export interface IPreferenceList {
 export interface MessageResponse {
   message: string;
 }
+
+export interface IScore {
+  id?: number;
+  gameType: GameTypeEnum;
+  level: LevelEnum;
+  movements: number;
+  time: number;
+  score?: number;
+  date?: Date;
+  game?: IGame;
+  user?: IUser;
+}
+
+export enum GameTypeEnum {
+  PUZZLE = 'PUZZLE',
+  CROSSWORD = 'CROSSWORD',
+  NUMBER_SEQUENCE = 'NUMBER_SEQUENCE',
+  CARD_MEMORY = 'CARD_MEMORY',
+  MUSIC_MEMORY = 'MUSIC_MEMORY',
+  WORD_SEARCH = 'WORD_SEARCH'
+}
+
+export enum LevelEnum {
+  EASY = 'EASY',
+  MEDIUM = 'MEDIUM',
+  HARD = 'HARD'
+}
