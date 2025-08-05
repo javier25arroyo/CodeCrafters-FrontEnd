@@ -25,5 +25,5 @@
     </div>
   </div>
 
-  <button class="restart-btn" (click)="startNewGame()">🔄 Reiniciar</button>
+  <button class="restart-btn" (click)="startNewGame()" [disabled]="isPlaying">🔄 Reiniciar</button>
 </div>

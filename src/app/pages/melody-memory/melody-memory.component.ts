@@ -40,8 +40,17 @@ export class MelodyMemoryComponent implements OnInit {
   }
 
   startNewGame(): void {
-    this.selectLevel(this.selectedLevel);  // Usa el nivel seleccionado actual
+  this.sequence = [];
+  this.userSequence = [];
+  this.level = this.getLevelNumber(this.selectedLevel);
+
+  for (let i = 0; i < this.getNoteCountForLevel(); i++) {
+    this.addNoteToSequence();
   }
+
+  this.playSequence();
+}
+
 
   addNoteToSequence(): void {
     const randomIndex = Math.floor(Math.random() * this.notes.length);
@@ -49,20 +58,20 @@ export class MelodyMemoryComponent implements OnInit {
   }
 
   async playSequence(): Promise<void> {
-    this.isPlaying = true;
-    this.message = '🎵 Escucha la secuencia...';
+  this.isPlaying = true;
+  this.message = '🎵 Escucha la secuencia...';
 
-    for (const note of this.sequence) {
-      this.currentNotePlaying = note.freq;
-      await this.playNoteAsync(note.freq);
-      this.currentNotePlaying = null;
-      await this.sleep(300); // Pausa entre notas para que no se peguen
-    }
-
-    this.isPlaying = false;
-    this.userSequence = [];
-    this.message = '🎶 Tu turno';
+  for (const note of this.sequence) {
+    this.currentNotePlaying = note.freq;
+    await this.playNoteAsync(note.freq);
+    this.currentNotePlaying = null;
+    await this.sleep(300); // Pausa entre notas para que no se peguen
   }
+
+  this.isPlaying = false;
+  this.userSequence = [];
+  this.message = '🎶 Tu turno';
+}
 
   playNote(freq: number): void {
    
