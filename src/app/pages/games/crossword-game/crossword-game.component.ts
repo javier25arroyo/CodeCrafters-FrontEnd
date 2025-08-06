@@ -3,7 +3,6 @@ import { NgFor, NgIf, NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NavComponent } from '../../../components/nav/nav.component';
 import { Hint,DifficultySettings } from '../../../interfaces/index';
-import { FooterComponent } from '../../../components/footer/footer.component';
 
 type Difficulty = 'easy' | 'medium' | 'hard';
 
@@ -38,7 +37,7 @@ const DIFFICULTY_SETTINGS: Record<Difficulty, DifficultySettings> = {
 @Component({
   selector: 'app-crossword-game',
   standalone: true,
-  imports: [NgFor, NgIf, NgClass, FormsModule, NavComponent, FooterComponent],
+  imports: [NgFor, NgIf, NgClass, FormsModule, NavComponent],
   templateUrl: './crossword-game.component.html',
   styleUrls: ['./crossword-game.component.scss']
 })

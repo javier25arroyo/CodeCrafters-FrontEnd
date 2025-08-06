@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavComponent } from "../../../components/nav/nav.component";
-import { FooterComponent } from '../../../components/footer/footer.component';
 
 interface Cell {
   row: number;
@@ -11,7 +10,7 @@ interface Cell {
 @Component({
   selector: 'app-word-search-game',
   standalone: true,
-  imports: [CommonModule, NavComponent, FooterComponent],
+  imports: [CommonModule, NavComponent],
   templateUrl: './word-search-game.component.html',
   styleUrls: ['./word-search-game.component.scss']
 })
