@@ -1,3 +1,4 @@
+import { environment } from './../../../../environments/environment';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -74,7 +75,7 @@ export class PuzzleService {
 
   // Nuevas propiedades para tracking
   private gameId: string = '';
-  private playerId: string = ''; // Esto debería venir del servicio de autenticación
+  private playerId: string = '';
   private gameStartTime: Date = new Date();
   private timerInterval: any;
   private currentTimeElapsed: number = 0;
@@ -252,17 +253,31 @@ export class PuzzleService {
   }
 
   private submitFinalGameData(completed: boolean): void {
-    const gameData = {
-      playerId: this.playerId,
-      gameId: this.gameId,
-      difficulty: this.currentDifficulty,
-      moveCount: this.moveCounterSubject.value,
-      timeElapsed: this.currentTimeElapsed,
-      completed,
-      imageUsed: this.currentImage,
-      startTime: this.gameStartTime,
-      endTime: new Date()
+    if (!completed) return;
+    
+    // Convertir la dificultad del frontend al formato del backend
+    const levelMapping = {
+      'easy': 'EASY',
+      'medium': 'MEDIUM', 
+      'hard': 'HARD'
     };
+
+    const scoreData = {
+      gameType: 'PUZZLE',
+      level: levelMapping[this.currentDifficulty as keyof typeof levelMapping],
+      movements: this.moveCounterSubject.value,
+      time: this.currentTimeElapsed
+    };
+
+    // Enviar datos al backend (ruta relativa, el interceptor agregará la base URL)
+    this.http.post('games/score', scoreData).subscribe({
+      next: (response) => {
+        console.log('Puntaje guardado exitosamente:', response);
+      },
+      error: (error) => {
+        console.error('Error al guardar puntaje:', error);
+      }
+    });
   }
 
 

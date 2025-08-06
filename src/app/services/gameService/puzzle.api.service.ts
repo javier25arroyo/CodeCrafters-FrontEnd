@@ -1,8 +1,14 @@
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
+import { BaseService } from '../base-service';
+import { IScore, IResponse, GameTypeEnum, LevelEnum } from '../../interfaces';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
+// Interfaces para el juego de rompecabezas
 export interface PuzzleGameData {
   playerId: string;
   gameId: string;
@@ -39,48 +45,61 @@ export interface PuzzleStats {
 @Injectable({
   providedIn: 'root'
 })
-export class PuzzleApiService {
-  private readonly apiUrl = `${environment.apiUrl}/puzzle`;
-  
+export class PuzzleApiService extends BaseService<IScore> {
+  protected override source: string = 'games';
+  private readonly puzzleApiUrl = `${environment.apiUrl}/puzzle`;
+  private readonly apiUrl = environment.apiUrl;
+
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
     })
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(private snackBar: MatSnackBar) {
+    super();
+  }
 
-  // Enviar datos de la partida al backend
-  submitGameData(gameData: PuzzleGameData): Observable<PuzzleGameResponse> {
+
+  saveScore(scoreData: IScore): Observable<IResponse<IScore>> {
+    return this.addCustomSource('score', scoreData);
+  }
+
+  getLeaderboardByGameType(gameType: GameTypeEnum, limit: number = 10): Observable<IScore[]> {
+    return this.http.get<IScore[]>(`${this.apiUrl}/leaderboard/${gameType}?limit=${limit}`);
+  }
+
+  submitPuzzleGameData(gameData: PuzzleGameData): Observable<PuzzleGameResponse> {
     return this.http.post<PuzzleGameResponse>(
-      `${this.apiUrl}/submit-game`, 
-      gameData, 
-      this.httpOptions
-    ).pipe(
-      catchError(this.handleError)
-    );
-  }
-  getPlayerStats(playerId: string): Observable<PuzzleStats> {
-    return this.http.get<PuzzleStats>(
-      `${this.apiUrl}/stats/${playerId}`,
+      `${this.puzzleApiUrl}/submit-game`,
+      gameData,
       this.httpOptions
     ).pipe(
       catchError(this.handleError)
     );
   }
 
-  getLeaderboard(difficulty?: string, limit: number = 10): Observable<any[]> {
-    let url = `${this.apiUrl}/leaderboard?limit=${limit}`;
+  getPuzzlePlayerStats(playerId: string): Observable<PuzzleStats> {
+    return this.http.get<PuzzleStats>(
+      `${this.puzzleApiUrl}/stats/${playerId}`,
+      this.httpOptions
+    ).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getPuzzleLeaderboard(difficulty?: string, limit: number = 10): Observable<any[]> {
+    let url = `${this.puzzleApiUrl}/leaderboard?limit=${limit}`;
     if (difficulty) {
       url += `&difficulty=${difficulty}`;
     }
-    
+
     return this.http.get<any[]>(url, this.httpOptions).pipe(
       catchError(this.handleError)
     );
   }
 
-  startGame(playerId: string, difficulty: string, imageUrl: string): Observable<PuzzleGameResponse> {
+  startPuzzleGame(playerId: string, difficulty: string, imageUrl: string): Observable<PuzzleGameResponse> {
     const gameStartData = {
       playerId,
       difficulty,
@@ -89,7 +108,7 @@ export class PuzzleApiService {
     };
 
     return this.http.post<PuzzleGameResponse>(
-      `${this.apiUrl}/start-game`,
+      `${this.puzzleApiUrl}/start-game`,
       gameStartData,
       this.httpOptions
     ).pipe(
@@ -97,8 +116,7 @@ export class PuzzleApiService {
     );
   }
 
-  // Actualizar progreso de la partida
-  updateGameProgress(gameId: string, moveCount: number, timeElapsed: number): Observable<PuzzleGameResponse> {
+  updatePuzzleGameProgress(gameId: string, moveCount: number, timeElapsed: number): Observable<PuzzleGameResponse> {
     const progressData = {
       gameId,
       moveCount,
@@ -107,7 +125,7 @@ export class PuzzleApiService {
     };
 
     return this.http.patch<PuzzleGameResponse>(
-      `${this.apiUrl}/update-progress`,
+      `${this.puzzleApiUrl}/update-progress`,
       progressData,
       this.httpOptions
     ).pipe(
@@ -115,7 +133,7 @@ export class PuzzleApiService {
     );
   }
 
-  completeGame(gameId: string, completed: boolean, finalMoveCount: number, totalTime: number): Observable<PuzzleGameResponse> {
+  completePuzzleGame(gameId: string, completed: boolean, finalMoveCount: number, totalTime: number): Observable<PuzzleGameResponse> {
     const completionData = {
       gameId,
       completed,
@@ -125,7 +143,7 @@ export class PuzzleApiService {
     };
 
     return this.http.patch<PuzzleGameResponse>(
-      `${this.apiUrl}/complete-game`,
+      `${this.puzzleApiUrl}/complete-game`,
       completionData,
       this.httpOptions
     ).pipe(
@@ -135,17 +153,49 @@ export class PuzzleApiService {
 
   private handleError(error: any): Observable<never> {
     console.error('Error en PuzzleApiService:', error);
-    
+
     let errorMessage = 'Ocurrió un error desconocido';
-    
+
     if (error.error instanceof ErrorEvent) {
-      // Error del lado del cliente
       errorMessage = `Error: ${error.error.message}`;
     } else {
-      // Error del lado del servidor
-      errorMessage = `Código de error: ${error.status}\nMensaje: ${error.message}`;
+      errorMessage = `Código de error: ${error.status}
+Mensaje: ${error.message}`;
     }
-    
+
     return throwError(() => new Error(errorMessage));
+  }
+
+  convertPuzzleDataToScore(puzzleData: PuzzleGameData): IScore {
+    const difficulty = puzzleData.difficulty.toUpperCase() as keyof typeof LevelEnum;
+
+    return {
+      gameType: GameTypeEnum.PUZZLE,
+      level: LevelEnum[difficulty],
+      movements: puzzleData.moveCount,
+      time: puzzleData.timeElapsed,
+      score: this.calculateScore(puzzleData.moveCount, puzzleData.timeElapsed, LevelEnum[difficulty]),
+      date: puzzleData.endTime || new Date()
+    };
+  }
+
+  private calculateScore(movements: number, time: number, level: LevelEnum): number {
+    let basePoints = 0;
+    switch (level) {
+      case LevelEnum.EASY:
+        basePoints = 1000;
+        break;
+      case LevelEnum.MEDIUM:
+        basePoints = 2000;
+        break;
+      case LevelEnum.HARD:
+        basePoints = 3000;
+        break;
+    }
+
+    const movementPenalty = movements * 5;
+    const timePenalty = time * 2;
+
+    return Math.max(100, basePoints - movementPenalty - timePenalty);
   }
 }
