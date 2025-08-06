@@ -1,0 +1,18 @@
+{
+  "hints": [
+    { "word":"PENINSULA",    "clue":"Porción de tierra casi rodeada de agua","x":0,"y":14,"direction":"down" },
+    { "word":"DELTA",        "clue":"Terraza aluvial al desembocar un río","x":3,"y":18,"direction":"down" },
+    { "word":"TROPICO",      "clue":"Círculo terrestre a 23° de latitud","x":6,"y":11,"direction":"down" },
+    { "word":"MESATA",       "clue":"Extensa planicie elevada","x":6,"y":16,"direction":"down" },
+    { "word":"CORDILLERA",   "clue":"Conjunto de montañas enlazadas","x":7,"y":9,"direction":"across" },
+    { "word":"ARCHIPIELAGO", "clue":"Conjunto de islas cercanas entre sí","x":8,"y":19,"direction":"down" },
+    { "word":"SIERRA",       "clue":"Encadenamiento montañoso","x":9,"y":3,"direction":"across" },
+    { "word":"ECUADOR",      "clue":"Línea imaginaria que divide la Tierra","x":9,"y":5,"direction":"down" },
+    { "word":"RELIEVE",      "clue":"Forma de la superficie terrestre","x":9,"y":7,"direction":"down" },
+    { "word":"CONTINENTE",   "clue":"Gran extensión de tierra rodeada de océanos","x":9,"y":21,"direction":"down" },
+    { "word":"ESTRECHO",     "clue":"Pasaje angosto de agua entre dos tierras","x":10,"y":14,"direction":"across" },
+    { "word":"CAÑON",        "clue":"Barranco profundo con río","x":11,"y":1,"direction":"down" },
+    { "word":"LAGUNA",       "clue":"Cuerpo de agua separado del mar","x":12,"y":0,"direction":"across" },
+    { "word":"ISTMO",        "clue":"Franja estrecha que une dos continentes","x":12,"y":7,"direction":"across" }
+  ]
+}

@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { NavComponent } from "../../../components/nav/nav.component";
-
-
+import { FooterComponent } from '../../../components/footer/footer.component';
 
 interface Cell {
   row: number;
@@ -13,9 +11,7 @@ interface Cell {
 @Component({
   selector: 'app-word-search-game',
   standalone: true,
-
-  imports: [CommonModule, NavComponent],
-
+  imports: [CommonModule, NavComponent, FooterComponent],
   templateUrl: './word-search-game.component.html',
   styleUrls: ['./word-search-game.component.scss']
 })
@@ -23,7 +19,6 @@ export class WordSearchGameComponent {
   gridSize = 12;
   grid: string[][] = [];
   selectedCells: Cell[] = [];
-  isDragging = false;
   message = '';
 
   level = 1;
@@ -35,7 +30,7 @@ export class WordSearchGameComponent {
 
   words: string[] = [];
   foundWords: string[] = [];
-  placedWords: string[] = []; // ✅ Lista de palabras realmente colocadas
+  placedWords: string[] = [];
 
   wordPoolsByLevel: string[][] = [
     ['ABUELO', 'SILLA', 'RADIO', 'TELE', 'LIBRO', 'TÉ', 'GAFAS', 'COJIN', 'CAMISA', 'PAN'],
@@ -60,7 +55,7 @@ export class WordSearchGameComponent {
       this.foundWords = [];
       this.selectedCells = [];
       this.message = '';
-      this.placedWords = []; // ✅ limpiar palabras colocadas
+      this.placedWords = [];
       this.gameCompleted = false;
 
       this.generateGrid();
@@ -104,15 +99,13 @@ export class WordSearchGameComponent {
           if (this.canPlaceWord(word, inicio, direccion)) {
             this.placeWord(word, inicio, direccion);
             colocada = true;
-            console.log(`✅ Palabra colocada: ${word}`);
-            this.placedWords.push(word); // ✅ guardar palabra colocada
+            this.placedWords.push(word);
           }
 
           intentosPalabra++;
         }
 
         if (!colocada) {
-          console.warn(`❌ No se pudo colocar: ${word}`);
           todasColocadas = false;
           break;
         }
@@ -120,7 +113,6 @@ export class WordSearchGameComponent {
     }
 
     if (!todasColocadas) {
-      console.error('❌ Grid inválido. No se colocaron todas las palabras.');
       this.message = 'Error al generar la sopa de letras. Intenta reiniciar.';
       return;
     }
@@ -132,12 +124,6 @@ export class WordSearchGameComponent {
         }
       }
     }
-
-    console.warn('🧩 Palabras esperadas:', this.words);
-    console.warn('🧩 Grilla final:');
-    this.grid.forEach((row, i) => {
-      console.log(`Fila ${i + 1}:`, row.join(' '));
-    });
 
     this.verifyWordsInGrid();
   }
@@ -211,28 +197,26 @@ export class WordSearchGameComponent {
       return false;
     };
 
-    console.log('📋 Verificando palabras realmente colocadas:');
     this.words.forEach(word => {
       const found = this.placedWords.includes(word) && isInGrid(word);
-      console.log(`${found ? '✅' : '❌'} ${word}`);
+      if (!found) {
+        this.message = 'Advertencia: No todas las palabras fueron colocadas correctamente.';
+      }
     });
   }
 
-  startSelection(row: number, col: number) {
+  toggleSelection(row: number, col: number) {
     if (this.gameCompleted) return;
-    this.isDragging = true;
-    this.selectedCells = [{ row, col }];
+    const index = this.selectedCells.findIndex(c => c.row === row && c.col === col);
+    if (index > -1) {
+      this.selectedCells.splice(index, 1);
+    } else {
+      this.selectedCells.push({ row, col });
+    }
   }
 
-  extendSelection(row: number, col: number) {
-    if (!this.isDragging || this.gameCompleted) return;
-    const last = this.selectedCells[this.selectedCells.length - 1];
-    if (last.row === row && last.col === col) return;
-    this.selectedCells.push({ row, col });
-  }
-
-  endSelection() {
-    this.isDragging = false;
+  confirmSelection() {
+    if (this.gameCompleted) return;
     this.checkSelectedWord();
     this.selectedCells = [];
   }

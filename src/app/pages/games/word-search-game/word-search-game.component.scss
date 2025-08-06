@@ -1,65 +1,116 @@
 .container {
-  max-width: 700px;
+  max-width: 900px;
   margin: 2rem auto;
-  padding: 1.5rem;
+  padding: 2rem;
   background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
   text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
 
   .message {
     font-weight: bold;
-    margin: 1rem 0;
-    color: green;
+    margin: 1.2rem 0;
+    color: #2e7d32;
+    font-size: 1.3rem;
   }
 
   .grid {
-    display: grid;
-    grid-template-rows: repeat(10, 1fr);
-    gap: 4px;
-    margin: 1rem auto;
-    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 2rem auto;
+    width: max-content;
 
     .row {
       display: flex;
+      gap: 6px;
     }
 
     .cell {
-      width: 35px;
-      height: 35px;
+      width: 50px;
+      height: 50px;
       display: flex;
       justify-content: center;
       align-items: center;
-      background: #e3e3e3;
+      background: #eeeeee;
       font-weight: bold;
-      font-size: 1.2rem;
+      font-size: 1.6rem;
       cursor: pointer;
       user-select: none;
-      border-radius: 4px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      transition: background-color 0.2s;
 
       &.selected {
-        background: #90caf9;
+        background-color: #1976d2;
         color: white;
+        border-color: #0d47a1;
       }
     }
   }
 
-  button {
-    margin-top: 1rem;
-    padding: 0.5rem 1.5rem;
+  .found-words {
     font-size: 1rem;
-    border: none;
-    background-color: #1976d2;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
+    color: #424242;
+    margin-top: 1rem;
+  }
 
-    &:hover {
-      background-color: #1565c0;
+  .button-group {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+
+    button {
+      padding: 1rem 2rem;
+      font-size: 1.3rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &.confirm-btn {
+        background-color: #4caf50;
+        color: white;
+
+        &:hover {
+          background-color: #388e3c;
+        }
+
+        &:disabled {
+          background-color: #c8e6c9;
+          cursor: not-allowed;
+        }
+      }
+
+      &.restart-btn {
+        background-color: #1976d2;
+        color: white;
+
+        &:hover {
+          background-color: #1565c0;
+        }
+
+        &:disabled {
+          background-color: #90a4ae;
+          cursor: not-allowed;
+        }
+      }
     }
   }
 
+  .warning {
+    color: #d32f2f;
+    margin-top: 1.5rem;
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
 }
-
-
-
