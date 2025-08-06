@@ -1,0 +1,19 @@
+{
+  "hints": [
+    { "word": "CARBONO",     "clue": "Elemento base de la química orgánica",             "x": 0, "y": 15, "direction": "down" },
+    { "word": "LITIO",       "clue": "Metal alcalino usado en baterías",                 "x": 1, "y": 19, "direction": "down" },
+    { "word": "OXIGENO",     "clue": "Gas vital para la respiración",                   "x": 3, "y": 21, "direction": "down" },
+    { "word": "MAGNESIO",    "clue": "Metal ligero usado en aleaciones",                "x": 5, "y": 12, "direction": "across" },
+    { "word": "ALUMINIO",    "clue": "Metal ligero y resistente a la corrosión",        "x": 5, "y": 13, "direction": "down" },
+    { "word": "HELIO",       "clue": "Gas noble que ilumina las estrellas",             "x": 7, "y": 20, "direction": "across" },
+    { "word": "FOSFORO",     "clue": "Elemento usado en fertilizantes",                "x": 8, "y": 18, "direction": "down" },
+    { "word": "SODIO",       "clue": "Metal alcalino presente en la sal común",          "x": 9, "y": 17, "direction": "across" },
+    { "word": "CALCIO",      "clue": "Mineral indispensable para huesos y dientes",      "x": 10, "y": 15, "direction": "down" },
+    { "word": "NITROGENO",   "clue": "Conforma la mayor parte de la atmósfera",          "x": 11, "y": 8, "direction": "down" },
+    { "word": "AZUFRE",      "clue": "Se encuentra en volcanes y en proteínas",          "x": 11, "y": 15, "direction": "across" },
+    { "word": "SILICIO",     "clue": "Semimetal base de los chips de computador",       "x": 12, "y": 7, "direction": "across" },
+    { "word": "CLORO",       "clue": "Gas tóxico usado en desinfectantes",              "x": 12, "y": 11, "direction": "down" },
+    { "word": "POTASIO",     "clue": "Metal alcalino esencial para nervios y músculos",  "x": 14, "y": 10, "direction": "across" },
+    { "word": "HIDROGENO",   "clue": "Elemento más ligero y abundante en el universo", "x": 15, "y": 0, "direction": "across" }
+  ]
+}

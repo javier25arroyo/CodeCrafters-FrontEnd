@@ -1,0 +1,100 @@
+.game-container {
+  text-align: center;
+  margin-top: 2rem;
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+
+    button {
+      padding: 1rem 2rem;
+      font-size: 1.3rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover:not(.highlight) {
+        background-color: #64b5f6;
+      }
+    }
+  }
+
+  .restart-btn {
+    margin-top: 2rem;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    border: none;
+    background-color: #ffc875;
+    border-radius: 10px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #64b5f6;
+    }
+  }
+
+  .note-btn {
+    font-size: 1.5rem;
+    padding: 1.5rem;
+    margin: 0.5rem;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    width: 100px;
+    height: 100px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .note-color-0 { background-color: #ffadad; }
+  .note-color-1 { background-color: #ffd6a5; }
+  .note-color-2 { background-color: #fdffb6; }
+  .note-color-3 { background-color: #caffbf; }
+  .note-color-4 { background-color: #9bf6ff; }
+  .note-color-5 { background-color: #a0c4ff; }
+  .note-color-6 { background-color: #bdb2ff; }
+  .note-color-7 { background-color: #ffc6ff; }
+
+  .highlight {
+    box-shadow: 0 0 10px white;
+    transform: scale(1.3); 
+    z-index: 1; 
+  }
+
+  
+  .level-selector {
+    margin: 1rem 0;
+
+    p {
+      font-size: 1rem; 
+      margin-bottom: 0.5rem;
+    }
+
+    .level-options {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+
+      .level-btn {
+        padding: 0.4rem 1rem;
+        font-size: 0.9rem;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        background-color: #e0e0e0;
+        transition: background-color 0.3s;
+
+        &:hover {
+          background-color: #ccc;
+        }
+
+        &.selected {
+          background-color: #64b5f6;
+          color: white;
+        }
+      }
+    }
+  }
+}

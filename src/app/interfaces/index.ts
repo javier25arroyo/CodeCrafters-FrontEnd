@@ -80,6 +80,19 @@ export interface ISearch {
 export interface MessageResponse {
   message: string;
 }
+export interface Hint {
+  word: string;
+  clue: string;
+  x: number;
+  y: number;
+  direction: 'across' | 'down';
+}
+
+export interface DifficultySettings {
+  maxHints: number;
+  puzzleKeys: string[];
+}
+
 
 export interface IUserCaregiver {
   id?: number;
@@ -92,4 +105,3 @@ export interface IUserCaregiver {
   };
   relationship?: string;
 }
-
