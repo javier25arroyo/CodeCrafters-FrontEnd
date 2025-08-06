@@ -1,0 +1,16 @@
+{
+  "hints": [
+    { "word": "ESTUCADO",      "clue": "Revestimiento liso en pared",              "x": 0, "y": 2, "direction": "down" },
+    { "word": "ENCHAPE",       "clue": "Revestimiento con piedra o madera",        "x": 2, "y":11, "direction": "down" },
+    { "word": "AZULEJO",       "clue": "Baldosa decorativa",                       "x": 3, "y": 0, "direction": "across" },
+    { "word": "MOSAICO",       "clue": "Composición de piezas pequeñas",           "x": 5, "y":16, "direction": "down" },
+    { "word": "CEMENTO",       "clue": "Material aglutinante para construcción",   "x": 6, "y": 5, "direction": "down" },
+    { "word": "MORTERO",       "clue": "Mezcla para unir ladrillos",               "x": 7, "y": 1, "direction": "across" },
+    { "word": "BARNIZ",        "clue": "Capa protectora de madera",                "x": 7, "y":13, "direction": "down" },
+    { "word": "TEJA",          "clue": "Cubierta de tejado",                       "x": 8, "y":10, "direction": "across" },
+    { "word": "BALDOSA",       "clue": "Losas cerámicas para suelos",              "x": 9, "y": 9, "direction": "down" },
+    { "word": "PINTURA",       "clue": "Capa de color sobre superficies",          "x": 10, "y": 3, "direction": "across" },
+    { "word": "LADRILLO",      "clue": "Bloque de arcilla para construcción",      "x": 11, "y": 9, "direction": "across" },
+    { "word": "YESO",          "clue": "Material para revocar paredes",            "x": 14, "y": 7, "direction": "across" }
+  ]
+}

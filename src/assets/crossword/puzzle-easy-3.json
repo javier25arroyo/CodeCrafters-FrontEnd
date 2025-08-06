@@ -1,0 +1,15 @@
+{
+  "hints": [
+      { "word": "VITAMINA",  "clue": "Nutriente esencial",                "x": 0, "y": 7, "direction":  "down"   },
+      { "word": "CAMINAR",   "clue": "Andar a pie",                       "x": 2, "y": 9,  "direction": "across" },
+      { "word": "AGUA",      "clue": "Líquido vital transparente",        "x": 2, "y":10,  "direction": "down" },
+      { "word": "MEDICINA", "clue": "Remedio para curar",                 "x": 3, "y": 0,  "direction": "across" },
+      { "word": "PASTILLA", "clue": "Medicamento en forma redonda",       "x": 5, "y": 3, "direction": "across"  },
+      { "word": "SUEÑO",     "clue": "Descanso nocturno reparador",       "x": 5, "y": 5, "direction": "down" },
+      { "word": "DOCTOR",    "clue": "Profesional que cura",              "x": 9, "y": 4,  "direction": "across"   },
+      { "word": "DESCANSO",  "clue": "Pausa para recuperar energía",      "x": 9, "y": 4, "direction": "down" },
+      { "word": "EJERCICIO", "clue": "Actividad física saludable",        "x":12, "y": 0,  "direction": "across" },
+      { "word": "SALUD",     "clue": "Lo más importante en la vida",      "x":15, "y": 4,  "direction": "across" }
+
+    ]
+}

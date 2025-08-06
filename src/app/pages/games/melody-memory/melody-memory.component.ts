@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavComponent } from '../../components/nav/nav.component';
+import { NavComponent } from '../../../components/nav/nav.component';
 
 interface Note {
   freq: number;

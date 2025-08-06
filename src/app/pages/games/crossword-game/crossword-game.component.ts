@@ -1,42 +1,69 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { NgFor, NgIf, NgClass } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { NavComponent } from '../../../components/nav/nav.component';
+import { Hint,DifficultySettings } from '../../../interfaces/index';
+import { FooterComponent } from '../../../components/footer/footer.component';
 
-interface Hint {
-  word: string;
-  clue: string;
-  x: number;
-  y: number;
-  direction: 'across' | 'down';
-}
+type Difficulty = 'easy' | 'medium' | 'hard';
+
+const MAX_HINTS = 3;
+const DIFFICULTY_SETTINGS: Record<Difficulty, DifficultySettings> = {
+  easy: {
+    maxHints: 5,
+    puzzleKeys: [
+      'puzzle-easy-1',
+      'puzzle-easy-2',
+      'puzzle-easy-3'
+    ]
+  },
+  medium: {
+    maxHints: 3,
+    puzzleKeys: [
+      'puzzle-medium-1',
+      'puzzle-medium-2',
+      'puzzle-medium-3'
+    ]
+  },
+  hard: {
+    maxHints: 1,
+    puzzleKeys: [
+      'puzzle-hard-1',
+      'puzzle-hard-2',
+      'puzzle-hard-3'
+    ]
+  }
+};
 
 @Component({
   selector: 'app-crossword-game',
   standalone: true,
-  imports: [NgFor, NgIf, NgClass, NavComponent],
+  imports: [NgFor, NgIf, NgClass, FormsModule, NavComponent, FooterComponent],
   templateUrl: './crossword-game.component.html',
   styleUrls: ['./crossword-game.component.scss']
 })
-
 export class CrosswordGameComponent implements OnInit, OnDestroy {
+  // Tablero
   grid: (string|null)[][] = [];
   userGrid: string[][] = [];
   cellStatus: ('correct'|'incorrect'|'')[][] = [];
   usedMask: boolean[][] = [];
   hints: Hint[] = [];
+  clueNumbers: Record<string, number> = {};
   isCorrect: boolean|null = null;
 
   timer = '00:00';
   private startTs = 0;
   private timerInt!: any;
 
-  // número de ayudas disponibles
-  revealLeft = 3;
+  difficulty: Difficulty = 'easy';
+  maxHints = DIFFICULTY_SETTINGS[this.difficulty].maxHints;
+  revealLeft = this.maxHints;
 
-  ngOnInit(): void {
-    this.resetGame();
-    this.startTimer();
-  }
+  ngOnInit() {
+  this.onDifficultyChange();
+  this.startTimer();
+}
 
   ngOnDestroy(): void {
     clearInterval(this.timerInt);
@@ -52,82 +79,79 @@ export class CrosswordGameComponent implements OnInit, OnDestroy {
     }, 1000);
   }
 
-  clueNumbers: Record<string, number> = {};
+async loadPuzzle(key: string) {
+  const res = await fetch(`assets/crossword/${key}.json`);
+  const pz = await res.json();
+  this.hints = pz.hints;
+  this.setupBoard();
+}
 
-  resetGame() {
-    const ROWS = 10, COLS = 23;
-    this.grid = Array.from({ length: ROWS },
-      () => Array<string|null>(COLS).fill(null)
-    );
+  private setupBoard() {
+  let maxR = 0, maxC = 0;
+  for (let h of this.hints) {
+    const len = h.word.length;
+    if (h.direction === 'across') {
+      maxR = Math.max(maxR, h.x);
+      maxC = Math.max(maxC, h.y + len - 1);
+    } else {
+      maxR = Math.max(maxR, h.x + len - 1);
+      maxC = Math.max(maxC, h.y);
+    }
+  }
+  const ROWS = maxR + 1;
+  const COLS = maxC + 1;
 
-    this.hints = [
-      { word:'ELEFANTE', clue:'Mamífero gris con trompa',       x:1, y:2,  direction:'across' },
-      { word:'DELFIN',   clue:'Amigo cordial del océano',        x:0, y:4,  direction:'down'   },
-      { word:'JIRAFA',   clue:'Animal de cuello larguísimo',     x:3, y:0,  direction:'across' },
-      { word:'TIGRE',    clue:'Felino rayado',                   x:1, y:8,  direction:'down'   },
-      { word:'TORTUGA',  clue:'Reptil longevo y lento',          x:4, y:6,  direction:'across' },
-      { word:'CABALLO',  clue:'Equino doméstico',                x:3, y:12, direction:'down'   },
-      { word:'VACA',     clue:'Productora de leche',             x:6, y:9,  direction:'across' },
-      { word:'COCODRILO',clue:'Reptil grande y feroz',           x:9, y:11, direction:'across' },
-      { word:'GATO',     clue:'Felino doméstico',                x:4, y:16, direction:'down'   },
-      { word:'MARIPOSA', clue:'Insecto colorido',                x:5, y:15, direction:'across' },
-      { word:'LEON',     clue:'Rey de la selva',                 x:7, y:14, direction:'across' },
-      { word:'RANA',     clue:'Anfibio saltarín',                x:8, y:19, direction:'across' },
-      { word:'PANDA',    clue:'Oso negro y blanco',              x:4, y:22, direction:'down'   },
-      { word:'PERRO',    clue:'Mejor amigo del hombre',          x:5, y:19, direction:'down'   },
-    ];
+  this.grid = Array.from({ length: ROWS },
+    () => Array<string|null>(COLS).fill(null)
+  );
 
-    this.clueNumbers = {};
-    this.hints.forEach((h, idx) => {
-      this.clueNumbers[`${h.x}-${h.y}`] = idx + 1;
-    });
-
-    this.hints.forEach(h =>
-      [...h.word].forEach((_, i) => {
-        const r = h.direction==='across' ? h.x     : h.x + i;
-        const c = h.direction==='across' ? h.y + i : h.y;
-        this.grid[r][c] = '';
-      })
-    );
-
-    this.userGrid   = this.grid.map(r => r.map(c => c===null?'':''));
-    this.cellStatus = this.grid.map(r => r.map(c => c===null?'':''));
-    this.usedMask   = this.grid.map(r => r.map(_ => false));
-
-    this.hints.forEach(h =>
-      [...h.word].forEach((_, i) => {
-        const r = h.direction==='across' ? h.x     : h.x + i;
-        const c = h.direction==='across' ? h.y + i : h.y;
-        this.usedMask[r][c] = true;
-      })
-    );
-
-    this.isCorrect = null;
-    this.revealLeft = 3;    // reset ayudas
-    clearInterval(this.timerInt);
-    this.startTimer();
+  for (let h of this.hints) {
+    for (let i = 0; i < h.word.length; i++) {
+      const r = h.direction === 'across' ? h.x : h.x + i;
+      const c = h.direction === 'across' ? h.y + i : h.y;
+      this.grid[r][c] = '';
+    }
   }
 
-get horizontalHints(): Hint[] {
-  return this.hints
-    .filter(h => h.direction === 'across')
-    .sort((a, b) => {
-      const na = this.clueNumbers[`${a.x}-${a.y}`];
-      const nb = this.clueNumbers[`${b.x}-${b.y}`];
-      return na - nb;
-    });
+
+  this.clueNumbers = {};
+  this.hints.forEach((h, idx) => {
+    this.clueNumbers[`${h.x}-${h.y}`] = idx + 1;
+  });
+
+  this.userGrid   = this.grid.map(row => row.map(_ => ''));
+  this.cellStatus = this.grid.map(row => row.map(_ => ''));
+  this.usedMask   = this.grid.map(row => row.map(c => c !== null));
+
+  this.isCorrect = null;
+  this.maxHints   = DIFFICULTY_SETTINGS[this.difficulty].maxHints;
+  this.revealLeft = this.maxHints;
 }
 
-get verticalHints(): Hint[] {
-  return this.hints
-    .filter(h => h.direction === 'down')
-    .sort((a, b) => {
-      const na = this.clueNumbers[`${a.x}-${a.y}`];
-      const nb = this.clueNumbers[`${b.x}-${b.y}`];
-      return na - nb;
-    });
+
+  onDifficultyChange() {
+  const cfg = DIFFICULTY_SETTINGS[this.difficulty];
+
+  this.maxHints   = cfg.maxHints;
+  this.revealLeft = cfg.maxHints;
+
+  const keys = cfg.puzzleKeys;
+  const randomKey = keys[Math.floor(Math.random() * keys.length)];
+
+  this.loadPuzzle(randomKey);
 }
 
+  get horizontalHints(): Hint[] {
+    return this.hints
+      .filter(h => h.direction === 'across')
+      .sort((a, b) => this.clueNumbers[`${a.x}-${a.y}`] - this.clueNumbers[`${b.x}-${b.y}`]);
+  }
+
+  get verticalHints(): Hint[] {
+    return this.hints
+      .filter(h => h.direction === 'down')
+      .sort((a, b) => this.clueNumbers[`${a.x}-${a.y}`] - this.clueNumbers[`${b.x}-${b.y}`]);
+  }
 
   isEditableCell(r:number,c:number): boolean {
     return this.grid[r][c] !== null;
@@ -139,10 +163,10 @@ get verticalHints(): Hint[] {
 
   checkAnswers() {
     this.isCorrect = true;
-    this.cellStatus = this.grid.map(r => r.map(c=>c===null?'':''));
+    this.cellStatus = this.grid.map(r => r.map(c => c===null ? '' : ''));
     this.hints.forEach(h => {
       [...h.word].forEach((ch,i) => {
-        const r = h.direction==='across' ? h.x     : h.x + i;
+        const r = h.direction==='across' ? h.x : h.x + i;
         const c = h.direction==='across' ? h.y + i : h.y;
         if (this.userGrid[r][c] === ch) {
           this.cellStatus[r][c] = 'correct';
@@ -158,7 +182,7 @@ get verticalHints(): Hint[] {
     if (this.revealLeft === 0) return;
     for (let h of this.hints) {
       for (let i = 0; i < h.word.length; i++) {
-        const r = h.direction==='across' ? h.x     : h.x + i;
+        const r = h.direction==='across' ? h.x : h.x + i;
         const c = h.direction==='across' ? h.y + i : h.y;
         if (this.userGrid[r][c] !== h.word[i]) {
           this.userGrid[r][c] = h.word[i];
@@ -169,5 +193,11 @@ get verticalHints(): Hint[] {
         }
       }
     }
+  }
+
+  resetGame() {
+    this.setupBoard();
+    clearInterval(this.timerInt);
+    this.startTimer();
   }
 }

@@ -1,0 +1,21 @@
+{
+  "hints": [
+    { "word": "CONSTELACION",  "clue": "Grupo de estrellas formando una figura",         "x": 0, "y": 10, "direction": "down" },
+    { "word": "PLANETA",       "clue": "Cuerpo celeste que orbita una estrella",        "x": 2, "y": 7, "direction": "across" },
+    { "word": "ASTEROIDE",     "clue": "Fragmento rocoso en el espacio",                "x": 5, "y": 2, "direction": "across" },
+    { "word": "GALAXIA",       "clue": "Conjunto de estrellas, gas y polvo cósmico",     "x": 7, "y": 7, "direction": "across" },
+    { "word": "TELESCOPIO",    "clue": "Instrumento para observar objetos lejanos",       "x": 10, "y": 1, "direction": "across" },
+    { "word": "SATELITE",      "clue": "Objeto que orbita un planeta",                   "x": 10, "y": 5, "direction": "down" },
+    { "word": "SUPERNOVA",     "clue": "Explosión estelar extremadamente luminosa",      "x": 13, "y": 2, "direction": "across" },
+    { "word": "ATMOSFERA",     "clue": "Capa de gases que rodea un planeta",             "x": 13, "y": 10, "direction": "down" },
+    { "word": "CRATER",        "clue": "Depresión causada por el impacto de un meteoro", "x": 15, "y": 7, "direction": "down" },
+    { "word": "COMETA",        "clue": "Cuerpo helado que deja cola al acercarse al Sol", "x": 17, "y": 2, "direction": "across" },
+    { "word": "METEORITO",     "clue": "Fragmento que llega a la Tierra desde el espacio","x": 18, "y": 1, "direction": "down" },
+    { "word": "ECLIPSE",       "clue": "Ocultación de un astro por otro",                "x": 19, "y": 1, "direction": "across" },
+    { "word": "ORBITA",        "clue": "Trayectoria curva alrededor de un cuerpo",       "x": 20, "y": 9, "direction": "across" },
+    { "word": "GRAVEDAD",      "clue": "Fuerza que atrae los cuerpos entre sí",          "x": 23, "y": 0, "direction": "across" },
+    { "word": "COSMOS",        "clue": "Universo entendido como un todo ordenado",       "x": 26, "y": 0, "direction": "across" }
+
+
+  ]
+}
