@@ -1,0 +1,15 @@
+{
+  "hints": [
+      { "word": "DULCE",     "clue": "Sabor opuesto a salado",            "x": 0, "y": 4,  "direction": "down" },
+      { "word": "FIESTA",    "clue": "Celebración alegre",                "x": 2, "y": 1,  "direction": "down" },
+      { "word": "LECHE",     "clue": "Bebida blanca nutritiva",           "x": 4, "y": 0,  "direction": "across"   },
+      { "word": "NAVIDAD",   "clue": "Celebración del 25 de diciembre",   "x": 7, "y": 0,  "direction": "across" },
+      { "word": "DOMINGO",   "clue": "Día de descanso",                   "x": 7, "y": 6,  "direction": "down"   },
+      { "word": "SOPA",      "clue": "Plato líquido caliente",            "x": 7, "y": 8,  "direction": "down" },
+      { "word": "PAN",       "clue": "Alimento básico de trigo",          "x": 9, "y": 8,  "direction": "across" },
+      { "word": "MISA",      "clue": "Ceremonia religiosa",               "x": 10, "y":5,  "direction": "across"   },
+      { "word": "CAFE",      "clue": "Bebida aromática de la mañana",     "x": 12, "y":3,  "direction": "down" },
+      { "word": "ARROZ",     "clue": "Cereal básico blanco",              "x": 13, "y":3,  "direction": "across"   }
+
+    ]
+}

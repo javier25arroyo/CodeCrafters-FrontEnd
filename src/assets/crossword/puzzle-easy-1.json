@@ -1,0 +1,14 @@
+{
+  "hints": [
+    { "word": "ESPOSA",  "clue": "Compañera de vida",    "x": 0, "y": 7, "direction": "down"   },
+    { "word": "VENTANA", "clue": "Por donde entra luz",  "x": 2, "y": 5, "direction": "down"   },
+    { "word": "NIETO",   "clue": "Hijo de mi hijo",      "x": 3, "y": 3, "direction": "across" },
+    { "word": "CASA",    "clue": "Lugar donde vivimos",  "x": 3, "y": 11, "direction": "across"},
+    { "word": "CAMA",    "clue": "Donde dormimos",       "x": 2, "y": 14, "direction": "down"  },
+    { "word": "SILLA",   "clue": "Asiento con respaldo", "x": 4, "y": 7, "direction": "across" },
+    { "word": "MESA",    "clue": "Mueble para comer",    "x": 5, "y": 11, "direction": "across"},
+    { "word": "JARDIN",  "clue": "Espacio verde",        "x": 6, "y": 3, "direction":   "down" },
+    { "word": "PUERTA",  "clue": "Entrada de la casa",    "x": 8, "y": 0, "direction": "across"},
+    { "word": "COCINA",  "clue": "Donde se prepara...",   "x":10, "y": 0, "direction": "across"}
+  ]
+}
