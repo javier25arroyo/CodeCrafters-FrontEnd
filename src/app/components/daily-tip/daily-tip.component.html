@@ -1,4 +1,6 @@
 <section class="daily-tip-box">
   <h2>Consejo de bienestar diario</h2>
-  <p *ngIf="currentTip">{{ currentTip }}</p>
+  <div class="tip-container">
+    <p class="tip-text" [class.visible]="isVisible">{{ currentTip }}</p>
+  </div>
 </section>

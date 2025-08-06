@@ -58,25 +58,43 @@ export class DailyTipComponent implements OnInit {
   'Haz limpieza digital: borra lo que ya no te sirve.',
   'Agradece a tu cuerpo por todo lo que hace por ti.',
   'Recuerda que cada día es una nueva oportunidad.',
-  'No te compares: estás en tu propio camino.'
+  'Hemos trabajado muy duro. Esperamos sacarnos un 100 en el proyecto.',
+  'No te compares: estás en tu propio camino.',
+  'No te detengas, sigue adelante independientemente de las circunstancias.',
+  'El límite son las estrellas así esfuérzate por alcanzarlas.' 
 ];
 
   currentTip: string = '';
+  isVisible: boolean = true;
   private index: number = 0;
 
   ngOnInit(): void {
     this.index = Math.floor(Math.random() * this.wellnessTips.length);
     this.currentTip = this.wellnessTips[this.index];
+    
     setInterval(() => {
+      this.changeTip();
+    }, 7000);
+  }
+
+  private changeTip(): void {
+    // Fade out
+    this.isVisible = false;
+    
+    setTimeout(() => {
+      // Change tip content
       let nextIndex: number;
       do {
         nextIndex = Math.floor(Math.random() * this.wellnessTips.length);
       } while (nextIndex === this.index && this.wellnessTips.length > 1);
+      
       this.index = nextIndex;
-      this.currentTip = '';
+      this.currentTip = this.wellnessTips[this.index];
+      
+      // Fade in
       setTimeout(() => {
-        this.currentTip = this.wellnessTips[this.index];
-      }, 100);
-    }, 7000);
+        this.isVisible = true;
+      }, 50);
+    }, 300);
   }
 }
