@@ -1,6 +1,5 @@
 @import '../../../../assets/utils/_variables';
 
-// Layout principal
 .puzzle-main-layout {
   display: flex;
   align-items: stretch;
@@ -13,7 +12,6 @@
   min-height: 100vh;
 }
 
-// Barras laterales
 .sidebar, .reference-sidebar {
   width: 280px;
   height: 100%;
@@ -41,7 +39,6 @@
   padding: 0 10px;
 }
 
-// Selector de imágenes
 .image-selector {
   width: 100%;
 }
@@ -80,7 +77,6 @@
   }
 }
 
-// Imagen de referencia
 .reference-image {
   width: 100%;
   text-align: center;
@@ -102,7 +98,6 @@
   }
 }
 
-// Botones y contadores
 .reset-button {
   width: 100%;
   margin-top: 10px;
@@ -129,7 +124,6 @@
   color: #333;
 }
 
-// Mensaje de completado
 .completion-message {
   margin-top: 20px;
   padding: 15px;
@@ -143,7 +137,6 @@
   text-align: center;
 }
 
-// Sección del tablero
 .puzzle-board-section {
   flex: 1;
   display: flex;
@@ -154,7 +147,6 @@
   min-height: 100vh;
 }
 
-// Tablero del rompecabezas
 .puzzle-board {
   display: grid;
   gap: 2px;
@@ -166,7 +158,6 @@
   transition: all 0.3s ease;
   animation: boardResize 0.5s ease-in-out;
 
-  // Tamaños específicos según dificultad
   &[style*="repeat(3,"] {
     width: 400px;
     height: 400px;
@@ -198,7 +189,6 @@
   }
 }
 
-// Piezas del rompecabezas
 .puzzle-piece {
   border: 2px solid #555;
   border-radius: 8px;
@@ -223,7 +213,6 @@
   }
 }
 
-// Imagen de referencia ajustada
 .reference-sidebar {
   background-color: #f8f9fa;
   border-left: 1px solid #dee2e6;
@@ -243,7 +232,6 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       transition: all 0.3s ease;
       
-      // Tamaños de referencia según dificultad
       &[src*="1.png"], &[src*="2.png"], &[src*="3.png"], &[src*="4.png"], &[src*="5.png"] {
         width: 180px;
         height: 180px;
@@ -253,7 +241,6 @@
   }
 }
 
-// Responsive design
 @media (max-width: 1200px) {
   .puzzle-main-layout {
     flex-direction: column;
@@ -390,7 +377,6 @@
   }
 }
 
-// Selector de dificultad
 .difficulty-selector {
   width: 100%;
   margin-bottom: 20px;
@@ -437,13 +423,11 @@
     box-shadow: 0 3px 10px rgba(0, 123, 255, 0.3);
   }
 
-  // Indicadores visuales para cada dificultad
   &:nth-child(1)::before { content: "🟢 "; }
   &:nth-child(2)::before { content: "🟡 "; }
   &:nth-child(3)::before { content: "🔴 "; }
 }
 
-// Animaciones
 @keyframes boardResize {
   0% { transform: scale(0.8); opacity: 0.7; }
   100% { transform: scale(1); opacity: 1; }
@@ -460,7 +444,6 @@
   100% { transform: scale(1.05); }
 }
 
-// Mensaje de completado
 .completion-message {
   margin-top: 20px;
   padding: 15px 25px;
@@ -474,7 +457,6 @@
   animation: celebration 0.6s ease-in-out;
 }
 
-// Contador de movimientos
 .move-counter {
   margin-top: 15px;
   padding: 10px 15px;
@@ -492,7 +474,6 @@
   }
 }
 
-// Botón de reinicio
 .reset-button {
   width: 100%;
   margin-top: 15px;

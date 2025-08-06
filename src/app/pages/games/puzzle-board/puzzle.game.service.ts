@@ -74,7 +74,7 @@ export class PuzzleService {
 
   // Nuevas propiedades para tracking
   private gameId: string = '';
-  private playerId: string = 'user-123'; // Esto debería venir del servicio de autenticación
+  private playerId: string = ''; // Esto debería venir del servicio de autenticación
   private gameStartTime: Date = new Date();
   private timerInterval: any;
   private currentTimeElapsed: number = 0;
@@ -129,7 +129,6 @@ export class PuzzleService {
   }
 
   initializeGame(): void {
-    // Detener timer anterior si existe
     this.stopTimer();
     
     const pieces = this.divideImageIntoPieces();
@@ -142,15 +141,12 @@ export class PuzzleService {
     this.moveCounterSubject.next(0);
     this.timeElapsedSubject.next(0);
     
-    // Iniciar timer
     this.startTimer();
   }
 
   private startNewGame(): void {
     this.gameStartTime = new Date();
     this.currentTimeElapsed = 0;
-    console.log('Nueva partida iniciada');
-    // Aquí se podría implementar lógica para comunicarse con el backend
   }
 
   private ensureNotSolved(pieces: PuzzlePiece[]): void {
@@ -214,7 +210,7 @@ export class PuzzleService {
     const newMoveCount = this.moveCounterSubject.value + 1;
     this.moveCounterSubject.next(newMoveCount);
     
-    // Enviar progreso al backend cada 5 movimientos
+
     if (newMoveCount % 5 === 0 && this.gameId) {
       this.updateGameProgress();
     }
@@ -224,13 +220,6 @@ export class PuzzleService {
 
   private updateGameProgress(): void {
     if (!this.gameId) return;
-
-    console.log('Progreso actualizado:', {
-      gameId: this.gameId,
-      moveCount: this.moveCounterSubject.value,
-      timeElapsed: this.currentTimeElapsed
-    });
-    // Aquí se implementaría la lógica para enviar al backend
   }
 
   private checkCompletion(): void {
@@ -274,20 +263,9 @@ export class PuzzleService {
       startTime: this.gameStartTime,
       endTime: new Date()
     };
-
-    console.log('Datos finales del juego:', gameData);
-    console.log(`Partida ${completed ? 'completada' : 'abandonada'} registrada localmente`);
-    
-    // Aquí se implementaría la lógica para enviar al backend
   }
 
-  // Método público para obtener estadísticas
-  getPlayerStats(): void {
-    console.log('Obteniendo estadísticas del jugador...', this.playerId);
-    // Aquí se implementaría la lógica para obtener estadísticas del backend
-  }
 
-  // Método para abandonar partida
   abandonGame(): void {
     this.stopTimer();
     this.submitFinalGameData(false);
@@ -335,7 +313,7 @@ export class PuzzleService {
   setDifficulty(difficulty: DifficultyLevel): void {
     this.currentDifficulty = difficulty;
     this.difficultySubject.next(difficulty);
-    this.selectedPiece = null; // Resetear selección
+    this.selectedPiece = null;
     this.initializeGame();
   }
 
@@ -351,7 +329,7 @@ export class PuzzleService {
     return this.getCurrentConfig();
   }
 
-  // Métodos para obtener estilos CSS de las piezas
+
   getPieceBackgroundPosition(piece: PuzzlePiece): string {
     return piece.backgroundPosition;
   }
@@ -360,12 +338,11 @@ export class PuzzleService {
     return piece.backgroundSize;
   }
 
-  // Getter para el tiempo transcurrido actual
+
   getCurrentTimeElapsed(): number {
     return this.currentTimeElapsed;
   }
 
-  // Getter para el ID del juego actual
   getCurrentGameId(): string {
     return this.gameId;
   }

@@ -62,13 +62,11 @@ export class PuzzleBoardComponent implements OnInit {
     return this.puzzleService.isPieceSelected(piece);
   }
   
-  // Cambiar la imagen del rompecabezas
   changeImage(imageUrl: string): void {
     this.puzzleService.setImage(imageUrl);
     this.currentImage = imageUrl;
   }
   
-  // Reiniciar el juego
   resetGame(): void {
     this.puzzleService.initializeGame();
   }
@@ -84,33 +82,27 @@ export class PuzzleBoardComponent implements OnInit {
     };
   }
   
-  // Generar array para iterar en template
   range(size: number): number[] {
     return Array(size).fill(0).map((_, i) => i);
   }
 
-  // Obtener la posición de fondo para cada pieza
   getBackgroundPosition(piece: PuzzlePiece): string {
     return piece.backgroundPosition;
   }
 
-  // Obtener el tamaño de fondo para el rompecabezas
   getBackgroundSize(piece: PuzzlePiece): string {
     return piece.backgroundSize;
   }
 
-  // Cambiar dificultad
   changeDifficulty(difficulty: DifficultyLevel): void {
     this.puzzleService.setDifficulty(difficulty);
     this.boardSize = this.puzzleService.getBoardSize();
   }
 
-  // Verificar si es la dificultad actual
   isCurrentDifficulty(difficulty: DifficultyLevel): boolean {
     return this.currentDifficulty === difficulty;
   }
 
-  // Método para formatear el tiempo
   formatTime(seconds: number): string {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
