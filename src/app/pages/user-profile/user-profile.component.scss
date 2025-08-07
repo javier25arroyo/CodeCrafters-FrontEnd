@@ -1,63 +1,95 @@
+// Estilos para el componente user-profile
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+// Navbar fijo en la parte superior
+app-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
 .profile-container {
   max-width: 700px;
-  margin: 2rem auto;
+  margin: 120px auto 2rem auto; // Margen superior para el navbar fijo
   padding: 2.5rem 3rem;
   background-color: #ffffff;
   border-radius: 25px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
 
   h2 {
-    font-size: 2rem;
+    font-size: 2.2rem;
     font-weight: bold;
     color: #2c3e50;
     text-align: center;
     margin-bottom: 2rem;
+    position: relative;
 
     &::before {
       content: "👤";
       margin-right: 0.5rem;
+      font-size: 2rem;
     }
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(90deg, #0d47a1, #1565c0);
+      border-radius: 2px;
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
   }
 
   label {
     display: block;
     font-weight: 600;
-    margin: 1rem 0 0.3rem;
+    margin-bottom: 0.5rem;
     color: #34495e;
+    font-size: 1.1rem;
+
+    &::before {
+      content: "📝";
+      margin-right: 0.5rem;
+    }
   }
 
   input {
     width: 100%;
-    padding: 0.75rem;
+    padding: 1rem;
     border-radius: 12px;
-    border: 1px solid #ccc;
+    border: 2px solid #e1e8ed;
     font-size: 1rem;
-    transition: border-color 0.3s ease;
+    transition: all 0.3s ease;
+    background-color: #f8f9fa;
+    color: #2c3e50;
 
     &:focus {
       outline: none;
-      border-color: #3498db;
+      border-color: #0d47a1;
+      box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.1);
+      background-color: #ffffff;
     }
-  }
 
-  .error {
-    color: #e74c3c;
-    font-size: 0.85rem;
-    margin-top: 0.2rem;
-  }
-
-  .errorMessage {
-    color: #e74c3c;
-    font-size: 0.95rem;
-    margin-top: 1rem;
-    text-align: center;
-  }
-
-  .success {
-    color: #27ae60;
-    font-size: 0.95rem;
-    margin-top: 1rem;
-    text-align: center;
+    &:disabled {
+      background-color: #f1f3f4;
+      color: #666;
+      cursor: not-allowed;
+    }
   }
 
   .button-group {
@@ -68,25 +100,119 @@
     gap: 1rem;
 
     button {
-      padding: 0.9rem 2rem;
+      padding: 1rem 2.5rem;
       border: none;
       border-radius: 30px;
       font-weight: bold;
       cursor: pointer;
-      font-size: 1rem;
-      transition: background-color 0.3s ease;
-
-      background-color: #0d47a1;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      background: linear-gradient(135deg, #0d47a1, #1565c0);
       color: #fff;
+      box-shadow: 0 4px 15px rgba(13, 71, 161, 0.3);
+      position: relative;
+      overflow: hidden;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s;
+      }
 
       &:hover {
-        background-color: #08306b;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(13, 71, 161, 0.4);
+        background: linear-gradient(135deg, #1565c0, #0d47a1);
+
+        &::before {
+          left: 100%;
+        }
+      }
+
+      &:active {
+        transform: translateY(0);
       }
 
       &:disabled {
-        background-color: #e0e0e0;
+        background: #e0e0e0;
         color: #aaa;
         cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+
+        &:hover {
+          transform: none;
+          box-shadow: none;
+        }
+      }
+    }
+  }
+
+  .errorMessage {
+    color: #e74c3c;
+    font-size: 1rem;
+    margin-top: 1rem;
+    text-align: center;
+    padding: 1rem;
+    background-color: #fdeaea;
+    border-radius: 8px;
+    border-left: 4px solid #e74c3c;
+  }
+
+  .success {
+    color: #27ae60;
+    font-size: 1rem;
+    margin-top: 1rem;
+    text-align: center;
+    padding: 1rem;
+    background-color: #eafaf1;
+    border-radius: 8px;
+    border-left: 4px solid #27ae60;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .profile-container {
+    margin: 100px 1rem 2rem 1rem;
+    padding: 2rem;
+    border-radius: 20px;
+
+    h2 {
+      font-size: 1.8rem;
+    }
+
+    .button-group {
+      button {
+        padding: 0.8rem 2rem;
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-container {
+    margin: 90px 0.5rem 2rem 0.5rem;
+    padding: 1.5rem;
+
+    h2 {
+      font-size: 1.6rem;
+    }
+
+    input {
+      padding: 0.8rem;
+    }
+
+    .button-group {
+      button {
+        padding: 0.7rem 1.5rem;
+        font-size: 0.9rem;
       }
     }
   }
