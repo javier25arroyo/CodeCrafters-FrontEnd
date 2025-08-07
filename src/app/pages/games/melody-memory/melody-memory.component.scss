@@ -1,12 +1,30 @@
+app-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+}
+
 .game-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  margin-top: 2rem;
+  min-height: calc(100vh - 8rem); /* Altura ajustada considerando el navbar y el footer */
+  padding: 2rem;
+  margin-top: 4rem; /* Ajusta según la altura del navbar */
+
+  h1, h2 {
+    margin: 0.5rem 0;
+  }
 
   .buttons {
     display: flex;
     justify-content: center;
     gap: 1rem;
-    margin: 1.5rem 0;
+    margin: 1rem 0;
 
     button {
       padding: 1rem 2rem;
@@ -23,7 +41,7 @@
   }
 
   .restart-btn {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     padding: 0.8rem 1.5rem;
     font-size: 1rem;
     border: none;

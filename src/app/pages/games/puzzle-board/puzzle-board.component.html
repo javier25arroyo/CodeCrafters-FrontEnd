@@ -33,6 +33,9 @@
     <div class="move-counter">
         Movimientos: {{ moveCounter }}
     </div>
+    <div class="time-counter">
+      Tiempo: {{ formatTime(timeElapsed) }}
+    </div>
   </aside>
   
   <!-- Tablero en el centro -->
@@ -45,15 +48,15 @@
             *ngIf="getPieceAtPosition(row, col) as piece"
             [class.selected]="isPieceSelected(piece)" 
             (click)="selectPiece(piece)"
-            [style.background-image]="'url(' + currentImage + ')'"
+            [style.background-image]="'url(' + piece.imageUrl + ')'"
             [style.background-position]="getBackgroundPosition(piece)"
-            [style.background-size]="getBackgroundSize()"
+            [style.background-size]="getBackgroundSize(piece)"
           ></div>
         }
       }
     </div>
     <div class="completion-message" *ngIf="isCompleted">
-      ¡Felicidades🪄!
+      ¡Felicidades🪄🤟🏻!
     </div>
   </section>
   
