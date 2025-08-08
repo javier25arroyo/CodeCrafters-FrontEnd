@@ -1,7 +1,7 @@
+import { environment } from './../../../../environments/environment';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 
 export enum DifficultyLevel {
   EASY = 'easy',
@@ -42,6 +42,8 @@ export interface PuzzlePiece {
   correctPosition: { row: number, col: number };
   currentPosition: { row: number, col: number };
   imageUrl: string;
+  backgroundPosition: string;
+  backgroundSize: string;
 }
 
 @Injectable({
@@ -70,6 +72,17 @@ export class PuzzleService {
 
   private difficultySubject = new BehaviorSubject<DifficultyLevel>(DifficultyLevel.EASY);
   difficulty$ = this.difficultySubject.asObservable();
+
+  // Nuevas propiedades para tracking
+  private gameId: string = '';
+  private playerId: string = '';
+  private gameStartTime: Date = new Date();
+  private timerInterval: any;
+  private currentTimeElapsed: number = 0;
+
+  // Observable para el tiempo transcurrido
+  private timeElapsedSubject = new BehaviorSubject<number>(0);
+  timeElapsed$ = this.timeElapsedSubject.asObservable();
   
   private selectedPiece: PuzzlePiece | null = null;
 
@@ -82,23 +95,10 @@ export class PuzzleService {
     return DIFFICULTY_CONFIGS[this.currentDifficulty];
   }
 
-  private divideImageIntoPieces(): string[] {
-    const config = this.getCurrentConfig();
-    const pieces: string[] = [];
-    
-    for (let row = 0; row < config.boardSize; row++) {
-      for (let col = 0; col < config.boardSize; col++) {
-        pieces.push(this.currentImage);
-      }
-    }
-    return pieces;
-  }
-
-  initializeGame(): void {
+  private divideImageIntoPieces(): PuzzlePiece[] {
     const config = this.getCurrentConfig();
     const pieces: PuzzlePiece[] = [];
-    const dividedImages = this.divideImageIntoPieces();
-
+    
     for (let i = 0; i < config.maxPieces; i++) {
       const row = Math.floor(i / config.boardSize);
       const col = i % config.boardSize;
@@ -107,9 +107,32 @@ export class PuzzleService {
         id: i,
         correctPosition: { row, col },
         currentPosition: { row, col },
-        imageUrl: dividedImages[i]
+        imageUrl: this.currentImage,
+        backgroundPosition: this.calculateBackgroundPosition(row, col, config.boardSize),
+        backgroundSize: `${config.boardSize * 100}% ${config.boardSize * 100}%`
       });
     }
+    
+    return pieces;
+  }
+
+  private calculateBackgroundPosition(row: number, col: number, boardSize: number): string {
+    // Calcular la posición como un porcentaje del tamaño total de la imagen
+    const xPercent = (col * 100) / (boardSize - 1);
+    const yPercent = (row * 100) / (boardSize - 1);
+    
+    // Para tableros de 1x1, centrar la imagen
+    if (boardSize === 1) {
+      return '50% 50%';
+    }
+    
+    return `${xPercent}% ${yPercent}%`;
+  }
+
+  initializeGame(): void {
+    this.stopTimer();
+    
+    const pieces = this.divideImageIntoPieces();
     
     this.shufflePieces(pieces);
     this.ensureNotSolved(pieces);
@@ -117,6 +140,14 @@ export class PuzzleService {
     this.puzzleBoardSubject.next(pieces);
     this.isCompletedSubject.next(false);
     this.moveCounterSubject.next(0);
+    this.timeElapsedSubject.next(0);
+    
+    this.startTimer();
+  }
+
+  private startNewGame(): void {
+    this.gameStartTime = new Date();
+    this.currentTimeElapsed = 0;
   }
 
   private ensureNotSolved(pieces: PuzzlePiece[]): void {
@@ -176,8 +207,20 @@ export class PuzzleService {
     pieces[piece2Index].currentPosition = tempPosition;
 
     this.puzzleBoardSubject.next([...pieces]);
-    this.moveCounterSubject.next(this.moveCounterSubject.value + 1);
+    
+    const newMoveCount = this.moveCounterSubject.value + 1;
+    this.moveCounterSubject.next(newMoveCount);
+    
+
+    if (newMoveCount % 5 === 0 && this.gameId) {
+      this.updateGameProgress();
+    }
+    
     this.checkCompletion();
+  }
+
+  private updateGameProgress(): void {
+    if (!this.gameId) return;
   }
 
   private checkCompletion(): void {
@@ -188,6 +231,59 @@ export class PuzzleService {
     );
 
     this.isCompletedSubject.next(isCompleted);
+
+    if (isCompleted) {
+      this.stopTimer();
+      this.submitFinalGameData(true);
+    }
+  }
+
+  private startTimer(): void {
+    this.timerInterval = setInterval(() => {
+      this.currentTimeElapsed++;
+      this.timeElapsedSubject.next(this.currentTimeElapsed);
+    }, 1000);
+  }
+
+  private stopTimer(): void {
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+      this.timerInterval = null;
+    }
+  }
+
+  private submitFinalGameData(completed: boolean): void {
+    if (!completed) return;
+    
+    // Convertir la dificultad del frontend al formato del backend
+    const levelMapping = {
+      'easy': 'EASY',
+      'medium': 'MEDIUM', 
+      'hard': 'HARD'
+    };
+
+    const scoreData = {
+      gameType: 'PUZZLE',
+      level: levelMapping[this.currentDifficulty as keyof typeof levelMapping],
+      movements: this.moveCounterSubject.value,
+      time: this.currentTimeElapsed
+    };
+
+    // Enviar datos al backend (ruta relativa, el interceptor agregará la base URL)
+    this.http.post('games/score', scoreData).subscribe({
+      next: (response) => {
+        console.log('Puntaje guardado exitosamente:', response);
+      },
+      error: (error) => {
+        console.error('Error al guardar puntaje:', error);
+      }
+    });
+  }
+
+
+  abandonGame(): void {
+    this.stopTimer();
+    this.submitFinalGameData(false);
   }
 
   getPieceAtPosition(row: number, col: number): PuzzlePiece | undefined {
@@ -232,7 +328,7 @@ export class PuzzleService {
   setDifficulty(difficulty: DifficultyLevel): void {
     this.currentDifficulty = difficulty;
     this.difficultySubject.next(difficulty);
-    this.selectedPiece = null; // Resetear selección
+    this.selectedPiece = null;
     this.initializeGame();
   }
 
@@ -246,5 +342,23 @@ export class PuzzleService {
 
   getCurrentDifficultyConfig(): DifficultyConfig {
     return this.getCurrentConfig();
+  }
+
+
+  getPieceBackgroundPosition(piece: PuzzlePiece): string {
+    return piece.backgroundPosition;
+  }
+
+  getPieceBackgroundSize(piece: PuzzlePiece): string {
+    return piece.backgroundSize;
+  }
+
+
+  getCurrentTimeElapsed(): number {
+    return this.currentTimeElapsed;
+  }
+
+  getCurrentGameId(): string {
+    return this.gameId;
   }
 }

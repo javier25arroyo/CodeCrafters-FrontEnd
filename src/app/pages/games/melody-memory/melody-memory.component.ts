@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavComponent } from '../../components/nav/nav.component';
+import { NavComponent } from '../../../components/nav/nav.component';
 
 interface Note {
   freq: number;
@@ -40,8 +40,17 @@ export class MelodyMemoryComponent implements OnInit {
   }
 
   startNewGame(): void {
-    this.selectLevel(this.selectedLevel);  // Usa el nivel seleccionado actual
+  this.sequence = [];
+  this.userSequence = [];
+  this.level = this.getLevelNumber(this.selectedLevel);
+
+  for (let i = 0; i < this.getNoteCountForLevel(); i++) {
+    this.addNoteToSequence();
   }
+
+  this.playSequence();
+}
+
 
   addNoteToSequence(): void {
     const randomIndex = Math.floor(Math.random() * this.notes.length);
@@ -49,23 +58,23 @@ export class MelodyMemoryComponent implements OnInit {
   }
 
   async playSequence(): Promise<void> {
-    this.isPlaying = true;
-    this.message = '🎵 Escucha la secuencia...';
+  this.isPlaying = true;
+  this.message = '🎵 Escucha la secuencia...';
 
-    for (const note of this.sequence) {
-      this.currentNotePlaying = note.freq;
-      await this.playNoteAsync(note.freq);
-      this.currentNotePlaying = null;
-      await this.sleep(300); // Pausa entre notas para que no se peguen
-    }
-
-    this.isPlaying = false;
-    this.userSequence = [];
-    this.message = '🎶 Tu turno';
+  for (const note of this.sequence) {
+    this.currentNotePlaying = note.freq;
+    await this.playNoteAsync(note.freq);
+    this.currentNotePlaying = null;
+    await this.sleep(300); // Pausa entre notas para que no se peguen
   }
 
+  this.isPlaying = false;
+  this.userSequence = [];
+  this.message = '🎶 Tu turno';
+}
+
   playNote(freq: number): void {
-    // Método para sonar la nota, sin esperar
+   
     const context = new AudioContext();
     const oscillator = context.createOscillator();
     const gainNode = context.createGain();
@@ -73,7 +82,7 @@ export class MelodyMemoryComponent implements OnInit {
     oscillator.type = 'sine';
     oscillator.frequency.value = freq;
 
-    gainNode.gain.value = 0.8; // volumen al 80%
+    gainNode.gain.value = 0.8; 
 
     oscillator.connect(gainNode);
     gainNode.connect(context.destination);
@@ -82,7 +91,7 @@ export class MelodyMemoryComponent implements OnInit {
     oscillator.stop(context.currentTime + 0.5);
   }
 
-  // Método que retorna una Promise que se resuelve al terminar de sonar la nota
+  
   playNoteAsync(freq: number): Promise<void> {
     return new Promise((resolve) => {
       const context = new AudioContext();
@@ -107,9 +116,9 @@ export class MelodyMemoryComponent implements OnInit {
   }
 
   pressNote(note: Note): void {
-    if (this.isPlaying) return; // Bloquea si se está reproduciendo la secuencia o nota
+    if (this.isPlaying) return; 
 
-    this.isPlaying = true; // Bloquea para que no se presionen otras notas
+    this.isPlaying = true; 
     this.playNote(note.freq);
 
     this.userSequence.push(note);
@@ -136,10 +145,10 @@ export class MelodyMemoryComponent implements OnInit {
       return;
     }
 
-    // Si aún no termina, desbloquea para que pueda tocar siguiente nota
+    
     setTimeout(() => {
       this.isPlaying = false;
-    }, 600); // espera que termine de sonar la nota
+    }, 600); 
   }
 
   sleep(ms: number): Promise<void> {

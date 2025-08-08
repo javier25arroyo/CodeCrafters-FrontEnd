@@ -1,0 +1,16 @@
+{
+  "hints": [
+    { "word": "REHABILITAR",   "clue": "Ayuda a recuperar funciones",                  "x": 0, "y": 8, "direction": "down" },
+    { "word": "VACUNA",        "clue": "Protección contra enfermedades",               "x": 0, "y": 13, "direction": "down" },
+    { "word": "ANTIBIOTICO",   "clue": "Medicamento contra bacterias",                 "x": 5, "y": 13, "direction": "across" },
+    { "word": "TERAPIA",       "clue": "Tratamiento para curar o aliviar",             "x": 1, "y": 7, "direction": "across" },
+    { "word": "ENFERMERA",     "clue": "Asiste al médico y cuida al paciente",         "x": 3, "y": 0, "direction": "across" },
+    { "word": "VACUNACION",    "clue": "Proceso de administrar vacuna",                "x": 6, "y": 11, "direction": "down" },
+    { "word": "EMERGENCIA",    "clue": "Atención inmediata e imperiosa",               "x":10, "y": 5, "direction": "across" },
+    { "word": "MEDICAMENTO",   "clue": "Sustancia para tratar una enfermedad",         "x": 12, "y": 7, "direction": "across" },
+    { "word": "ENFERMEDAD",    "clue": "Alteración de la salud",                       "x":12, "y": 14, "direction": "down" },
+    { "word": "DIAGNOSTICO",   "clue": "Identificación de la causa de una enfermedad", "x":14, "y": 18, "direction": "down" },
+    { "word": "CIRUGIA",       "clue": "Intervención quirúrgica",                      "x":16, "y": 12, "direction": "across" },
+    { "word": "HOSPITAL",      "clue": "Centro de atención médica",                    "x": 20, "y": 8, "direction": "across" }
+  ]
+}

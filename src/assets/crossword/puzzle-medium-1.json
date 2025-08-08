@@ -1,0 +1,18 @@
+{
+  "hints": [
+    { "word": "ELEFANTE",  "clue": "Mamífero gris con trompa",         "x": 1, "y": 2,  "direction": "across" },
+    { "word": "DELFIN",    "clue": "Amigo cordial del océano",         "x": 0, "y": 4,  "direction": "down"   },
+    { "word": "JIRAFA",    "clue": "Animal de cuello largo",           "x": 3, "y": 0,  "direction": "across" },
+    { "word": "TIGRE",     "clue": "Felino rayado",                    "x": 1, "y": 8,  "direction": "down"   },
+    { "word": "TORTUGA",   "clue": "Reptil longevo y lento",           "x": 4, "y": 6,  "direction": "across" },
+    { "word": "CABALLO",   "clue": "Equino doméstico",                 "x": 3, "y": 12, "direction": "down"   },
+    { "word": "VACA",      "clue": "Productora de leche",              "x": 6, "y": 9,  "direction": "across" },
+    { "word": "COCODRILO", "clue": "Reptil grande y feroz",            "x": 9, "y": 11, "direction": "across" },
+    { "word": "GATO",      "clue": "Felino doméstico",                 "x": 4, "y": 16, "direction": "down"   },
+    { "word": "MARIPOSA",  "clue": "Insecto colorido",                 "x": 5, "y": 15, "direction": "across" },
+    { "word": "LEON",      "clue": "Rey de la selva",                  "x": 7, "y": 14, "direction": "across" },
+    { "word": "RANA",      "clue": "Anfibio saltarín",                 "x": 8, "y": 19, "direction": "across" },
+    { "word": "PANDA",     "clue": "Oso negro y blanco",               "x": 4, "y": 22, "direction": "down"   },
+    { "word": "PERRO",     "clue": "Mejor amigo del hombre",           "x": 5, "y": 19, "direction": "down"   }
+  ]
+}
