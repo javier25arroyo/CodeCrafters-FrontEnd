@@ -29,13 +29,9 @@ import { AdminUserListComponent } from './components/admin-user/admin-user-list/
 import { AdminUserFormComponent } from './components/admin-user/admin-user-form/admin-user-form.component';
 import { AdminUserManagementComponent } from './pages/admin-user-management/admin-user-management.component';
 import { MelodyMemoryComponent } from './pages/games/melody-memory/melody-memory.component';
-<<<<<<< HEAD
-import { UserProfileComponent } from './pages/user-profile/user-profile.component 2';
 import { CaregiverStatsComponent } from './pages/caregiver-stats/caregiver-stats.component';
-=======
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 
->>>>>>> origin/dev
 
 export const routes: Routes = [
   {
