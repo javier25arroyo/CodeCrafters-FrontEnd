@@ -1,0 +1,66 @@
+<app-nav></app-nav>
+<section class="stats" aria-labelledby="stats-title">
+  <h2 id="stats-title" class="stats-title">Buscar usuario</h2>
+
+  <form class="search" (ngSubmit)="onSearch()" #f="ngForm" novalidate>
+    <label for="email" class="sr-only">Correo del usuario</label>
+
+    <div class="search-row">
+      <input
+        id="email"
+        name="email"
+        type="email"
+        class="search-input"
+        placeholder="Correo del usuario"
+        [(ngModel)]="email"
+        required
+        email
+        autocomplete="off"
+      />
+
+      <button
+        class="btn btn-primary"
+        type="submit"
+        [disabled]="f.invalid || loading"
+      >
+        {{ loading ? 'Buscando…' : 'Buscar' }}
+      </button>
+
+      <button
+        class="btn btn-ghost"
+        type="button"
+        (click)="clearSearch()"
+        [disabled]="loading || (!email && !userData && !error)"
+      >
+        Limpiar
+      </button>
+    </div>
+
+    <div class="hint" *ngIf="f.controls['email']?.invalid && f.controls['email']?.touched">
+      Ingresa un correo válido.
+    </div>
+  </form>
+
+  <div *ngIf="loading" class="status" role="status" aria-live="polite">
+    <span class="spinner" aria-hidden="true"></span> Buscando usuario…
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger" role="alert">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!loading && userData as u" class="result-card">
+    <h3>Usuario encontrado</h3>
+    <dl class="result-dl">
+      <div>
+        <dt>Nombre:</dt>
+        <dd>{{ u.name || '—' }}</dd>
+      </div>
+      <div>
+        <dt>Email:</dt>
+        <dd>{{ u.email || '—' }}</dd>
+      </div>
+    </dl>
+  </div>
+</section>
+<app-footer></app-footer>
