@@ -30,6 +30,7 @@ import { AdminUserFormComponent } from './components/admin-user/admin-user-form/
 import { AdminUserManagementComponent } from './pages/admin-user-management/admin-user-management.component';
 import { MelodyMemoryComponent } from './pages/games/melody-memory/melody-memory.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component 2';
+import { CaregiverStatsComponent } from './pages/caregiver-stats/caregiver-stats.component';
 
 export const routes: Routes = [
   {
@@ -70,6 +71,13 @@ export const routes: Routes = [
   {
     path: 'caregiver-dashboard',
     component: CaregiverDashboardComponent,
+    canActivate: [AuthGuard],
+    data: { 
+      authorities: [IRoleType.caregiver] }
+  },
+  {
+    path: 'caregiver-stats',
+    component: CaregiverStatsComponent,
     canActivate: [AuthGuard],
     data: { 
       authorities: [IRoleType.caregiver] }

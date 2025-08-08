@@ -55,13 +55,11 @@ export class LoginComponent {
           return;
         }
 
-        // 2) Caregiver → dashboard de cuidadores
         if (this.authService.hasRole(IRoleType.caregiver)) {
           this.router.navigateByUrl('/caregiver-dashboard');
           return;
         }
 
-        // 3) Cualquier otro → dashboard de usuario normal
         this.router.navigateByUrl('/dashboard-user');
       },
         error: (err: any) => (this.loginError = err.error.description),

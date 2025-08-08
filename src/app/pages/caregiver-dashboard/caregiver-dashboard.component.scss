@@ -1,0 +1,108 @@
+.dashboard-bg {
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  /* Fondo eliminado para usar el fondo global */
+}
+
+.dashboard-overlay {
+  /* Fondo eliminado para usar el fondo global */
+  display: none;
+}
+
+.dashboard-content {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 16px;
+  z-index: 1;
+  font-family: 'Lexend', 'Noto Sans', sans-serif;
+}
+
+.dashboard-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Centrado vertical */
+  height: 100vh;            /* Ocupar toda la pantalla */
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 0 0 0;
+  text-align: center;
+}
+
+.dashboard-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #191d28;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.dashboard-section {
+  display: flex; /* Usamos flex en lugar de grid para centrar una sola tarjeta */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+
+.dashboard-tip {
+  width: 100%;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.dashboard-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.dashboard-card:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.dashboard-card-image {
+  max-width: 80%;
+  height: auto;
+  margin-bottom: 1.5rem;
+}
+
+.dashboard-card-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #0d47a1;
+}
+
+.dashboard-card-description {
+  font-size: 1.2rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .dashboard-section {
+    max-width: 90%;
+    padding: 0 1rem;
+  }
+
+  .dashboard-main {
+    padding: 1rem 0;
+    height: auto;
+  }
+}

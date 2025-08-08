@@ -36,4 +36,18 @@ export class NavComponent implements OnInit {
     this.isLoggedIn = false;
     this.router.navigate(['/']);
   }
+
+  goHome(): void {
+    if (this.authService.hasRole('ROLE_CAREGIVER')) {
+      this.router.navigateByUrl('/caregiver-dashboard');
+    } else if (
+      this.authService.hasRole('ROLE_ADMIN') ||
+      this.authService.hasRole('ROLE_SUPER_ADMIN')
+    ) {
+      this.router.navigateByUrl('/dashboard-admin');
+    } else {
+      this.router.navigateByUrl('/dashboard-user');
+    }
+  }
+
 }

@@ -19,6 +19,7 @@ export interface IUser {
   createdAt?: string;
   updatedAt?: string;
   isCaregiver?: boolean;
+  phone?: string;
   authorities?: IAuthority[];
   role?: IRole
 }

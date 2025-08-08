@@ -15,7 +15,7 @@
       <!-- Cuando SÍ está logueado -->
       <ng-container *ngIf="isLoggedIn">
         <li *ngIf="!router.url.startsWith('/dashboard-user')">
-          <button class="action-btn" routerLink="/dashboard-user">⬅ Volver</button>
+          <button class="action-btn" (click)="goHome()">⬅ Volver</button>
         </li>
         <li *ngIf="!router.url.startsWith('/user-profile')">
           <button class="action-btn" routerLink="/user-profile">Ver perfil</button>

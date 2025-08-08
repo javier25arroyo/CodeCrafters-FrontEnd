@@ -24,7 +24,8 @@ export class SigUpComponent {
   @ViewChild('confirmPassword') confirmPasswordModel!: NgModel;
 
   public user: IUser = {
-    isCaregiver: false
+    isCaregiver: false,
+    phone: ''
   };
 
   constructor(private router: Router, 
@@ -40,7 +41,6 @@ export class SigUpComponent {
   }
 
   public handleSignup(event: Event) {
-    event.preventDefault();
     if (!this.nameModel.valid) {
       this.nameModel.control.markAsTouched();
     }
@@ -56,9 +56,17 @@ export class SigUpComponent {
     
     if (this.nameModel.valid && this.emailModel.valid && this.passwordModel.valid && this.confirmPasswordModel.valid && this.passwordsMatch()) {
         this.authService.signup(this.user).subscribe({
-          next: () => this.validSignup = true,
-          error: (err: any) => (this.signUpError = err.description || err.message),
-        });
+        next: () => { 
+          this.validSignup = true;
+        },
+        error: err => {
+          if (err.status === 500) {
+            this.signUpError = 'Error al registrar. Intenta luego.';
+          } else {
+            this.signUpError = err.error?.message || 'Error al registrar';
+          }
+        }
+      });
     }
   }
 }
