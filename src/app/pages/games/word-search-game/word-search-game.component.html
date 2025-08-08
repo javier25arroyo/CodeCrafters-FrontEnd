@@ -3,8 +3,25 @@
 <div class="container">
   <h2>🔠 Sopa de Letras</h2>
 
+  <div class="difficulty-buttons">
+    <button 
+      (click)="setDifficulty('facil')" 
+      [class.active]="difficulty === 'facil'">
+      🟢 Fácil 
+    </button>
+    <button 
+      (click)="setDifficulty('medio')" 
+      [class.active]="difficulty === 'medio'">
+      🟡 Medio 
+    </button>
+    <button 
+      (click)="setDifficulty('dificil')" 
+      [class.active]="difficulty === 'dificil'">
+      🔴 Difícil 
+    </button>
+  </div>
+
   <div class="info">
-    <p><strong>Nivel:</strong> {{ level }} / {{ maxLevels }}</p>
     <p><strong>Puntaje:</strong> {{ score }}</p>
     <p><strong>Palabras por encontrar:</strong> {{ words.join(', ') }}</p>
     <p><strong>Encontradas:</strong>
@@ -20,7 +37,7 @@
     <div *ngFor="let row of grid; let i = index" class="row">
       <span
         *ngFor="let letter of row; let j = index"
-        class="cell"
+        class="cell {{ cellSizeClass }}"
         (click)="toggleSelection(i, j)"
         [class.selected]="isSelected(i, j)">
         {{ letter }}
@@ -49,4 +66,5 @@
     ⚠️ Límite de reinicio alcanzado.
   </p>
 </div>
+
 <app-footer></app-footer>

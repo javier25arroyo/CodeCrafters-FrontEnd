@@ -3,17 +3,38 @@
 <div class="container">
   <h2>🧠 Juego de Secuencia Numérica</h2>
 
-  <p><strong>Nivel:</strong> {{ level }} / {{ TOTAL_LEVELS }}</p>
+  <!-- Botones de dificultad -->
+  <div class="difficulty-buttons">
+    <button 
+      (click)="setDifficulty('facil')" 
+      [class.active]="difficulty === 'facil'">
+      🟢 Fácil
+    </button>
+    <button 
+      (click)="setDifficulty('medio')" 
+      [class.active]="difficulty === 'medio'">
+      🟡 Medio
+    </button>
+    <button 
+      (click)="setDifficulty('dificil')" 
+      [class.active]="difficulty === 'dificil'">
+      🔴 Difícil
+    </button>
+  </div>
+
+  <!-- Información del juego -->
   <p><strong>Puntaje:</strong> {{ score }}</p>
   <p><strong>Intentos restantes:</strong> {{ intentosRestantes }}</p>
   <p><strong>Reinicios disponibles:</strong> {{ MAX_RESTARTS - reiniciosUsados }}</p>
 
+  <!-- Secuencia -->
   <div class="sequence">
     <span *ngFor="let num of sequence">
       {{ isNumberHidden(num) ? '___' : num }}
     </span>
   </div>
 
+  <!-- Entrada de respuesta -->
   <input
     type="number"
     [(ngModel)]="userAnswer"
@@ -22,23 +43,23 @@
     aria-label="¿Cuál número falta?"
   />
 
+  <!-- Botones de acción -->
   <div class="actions">
     <button 
       class="verify-btn"
       (click)="checkAnswer()" 
-      [disabled]="gameOver || !userAnswer"
-    >
+      [disabled]="gameOver || !userAnswer">
       Verificar
     </button>
 
     <button 
       class="restart-btn"
       *ngIf="(MAX_RESTARTS - reiniciosUsados) > 0" 
-      (click)="restartGame()"
-    >
+      (click)="restartGame()">
       🔁 Reiniciar juego
     </button>
   </div>
 
+  <!-- Mensaje -->
   <p class="message">{{ message }}</p>
 </div>
