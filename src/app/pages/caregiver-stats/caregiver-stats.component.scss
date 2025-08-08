@@ -1,37 +1,32 @@
-/* --- espaciado general del bloque --- */
 .stats {
   width: 100%;
-  max-width: 880px;                /* + ancho cómodo en desktop */
+  max-width: 880px;                
   margin-inline: auto;
   padding-inline: var(--space-3);
-  padding-block: clamp(24px, 6vh, 64px);  /* más aire arriba/abajo */
+  padding-block: clamp(24px, 6vh, 64px);  
   text-align: left;
   font-family: 'Lexend', 'Noto Sans', sans-serif;
 }
 
-/* título con separación y centrado */
 .stats-title {
   font-size: clamp(1.2rem, 1rem + .8vw, 1.6rem);
   font-weight: 700;
   color: var(--text);
   margin: 0 0 var(--space-3);
-  text-align: center;              /* centrado para respirar con el header */
+  text-align: center;              
 }
 
-/* separa el formulario del resultado */
 .search { 
-  margin-bottom: var(--space-3);   /* NUEVO */
+  margin-bottom: var(--space-3);  
 }
 
-/* fila del buscador con más gap */
 .search-row {
   display: grid;
   grid-template-columns: 1fr auto auto;
-  gap: var(--space-2);             /* antes var(--space-1) */
+  gap: var(--space-2);             
   align-items: center;
 }
 
-/* input y botones con alturas iguales */
 .search-input {
   height: 44px;
   padding: 0 var(--space-2);
@@ -45,7 +40,6 @@
   outline-offset: 2px;
 }
 
-/* botones consistentes */
 .btn {
   height: 44px;
   padding: 0 var(--space-2);
@@ -53,8 +47,8 @@
   border: 1px solid transparent;
   cursor: pointer;
   font-weight: 600;
-  line-height: 1;                  /* evita “botón bajito” */
-  min-width: 112px;                /* para que no quede tan angosto "Limpiar" */
+  line-height: 1;                  
+  min-width: 112px;                
 }
 .btn:disabled { opacity: .6; cursor: not-allowed; }
 .btn-primary { background: var(--brand); color: #fff; }
