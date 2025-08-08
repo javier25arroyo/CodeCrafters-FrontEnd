@@ -10,7 +10,7 @@ import { MyAccountComponent } from '../../../my-account/my-account.component';
   selector: 'app-topbar',
   standalone: true,
   imports: [CommonModule, RouterLink, MyAccountComponent],
-  templateUrl: './topbar.component.html',
+  templateUrl: './topbar.component.html'
 })
 export class TopbarComponent implements OnInit {
   public user?: IUser;

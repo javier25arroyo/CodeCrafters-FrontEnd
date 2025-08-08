@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NavAdminComponent } from '../../components/nav-admin/nav-admin.component';
-import { FooterComponent } from '../../components/footer/footer.component';
 
 interface Suggestion {
   id: number;
@@ -17,7 +16,7 @@ interface Suggestion {
   standalone: true,
   templateUrl: './admin-suggestions.component.html',
   styleUrls: ['./admin-suggestions.component.scss'],
-  imports: [CommonModule, FormsModule, NavAdminComponent, FooterComponent]
+  imports: [CommonModule, FormsModule, NavAdminComponent]
 })
 export class AdminSuggestionsComponent implements OnInit {
   suggestions: Suggestion[] = [];

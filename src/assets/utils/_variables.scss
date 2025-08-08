@@ -303,13 +303,13 @@ $breadcrumb-content: "/";
 //main header left settings
 $header-left-bg-color: $white;
 $main-header-padding: 27px 22px;
-$main-header-z-index: 8;
+$main-header-z-index: 1000;
 $header-wrapper-padding: 22px 30px;
 $header-wrapper-nav-right: 0px;
 $header-wrapper-nav-icon-size: 20px;
 $header-wrapper-nav-icon-color: $theme-font-color;
 $header-wrapper-nav-icon-align: middle;
-$header-size: 136px;
+$header-size: 90px;
 $box-layout-space: 40px;
 
 // widgets variables
