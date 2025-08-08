@@ -13,22 +13,25 @@ import { AuthService } from '../../services/auth.service';
 })
 export class NavComponent implements OnInit {
   isLoggedIn = false;
+  showProfileLink = false; // ← nueva
   authService: AuthService = inject(AuthService);
 
   constructor(public router: Router) {}
 
   ngOnInit(): void {
-    this.checkLoginStatus();
-
+    this.updateUi();
     this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe(() => {
-        this.checkLoginStatus();
-      });
+      .pipe(filter(e => e instanceof NavigationEnd))
+      .subscribe(() => this.updateUi());
   }
 
-  checkLoginStatus(): void {
+  private updateUi(): void {
     this.isLoggedIn = this.authService.check();
+    const isCaregiver = this.authService.hasRole('ROLE_CAREGIVER');
+    this.showProfileLink =
+      this.isLoggedIn &&
+      !isCaregiver && 
+      !this.router.url.startsWith('/user-profile');
   }
 
   logout(): void {
@@ -49,5 +52,4 @@ export class NavComponent implements OnInit {
       this.router.navigateByUrl('/dashboard-user');
     }
   }
-
 }
