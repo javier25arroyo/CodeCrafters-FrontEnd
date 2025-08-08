@@ -2,10 +2,9 @@
 
 .puzzle-main-layout {
   display: flex;
-  flex-direction: row;
-  align-items: stretch; /* Estirar todos los elementos al mismo alto */
+  align-items: stretch;
   justify-content: center;
-  gap: 16px; /* Reducir separación entre opciones, tablero y referencia */
+  gap: 16px;
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
@@ -13,34 +12,31 @@
   min-height: 100vh;
 }
 
+.sidebar, .reference-sidebar {
+  width: 280px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
 .sidebar {
-  width: 280px; // Unificar ancho con reference-sidebar
-  height: 100%; /* Ajustar la altura para que coincida con el tablero */
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 4px 24px rgba(0,0,0,0.10);
   padding: 24px 18px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; /* Distribuir elementos verticalmente */
-  align-items: center;
-  gap: 24px;
+  
+  h2 {
+    color: #333;
+    font-size: $h2-font-size;
+    margin-bottom: 10px;
+  }
 }
 
 .reference-sidebar {
-  width: 280px; // Unificar ancho con sidebar
-  height: 100%; /* Ocupa toda la altura para alinear con sidebar y tablero */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between; /* Distribuir verticalmente */
   padding: 0 10px;
-}
-
-.sidebar h2 {
-  color: #333;
-  font-size: $h2-font-size; // Usar tamaño de título global para simetría
-  margin-bottom: 10px;
 }
 
 .image-selector {
@@ -49,7 +45,6 @@
 
 .image-options {
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
@@ -63,15 +58,16 @@
   overflow: hidden;
   cursor: pointer;
   background: #f7f7f7;
-  padding: 0;
   transition: border 0.2s, box-shadow 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
+  
   &.active, &:hover {
     border-color: #007bff;
     box-shadow: 0 2px 10px rgba(0,123,255,0.08);
   }
+  
   img {
     width: 100%;
     height: 90px;
@@ -85,22 +81,26 @@
   width: 100%;
   text-align: center;
   margin-top: 40px;
-}
-.reference-image h4 {
-  margin-bottom: 8px;
-  color: #555;
-  font-size: 1.1rem;
-}
-.reference-image img {
-  width: 100%;
-  max-width: 210px;
-  height: 140px;
-  object-fit: cover;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.10);
+  
+  h4 {
+    margin-bottom: 8px;
+    color: #555;
+    font-size: 1.1rem;
+  }
+  
+  img {
+    width: 100%;
+    max-width: 210px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.10);
+  }
 }
 
 .reset-button {
+  width: 100%;
+  margin-top: 10px;
   padding: 12px 24px;
   background-color: #28a745;
   color: white;
@@ -109,9 +109,8 @@
   cursor: pointer;
   font-size: 1.1rem;
   font-weight: bold;
-  margin-top: 10px;
-  transition: background-color 0.3s;
-  width: 100%;
+  transition: all 0.3s;
+  
   &:hover {
     background-color: #218838;
     transform: translateY(-1px);
@@ -157,8 +156,8 @@
   background-color: #2c2c2c;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
+  animation: boardResize 0.5s ease-in-out;
 
-  // Tamaños específicos según dificultad
   &[style*="repeat(3,"] {
     width: 400px;
     height: 400px;
@@ -196,9 +195,8 @@
   cursor: pointer;
   transition: all 0.2s ease;
   background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
 
   &:hover {
     border-color: #007bff;
@@ -215,16 +213,11 @@
   }
 }
 
-// Imagen de referencia ajustada según dificultad
 .reference-sidebar {
-  width: 250px;
-  padding: 20px;
   background-color: #f8f9fa;
   border-left: 1px solid #dee2e6;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
+  padding: 20px;
+  
   .reference-image {
     text-align: center;
     
@@ -239,7 +232,6 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       transition: all 0.3s ease;
       
-      // Tamaños de referencia según dificultad
       &[src*="1.png"], &[src*="2.png"], &[src*="3.png"], &[src*="4.png"], &[src*="5.png"] {
         width: 180px;
         height: 180px;
@@ -249,7 +241,6 @@
   }
 }
 
-// Responsive design mejorado
 @media (max-width: 1200px) {
   .puzzle-main-layout {
     flex-direction: column;
@@ -296,10 +287,12 @@
 }
 
 @media (max-width: 768px) {
-  .sidebar {
+  .sidebar, .reference-sidebar {
     width: 100%;
     height: auto;
-    border-right: none;
+  }
+  
+  .sidebar {
     border-bottom: 1px solid #dee2e6;
   }
   
@@ -384,7 +377,6 @@
   }
 }
 
-// Selector de dificultad mejorado
 .difficulty-selector {
   width: 100%;
   margin-bottom: 20px;
@@ -431,37 +423,27 @@
     box-shadow: 0 3px 10px rgba(0, 123, 255, 0.3);
   }
 
-  // Indicadores visuales para cada dificultad
-  &:nth-child(1)::before {
-    content: "🟢 ";
-  }
-  
-  &:nth-child(2)::before {
-    content: "🟡 ";
-  }
-  
-  &:nth-child(3)::before {
-    content: "🔴 ";
-  }
-}
-
-// Animación para el cambio de tamaño
-.puzzle-board {
-  animation: boardResize 0.5s ease-in-out;
+  &:nth-child(1)::before { content: "🟢 "; }
+  &:nth-child(2)::before { content: "🟡 "; }
+  &:nth-child(3)::before { content: "🔴 "; }
 }
 
 @keyframes boardResize {
-  0% {
-    transform: scale(0.8);
-    opacity: 0.7;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
+  0% { transform: scale(0.8); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
-// Mensaje de completado mejorado
+@keyframes celebration {
+  0% { transform: scale(0.5) rotate(-5deg); opacity: 0; }
+  50% { transform: scale(1.1) rotate(2deg); }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.05); }
+}
+
 .completion-message {
   margin-top: 20px;
   padding: 15px 25px;
@@ -475,21 +457,6 @@
   animation: celebration 0.6s ease-in-out;
 }
 
-@keyframes celebration {
-  0% {
-    transform: scale(0.5) rotate(-5deg);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1.1) rotate(2deg);
-  }
-  100% {
-    transform: scale(1) rotate(0deg);
-    opacity: 1;
-  }
-}
-
-// Contador de movimientos mejorado
 .move-counter {
   margin-top: 15px;
   padding: 10px 15px;
@@ -507,7 +474,6 @@
   }
 }
 
-// Botón de reinicio mejorado
 .reset-button {
   width: 100%;
   margin-top: 15px;

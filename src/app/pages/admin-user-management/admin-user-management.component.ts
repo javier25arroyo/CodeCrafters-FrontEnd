@@ -8,8 +8,6 @@ import { IUser } from '../../interfaces';
 import { UserService } from '../../services/user.service';
 import { AdminGameListComponent } from '../../components/games/game-list/admin-game-list.component';
 import { NavAdminComponent } from '../../components/nav-admin/nav-admin.component';
-import { FooterComponent } from '../../components/footer/footer.component';
-
 
 @Component({
   selector: 'app-admin-user-management',
@@ -23,7 +21,6 @@ import { FooterComponent } from '../../components/footer/footer.component';
     ReactiveFormsModule,
     AdminGameListComponent,
     NavAdminComponent,
-    FooterComponent
   ],
   templateUrl: './admin-user-management.component.html',
   styleUrls: ['./admin-user-management.component.scss'],

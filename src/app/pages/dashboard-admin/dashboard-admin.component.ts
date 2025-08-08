@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { DailyTipComponent } from '../../components/daily-tip/daily-tip.component';
 import { CardInfoUserComponent } from '../../components/card-info-user/card-info-user.component';
-import { FooterComponent } from '../../components/footer/footer.component';
 import { NavAdminComponent } from '../../components/nav-admin/nav-admin.component';
 
 @Component({
@@ -11,8 +10,7 @@ import { NavAdminComponent } from '../../components/nav-admin/nav-admin.componen
   imports: [
     DailyTipComponent,
     CardInfoUserComponent,
-    NavAdminComponent,
-    FooterComponent
+    NavAdminComponent
   ],
   templateUrl: './dashboard-admin.component.html',
   styleUrls: ['./dashboard-admin.component.scss'],
