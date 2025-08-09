@@ -20,15 +20,17 @@ import { GameSequenceComponent } from './pages/games/game-sequence/game-sequence
 import { MemoryGameComponent } from './pages/games/memorycard-game/memorycard-game.component';
 import { SuggestionComponent } from './pages/suggestion/suggestion.component';
 import { AdminSuggestionsComponent } from './pages/admin-suggestions/admin-suggestions.component';
-import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { PuzzleBoardComponent } from './pages/games/puzzle-board/puzzle-board.component';
 import { WordSearchGameComponent } from './pages/games/word-search-game/word-search-game.component';
 import { DashboardAdminComponent } from './pages/dashboard-admin/dashboard-admin.component';
+import { CaregiverDashboardComponent } from './pages/caregiver-dashboard/caregiver-dashboard.component'; 
 import { AdminRoleGuard } from './guards/admin-role.guard';
 import { AdminUserListComponent } from './components/admin-user/admin-user-list/admin-user-list.component';
 import { AdminUserFormComponent } from './components/admin-user/admin-user-form/admin-user-form.component';
 import { AdminUserManagementComponent } from './pages/admin-user-management/admin-user-management.component';
 import { MelodyMemoryComponent } from './pages/games/melody-memory/melody-memory.component';
+import { CaregiverStatsComponent } from './pages/caregiver-stats/caregiver-stats.component';
+import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 
 
 export const routes: Routes = [
@@ -66,6 +68,20 @@ export const routes: Routes = [
     path: 'dashboard-user',
     component: DashboardUsuarioComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'caregiver-dashboard',
+    component: CaregiverDashboardComponent,
+    canActivate: [AuthGuard],
+    data: { 
+      authorities: [IRoleType.caregiver] }
+  },
+  {
+    path: 'caregiver-stats',
+    component: CaregiverStatsComponent,
+    canActivate: [AuthGuard],
+    data: { 
+      authorities: [IRoleType.caregiver] }
   },
   {
     path: 'signup',
@@ -119,14 +135,6 @@ export const routes: Routes = [
     data: { authorities: [IRoleType.user] },
   },
   {
-    path: 'admin-suggestions',
-    component: AdminSuggestionsComponent,
-    canActivate: [AuthGuard],
-    data: {
-      authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user]
-    }
-  },
-  {
     path: 'suggestions',
     component: SuggestionComponent,
     canActivate: [AuthGuard],
@@ -168,7 +176,7 @@ export const routes: Routes = [
         path: 'profile',
         component: ProfileComponent,
         data: {
-          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user, IRoleType.caregiver],
           name: 'profile',
           showInSidebar: false,
         },

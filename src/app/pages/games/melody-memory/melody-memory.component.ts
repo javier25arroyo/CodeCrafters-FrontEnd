@@ -84,6 +84,7 @@ export class MelodyMemoryComponent implements OnInit {
   }
 
   playNote(freq: number): void {
+
     const context = new AudioContext();
     const oscillator = context.createOscillator();
     const gainNode = context.createGain();

@@ -16,9 +16,22 @@
     <div class="move-counter">
         Movimientos: {{ moveCounter }}
     </div>
+    <div class="time-counter">
+      Tiempo: {{ formatTime(timeElapsed) }}
+    </div>
   </aside>
-  <!-- Tablero en el centro -->
+  
   <section class="puzzle-board-section">
+    <div class="difficulty-buttons">
+      @for (config of difficultyConfigs; track config.level) {
+        <button
+          (click)="changeDifficulty(config.level)"
+          [class.active]="isCurrentDifficulty(config.level)">
+          {{ config.label }}
+        </button>
+      }
+    </div>
+
     <div class="puzzle-board" [style.grid-template-columns]="'repeat(' + boardSize + ', 1fr)'">
       @for (row of range(boardSize); track row) {
         @for (col of range(boardSize); track col) {
@@ -27,18 +40,18 @@
             *ngIf="getPieceAtPosition(row, col) as piece"
             [class.selected]="isPieceSelected(piece)" 
             (click)="selectPiece(piece)"
-            [style.background-image]="'url(' + currentImage + ')'"
+            [style.background-image]="'url(' + piece.imageUrl + ')'"
             [style.background-position]="getBackgroundPosition(piece)"
-            [style.background-size]="getBackgroundSize()"
+            [style.background-size]="getBackgroundSize(piece)"
           ></div>
         }
       }
     </div>
     <div class="completion-message" *ngIf="isCompleted">
-      ¡Felicidades🪄!
+      ¡Felicidades🪄🤟🏻!
     </div>
   </section>
-  <!-- Imagen de referencia a la derecha -->
+  
   <aside class="reference-sidebar">
     <div class="reference-image">
       <h4>Referencia:</h4>

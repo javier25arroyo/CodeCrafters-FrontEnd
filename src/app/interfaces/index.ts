@@ -18,6 +18,8 @@ export interface IUser {
   active?: boolean;
   createdAt?: string;
   updatedAt?: string;
+  isCaregiver?: boolean;
+  phone?: string;
   authorities?: IAuthority[];
   role?: IRole
 }
@@ -40,7 +42,8 @@ export enum IFeedbackStatus {
 export enum IRoleType {
   admin = "ROLE_ADMIN",
   user = "ROLE_USER",
-  superAdmin = 'ROLE_SUPER_ADMIN'
+  superAdmin = 'ROLE_SUPER_ADMIN',
+  caregiver = 'ROLE_CAREGIVER'
 }
 
 export interface IRole {
@@ -75,20 +78,56 @@ export interface ISearch {
   totalElements?: number;
   totalPages?:number;
 }
-
-export interface IMovie {
-  id?: number;
-  title?: string;
-  director?: string;
-  description?: string;
-}
-
-export interface IPreferenceList {
-  id?: number;
-  name?: string;
-  movies?: IMovie[];
-}
-
 export interface MessageResponse {
   message: string;
+}
+export interface IScore {
+  id?: number;
+  gameType: GameTypeEnum;
+  level: LevelEnum;
+  movements: number;
+  time: number;
+  score?: number;
+  date?: Date;
+  game?: IGame;
+  user?: IUser;
+}
+
+export enum GameTypeEnum {
+  PUZZLE = 'PUZZLE',
+  CROSSWORD = 'CROSSWORD',
+  NUMBER_SEQUENCE = 'NUMBER_SEQUENCE',
+  CARD_MEMORY = 'CARD_MEMORY',
+  MUSIC_MEMORY = 'MUSIC_MEMORY',
+  WORD_SEARCH = 'WORD_SEARCH'
+}
+
+export enum LevelEnum {
+  EASY = 'EASY',
+  MEDIUM = 'MEDIUM',
+  HARD = 'HARD'
+}
+export interface Hint {
+  word: string;
+  clue: string;
+  x: number;
+  y: number;
+  direction: 'across' | 'down';
+}
+
+export interface DifficultySettings {
+  maxHints: number;
+  puzzleKeys: string[];
+}
+
+export interface IUserCaregiver {
+  id?: number;
+  user?: IUser;
+  caregiver?: {
+    id?: number;
+    name?: string;
+    email?: string;
+    phone?: string;
+  };
+  relationship?: string;
 }

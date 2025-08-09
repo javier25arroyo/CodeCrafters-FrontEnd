@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NavAdminComponent } from '../../components/nav-admin/nav-admin.component';
 
 interface Suggestion {
   id: number;
@@ -15,12 +16,12 @@ interface Suggestion {
   standalone: true,
   templateUrl: './admin-suggestions.component.html',
   styleUrls: ['./admin-suggestions.component.scss'],
-  imports: [CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule, NavAdminComponent]
 })
 export class AdminSuggestionsComponent implements OnInit {
   suggestions: Suggestion[] = [];
   error = '';
-  estadoActualizado: { [id: number]: boolean } = {};  // ✅ Para mostrar confirmación por fila
+  estadoActualizado: { [id: number]: boolean } = {};
 
   constructor(private http: HttpClient) {}
 
@@ -30,8 +31,14 @@ export class AdminSuggestionsComponent implements OnInit {
 
   fetchSuggestions(): void {
     this.http.get<Suggestion[]>('suggestions', { withCredentials: true }).subscribe({
-      next: (data) => this.suggestions = data,
-      error: () => this.error = 'Error al cargar sugerencias'
+      next: (data) => {
+        this.suggestions = data;
+        this.error = '';
+      },
+      error: () => {
+        this.error = 'Error al cargar sugerencias';
+        this.suggestions = [];
+      }
     });
   }
 
@@ -41,7 +48,10 @@ export class AdminSuggestionsComponent implements OnInit {
         this.estadoActualizado[id] = true;
         setTimeout(() => this.estadoActualizado[id] = false, 3000);
       },
-      error: () => console.error('Error al actualizar el estado')
+      error: () => {
+        console.error('Error al actualizar el estado');
+        this.estadoActualizado[id] = false;
+      }
     });
   }
 }

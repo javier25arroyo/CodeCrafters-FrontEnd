@@ -3,7 +3,6 @@ import { BaseService } from './base-service';
 import { IGame, IResponse } from '../interfaces';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
 import { map } from 'rxjs/operators';
 
 
@@ -28,7 +27,7 @@ export class GameService extends BaseService<IGame>{
         this.itemListSignal.set(response);
       },
       error: (error : any) => {
-        console.log('error', error);
+        
       }
     });
   }
@@ -45,8 +44,6 @@ export class GameService extends BaseService<IGame>{
           verticalPosition: 'top',
           panelClass: ['error-snackbar']
         });
-        console.error('error', error);
-        console.error('error', error);
       }
     })
   } 
@@ -63,8 +60,6 @@ export class GameService extends BaseService<IGame>{
           verticalPosition: 'top',
           panelClass: ['error-snackbar']
         });
-        console.error('error', error);
-        console.error('error', error);
       }
     })
   }
@@ -81,7 +76,6 @@ export class GameService extends BaseService<IGame>{
           verticalPosition: 'top',
           panelClass: ['error-snackbar']
         });
-        console.error('error', error);
       }
     })
   }

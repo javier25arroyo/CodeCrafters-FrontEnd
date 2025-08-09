@@ -1,21 +1,18 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { NavComponent } from "../../../components/nav/nav.component";
-
-
 
 interface Cell {
   row: number;
   col: number;
 }
 
+type Difficulty = 'facil' | 'medio' | 'dificil';
+
 @Component({
   selector: 'app-word-search-game',
   standalone: true,
-
   imports: [CommonModule, NavComponent],
-
   templateUrl: './word-search-game.component.html',
   styleUrls: ['./word-search-game.component.scss']
 })
@@ -23,11 +20,9 @@ export class WordSearchGameComponent {
   gridSize = 12;
   grid: string[][] = [];
   selectedCells: Cell[] = [];
-  isDragging = false;
   message = '';
 
-  level = 1;
-  maxLevels = 3;
+  difficulty: Difficulty = 'facil';
   score = 0;
   restartCount = 0;
   maxRestarts = 1;
@@ -35,59 +30,81 @@ export class WordSearchGameComponent {
 
   words: string[] = [];
   foundWords: string[] = [];
-  placedWords: string[] = []; // ✅ Lista de palabras realmente colocadas
+  placedWords: string[] = [];
 
-  wordPoolsByLevel: string[][] = [
+  /** Clase dinámica para ajustar el tamaño de celda según la dificultad */
+  cellSizeClass = 'size-12';
+
+  private readonly wordPoolsByLevel: string[][] = [
     ['ABUELO', 'SILLA', 'RADIO', 'TELE', 'LIBRO', 'TÉ', 'GAFAS', 'COJIN', 'CAMISA', 'PAN'],
     ['CAMINAR', 'JARDIN', 'CROCHET', 'BASTON', 'FAMILIA', 'MERIENDA', 'FARMACIA', 'CANECA', 'RECUERDO', 'MANTA', 'AMIGOS', 'SABADO'],
     ['OSTEOPOROSIS', 'PENSIONADO', 'AUDIFONOS', 'HIPERTENSION', 'EJERCICIO', 'VOLUNTARIADO', 'TERAPIA', 'NUTRICION', 'MOVILIDAD', 'ENFERMERA', 'MEMORIA', 'ENVEJECER']
   ];
 
+  private readonly difficultiesConfig = {
+    facil: { gridSize: 12, wordCount: 6, poolIndex: 0 },
+    medio: { gridSize: 14, wordCount: 9, poolIndex: 1 },
+    dificil: { gridSize: 16, wordCount: 12, poolIndex: 2 }
+  };
+
   constructor() {
     this.loadLevel();
   }
 
-  loadLevel() {
-    const wordsPerLevel = [6, 9, 12];
-    const pool = this.wordPoolsByLevel[this.level - 1];
-    this.gridSize = this.level === 1 ? 12 : this.level === 2 ? 14 : 16;
+  /** Cambia la dificultad y reinicia el juego */
+  setDifficulty(level: Difficulty): void {
+    this.difficulty = level;
+    this.score = 0;
+    this.restartCount = 0;
+    this.loadLevel();
+  }
+
+  /** Configura y genera un nuevo tablero según la dificultad */
+  loadLevel(): void {
+    const config = this.difficultiesConfig[this.difficulty];
+    const pool = this.wordPoolsByLevel[config.poolIndex];
+    this.gridSize = config.gridSize;
+    this.cellSizeClass = `size-${this.gridSize}`;
 
     let intentosGlobales = 0;
     const maxIntentosGlobales = 20;
 
     while (intentosGlobales < maxIntentosGlobales) {
-      this.words = this.getRandomWords(wordsPerLevel[this.level - 1], pool);
-      this.foundWords = [];
-      this.selectedCells = [];
-      this.message = '';
-      this.placedWords = []; // ✅ limpiar palabras colocadas
-      this.gameCompleted = false;
-
+      this.words = this.getRandomWords(config.wordCount, pool);
+      this.resetGameState();
       this.generateGrid();
 
       if (!this.message.includes('Error')) return;
-
       intentosGlobales++;
     }
 
     this.message = 'No se pudo generar la sopa de letras después de varios intentos. Recarga la página.';
   }
 
-  getRandomWords(count: number, pool: string[]): string[] {
-    const shuffled = [...pool].sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, count);
+  /** Reinicia los valores de juego sin cambiar la dificultad */
+  private resetGameState(): void {
+    this.foundWords = [];
+    this.selectedCells = [];
+    this.message = '';
+    this.placedWords = [];
+    this.gameCompleted = false;
   }
 
-  generateGrid() {
+  /** Obtiene un arreglo de palabras aleatorias del pool */
+  private getRandomWords(count: number, pool: string[]): string[] {
+    return [...pool].sort(() => 0.5 - Math.random()).slice(0, count);
+  }
+
+  /** Genera la grilla colocando las palabras aleatoriamente */
+  private generateGrid(): void {
     let intentos = 0;
     const maxIntentos = 50;
     let todasColocadas = false;
 
     while (!todasColocadas && intentos < maxIntentos) {
       intentos++;
-
       this.grid = Array.from({ length: this.gridSize }, () =>
-        Array.from({ length: this.gridSize }, () => '')
+        Array(this.gridSize).fill('')
       );
 
       todasColocadas = true;
@@ -104,15 +121,12 @@ export class WordSearchGameComponent {
           if (this.canPlaceWord(word, inicio, direccion)) {
             this.placeWord(word, inicio, direccion);
             colocada = true;
-            console.log(`✅ Palabra colocada: ${word}`);
-            this.placedWords.push(word); // ✅ guardar palabra colocada
+            this.placedWords.push(word);
           }
-
           intentosPalabra++;
         }
 
         if (!colocada) {
-          console.warn(`❌ No se pudo colocar: ${word}`);
           todasColocadas = false;
           break;
         }
@@ -120,29 +134,16 @@ export class WordSearchGameComponent {
     }
 
     if (!todasColocadas) {
-      console.error('❌ Grid inválido. No se colocaron todas las palabras.');
       this.message = 'Error al generar la sopa de letras. Intenta reiniciar.';
       return;
     }
 
-    for (let i = 0; i < this.gridSize; i++) {
-      for (let j = 0; j < this.gridSize; j++) {
-        if (!this.grid[i][j]) {
-          this.grid[i][j] = String.fromCharCode(65 + Math.floor(Math.random() * 26));
-        }
-      }
-    }
-
-    console.warn('🧩 Palabras esperadas:', this.words);
-    console.warn('🧩 Grilla final:');
-    this.grid.forEach((row, i) => {
-      console.log(`Fila ${i + 1}:`, row.join(' '));
-    });
-
+    this.fillEmptyCells();
     this.verifyWordsInGrid();
   }
 
-  getRandomDirection(): Cell {
+  /** Direcciones posibles de colocación */
+  private getRandomDirection(): Cell {
     const directions = [
       { row: 0, col: 1 }, { row: 1, col: 0 },
       { row: 1, col: 1 }, { row: -1, col: 1 },
@@ -152,7 +153,8 @@ export class WordSearchGameComponent {
     return directions[Math.floor(Math.random() * directions.length)];
   }
 
-  getRandomStartPosition(length: number, dir: Cell): Cell {
+  /** Posición inicial aleatoria */
+  private getRandomStartPosition(length: number, dir: Cell): Cell {
     const row = dir.row === -1
       ? Math.floor(Math.random() * (this.gridSize - length)) + length
       : Math.floor(Math.random() * (this.gridSize - (dir.row * length || 0)));
@@ -164,18 +166,21 @@ export class WordSearchGameComponent {
     return { row, col };
   }
 
-  canPlaceWord(word: string, start: Cell, dir: Cell): boolean {
-    for (let i = 0; i < word.length; i++) {
+  /** Verifica si se puede colocar una palabra en la posición */
+  private canPlaceWord(word: string, start: Cell, dir: Cell): boolean {
+    return Array.from({ length: word.length }).every((_, i) => {
       const r = start.row + dir.row * i;
       const c = start.col + dir.col * i;
-      if (r < 0 || r >= this.gridSize || c < 0 || c >= this.gridSize) return false;
-      const currentLetter = this.grid[r][c];
-      if (currentLetter !== '' && currentLetter !== word[i]) return false;
-    }
-    return true;
+      return (
+        r >= 0 && r < this.gridSize &&
+        c >= 0 && c < this.gridSize &&
+        (this.grid[r][c] === '' || this.grid[r][c] === word[i])
+      );
+    });
   }
 
-  placeWord(word: string, start: Cell, dir: Cell) {
+  /** Coloca la palabra en la grilla */
+  private placeWord(word: string, start: Cell, dir: Cell): void {
     for (let i = 0; i < word.length; i++) {
       const r = start.row + dir.row * i;
       const c = start.col + dir.col * i;
@@ -183,7 +188,19 @@ export class WordSearchGameComponent {
     }
   }
 
-  verifyWordsInGrid() {
+  /** Llena las celdas vacías con letras aleatorias */
+  private fillEmptyCells(): void {
+    for (let i = 0; i < this.gridSize; i++) {
+      for (let j = 0; j < this.gridSize; j++) {
+        if (!this.grid[i][j]) {
+          this.grid[i][j] = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+        }
+      }
+    }
+  }
+
+  /** Verifica que todas las palabras estén realmente en la grilla */
+  private verifyWordsInGrid(): void {
     const directions = [
       { dr: 0, dc: 1 }, { dr: 1, dc: 0 },
       { dr: 1, dc: 1 }, { dr: -1, dc: 1 },
@@ -195,82 +212,67 @@ export class WordSearchGameComponent {
       for (let i = 0; i < this.gridSize; i++) {
         for (let j = 0; j < this.gridSize; j++) {
           for (const { dr, dc } of directions) {
-            let match = true;
-            for (let k = 0; k < word.length; k++) {
+            if (Array.from({ length: word.length }).every((_, k) => {
               const r = i + dr * k;
               const c = j + dc * k;
-              if (r < 0 || r >= this.gridSize || c < 0 || c >= this.gridSize || this.grid[r][c] !== word[k]) {
-                match = false;
-                break;
-              }
-            }
-            if (match) return true;
+              return r >= 0 && r < this.gridSize &&
+                     c >= 0 && c < this.gridSize &&
+                     this.grid[r][c] === word[k];
+            })) return true;
           }
         }
       }
       return false;
     };
 
-    console.log('📋 Verificando palabras realmente colocadas:');
-    this.words.forEach(word => {
-      const found = this.placedWords.includes(word) && isInGrid(word);
-      console.log(`${found ? '✅' : '❌'} ${word}`);
-    });
+    for (const word of this.words) {
+      if (!(this.placedWords.includes(word) && isInGrid(word))) {
+        this.message = 'Advertencia: No todas las palabras fueron colocadas correctamente.';
+        break;
+      }
+    }
   }
 
-  startSelection(row: number, col: number) {
+  /** Marca/desmarca celdas seleccionadas */
+  toggleSelection(row: number, col: number): void {
     if (this.gameCompleted) return;
-    this.isDragging = true;
-    this.selectedCells = [{ row, col }];
+    const index = this.selectedCells.findIndex(c => c.row === row && c.col === col);
+    index > -1 ? this.selectedCells.splice(index, 1) : this.selectedCells.push({ row, col });
   }
 
-  extendSelection(row: number, col: number) {
-    if (!this.isDragging || this.gameCompleted) return;
-    const last = this.selectedCells[this.selectedCells.length - 1];
-    if (last.row === row && last.col === col) return;
-    this.selectedCells.push({ row, col });
-  }
-
-  endSelection() {
-    this.isDragging = false;
+  /** Confirma la palabra seleccionada */
+  confirmSelection(): void {
+    if (this.gameCompleted) return;
     this.checkSelectedWord();
     this.selectedCells = [];
   }
 
+  /** Verifica si una celda está seleccionada */
   isSelected(row: number, col: number): boolean {
     return this.selectedCells.some(cell => cell.row === row && cell.col === col);
   }
 
-  checkSelectedWord() {
+  /** Comprueba si la palabra seleccionada es correcta */
+  private checkSelectedWord(): void {
     const word = this.selectedCells.map(cell => this.grid[cell.row][cell.col]).join('');
     if (this.words.includes(word) && !this.foundWords.includes(word)) {
       this.foundWords.push(word);
-      this.score += 1;
+      this.score++;
       this.message = `¡Encontraste "${word}"!`;
 
       if (this.foundWords.length === this.words.length) {
-        if (this.level < this.maxLevels) {
-          this.message = `🎉 ¡Nivel ${this.level} completado! Pasando al nivel ${this.level + 1}...`;
-          this.level++;
-          setTimeout(() => {
-            this.loadLevel();
-            setTimeout(() => { this.message = ''; }, 1000);
-          }, 2000);
-        } else {
-          this.gameCompleted = true;
-          const totalWords = [6, 9, 12].reduce((a, b) => a + b, 0);
-          this.message = `¡Completaste el juego! Encontraste ${this.score} de ${totalWords} palabras.`;
-        }
+        this.gameCompleted = true;
+        this.message = `🎉 ¡Completaste el nivel ${this.difficulty.toUpperCase()}!`;
       }
     } else {
       this.message = '';
     }
   }
 
-  restartGame() {
+  /** Reinicia el juego sin cambiar la dificultad */
+  restartGame(): void {
     if (this.restartCount < this.maxRestarts) {
       this.restartCount++;
-      this.level = 1;
       this.score = 0;
       this.loadLevel();
     } else {
