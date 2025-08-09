@@ -21,19 +21,19 @@ const DIFFICULTY_CONFIGS: Record<DifficultyLevel, DifficultyConfig> = {
     level: DifficultyLevel.EASY,
     boardSize: 3,
     maxPieces: 9,
-    label: 'Fácil (3x3)'
+    label: 'Fácil'
   },
   [DifficultyLevel.MEDIUM]: {
     level: DifficultyLevel.MEDIUM,
     boardSize: 4,
     maxPieces: 16,
-    label: 'Medio (4x4)'
+    label: 'Medio'
   },
   [DifficultyLevel.HARD]: {
     level: DifficultyLevel.HARD,
     boardSize: 5,
     maxPieces: 25,
-    label: 'Difícil (5x5)'
+    label: 'Difícil'
   }
 };
 
