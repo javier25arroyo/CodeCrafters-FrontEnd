@@ -143,7 +143,6 @@
   gap: 12px;
 }
 
-/* Estilo de botones de dificultad igual a Sopa de Letras */
 .difficulty-buttons {
   display: flex;
   justify-content: center;
@@ -171,7 +170,6 @@
       border-color: #0d47a1;
     }
 
-  /* Añade iconos como en Sopa de Letras (asumiendo orden: Fácil, Medio, Difícil) */
   &:nth-child(1)::before { content: "🟢 "; }
   &:nth-child(2)::before { content: "🟡 "; }
   &:nth-child(3)::before { content: "🔴 "; }

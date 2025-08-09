@@ -73,14 +73,12 @@ export class PuzzleService {
   private difficultySubject = new BehaviorSubject<DifficultyLevel>(DifficultyLevel.EASY);
   difficulty$ = this.difficultySubject.asObservable();
 
-  // Nuevas propiedades para tracking
   private gameId: string = '';
   private playerId: string = '';
   private gameStartTime: Date = new Date();
   private timerInterval: any;
   private currentTimeElapsed: number = 0;
 
-  // Observable para el tiempo transcurrido
   private timeElapsedSubject = new BehaviorSubject<number>(0);
   timeElapsed$ = this.timeElapsedSubject.asObservable();
   
@@ -117,11 +115,9 @@ export class PuzzleService {
   }
 
   private calculateBackgroundPosition(row: number, col: number, boardSize: number): string {
-    // Calcular la posición como un porcentaje del tamaño total de la imagen
     const xPercent = (col * 100) / (boardSize - 1);
     const yPercent = (row * 100) / (boardSize - 1);
     
-    // Para tableros de 1x1, centrar la imagen
     if (boardSize === 1) {
       return '50% 50%';
     }
@@ -255,7 +251,6 @@ export class PuzzleService {
   private submitFinalGameData(completed: boolean): void {
     if (!completed) return;
     
-    // Convertir la dificultad del frontend al formato del backend
     const levelMapping = {
       'easy': 'EASY',
       'medium': 'MEDIUM', 
@@ -269,7 +264,6 @@ export class PuzzleService {
       time: this.currentTimeElapsed
     };
 
-    // Enviar datos al backend (ruta relativa, el interceptor agregará la base URL)
     this.http.post('games/score', scoreData).subscribe({
       next: (response) => {
         console.log('Puntaje guardado exitosamente:', response);
@@ -324,7 +318,6 @@ export class PuzzleService {
     return this.currentImage;
   }
 
-  // Nuevos métodos para manejar dificultad
   setDifficulty(difficulty: DifficultyLevel): void {
     this.currentDifficulty = difficulty;
     this.difficultySubject.next(difficulty);
