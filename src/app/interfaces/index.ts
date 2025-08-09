@@ -107,6 +107,7 @@ export enum LevelEnum {
   MEDIUM = 'MEDIUM',
   HARD = 'HARD'
 }
+
 export interface Hint {
   word: string;
   clue: string;
@@ -131,3 +132,4 @@ export interface IUserCaregiver {
   };
   relationship?: string;
 }
+

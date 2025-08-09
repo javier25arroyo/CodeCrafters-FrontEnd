@@ -3,6 +3,7 @@ import { NgFor, NgIf, NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NavComponent } from '../../../components/nav/nav.component';
 import { Hint,DifficultySettings } from '../../../interfaces/index';
+import { CrosswordStatsService, Difficulty} from '../../../services/gameService/crossword-stats.service';
 
 type Difficulty = 'easy' | 'medium' | 'hard';
 
@@ -42,6 +43,16 @@ const DIFFICULTY_SETTINGS: Record<Difficulty, DifficultySettings> = {
   styleUrls: ['./crossword-game.component.scss']
 })
 export class CrosswordGameComponent implements OnInit, OnDestroy {
+  currentPuzzleId!: string;                 // setéalo al cargar el JSON (p.ej. 'puzzle-easy-1')
+  currentDifficulty!: Difficulty;           // mapea 'easy'|'medium'|'hard' -> 'EASY'|'MEDIUM'|'HARD'
+  wordsFound = 0;
+  wordsTotal = 0;
+  mistakeCellsCount = 0;                    // incrementa cuando el usuario pone una letra incorrecta
+  hintsUsed = 0;                            // incrementa cuando usa pista
+  isCompleted = false;
+  startedAt = new Date();
+  constructor(private stats: CrosswordStatsService) {}
+
   // Tablero
   grid: (string|null)[][] = [];
   userGrid: string[][] = [];
@@ -58,6 +69,7 @@ export class CrosswordGameComponent implements OnInit, OnDestroy {
   difficulty: Difficulty = 'easy';
   maxHints = DIFFICULTY_SETTINGS[this.difficulty].maxHints;
   revealLeft = this.maxHints;
+
 
   ngOnInit() {
   this.onDifficultyChange();
@@ -199,4 +211,43 @@ async loadPuzzle(key: string) {
     clearInterval(this.timerInt);
     this.startTimer();
   }
+
+  finishGame() {
+    const finishedAt = new Date();
+    const payload = {
+      puzzleId: this.currentPuzzleId,
+      difficulty: this.currentDifficulty,
+      wordsFound: this.wordsFound,
+      wordsTotal: this.wordsTotal,
+      mistakes: this.mistakeCellsCount ?? 0,
+      hints: this.hintsUsed ?? 0,
+      completed: this.isCompleted === true,
+      startedAt: this.startedAt.toISOString(),
+      finishedAt: finishedAt.toISOString(),
+    };
+
+    this.stats.post(payload).subscribe({
+      next: () => console.log('Crossword stat saved'),
+      error: (e) => console.error(e),
+    });
+  }
+
+  private wrongCells = new Set<string>();
+
+  onCellInput(r: number, c: number, raw: string) {
+    const val = (raw || '').trim().toUpperCase();
+    const key = `${r},${c}`;
+    const expected = this.solution[r][c];
+
+    if (!val) { this.wrongCells.delete(key); return; }
+
+    if (val === expected) {
+      this.wrongCells.delete(key);
+    } else if (!this.wrongCells.has(key)) {
+      this.wrongCells.add(key);
+      this.mistakeCellsCount++;
+    }
+  }
+
+
 }

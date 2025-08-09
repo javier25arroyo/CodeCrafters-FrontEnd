@@ -6,6 +6,7 @@ import { AuthService } from '../../services/auth.service';
 import { IUser, IUserCaregiver } from '../../interfaces';
 import { NavComponent } from "../../components/nav/nav.component";
 import { FooterComponent } from "../../components/footer/footer.component";
+import { CrosswordStatsService } from '../../services/gameService/crossword-stats.service';
 
 @Component({
   selector: 'app-caregiver-stats',
@@ -15,6 +16,7 @@ import { FooterComponent } from "../../components/footer/footer.component";
   styleUrls: ['./caregiver-stats.component.scss']
 })
 export class CaregiverStatsComponent {
+  lastCrossword: any[] = [];
   public email = '';
   public userData: IUser | null = null;
   public loading = false;
@@ -22,7 +24,8 @@ export class CaregiverStatsComponent {
 
   constructor(
     private svc: CaregiverService,
-    private auth: AuthService
+    private auth: AuthService,
+    private stats: CrosswordStatsService
   ) {}
 
   private normalizeEmail(e: string): string {
@@ -57,5 +60,12 @@ export class CaregiverStatsComponent {
     this.email = '';
     this.userData = null;
     this.error = '';
+  }
+
+  ngOnInit() {
+    this.stats.getLast('CROSSWORD', 3).subscribe({
+      next: (rows: any) => this.lastCrossword = rows,
+      error: (e) => console.error(e)
+    });
   }
 }
