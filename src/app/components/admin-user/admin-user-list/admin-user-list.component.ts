@@ -17,6 +17,7 @@ export class AdminUserListComponent implements OnInit {
   @Output() editUser = new EventEmitter<IUser>();
   @Input() users: IUser[] = [];
   
+  currentUserRole: string = '';
   search = { filter: '', page: 1, size: 5, totalPages: 0 };
   totalPagesArray: number[] = [];
   loading = false;
@@ -27,7 +28,9 @@ export class AdminUserListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.currentUserRole = this.userService.getCurrentUserRole();
     this.loadUsers();
+    
   }
 
 

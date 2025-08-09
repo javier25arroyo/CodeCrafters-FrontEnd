@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavComponent } from '../../components/nav/nav.component';
+import { NavComponent } from '../../../components/nav/nav.component';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 interface Note {
   freq: number;
@@ -35,22 +36,31 @@ export class MelodyMemoryComponent implements OnInit {
 
   selectedLevel: 'easy' | 'medium' | 'hard' = 'easy';
 
+  // Puntaje acumulado (NO se reinicia al presionar "Reiniciar")
+  score: number = 0;
+  levelStartTime: number = 0; // para calcular time por nivel (opcional)
+
+  // BACKEND URL (ajusta host/puerto)
+  private readonly SCORE_URL = '/scores';
+
+  constructor(private http: HttpClient) {}
+
   ngOnInit(): void {
     this.startNewGame();
   }
 
   startNewGame(): void {
-  this.sequence = [];
-  this.userSequence = [];
-  this.level = this.getLevelNumber(this.selectedLevel);
+    this.sequence = [];
+    this.userSequence = [];
+    this.level = this.getLevelNumber(this.selectedLevel);
 
-  for (let i = 0; i < this.getNoteCountForLevel(); i++) {
-    this.addNoteToSequence();
+    for (let i = 0; i < this.getNoteCountForLevel(); i++) {
+      this.addNoteToSequence();
+    }
+
+    this.levelStartTime = Date.now();
+    this.playSequence();
   }
-
-  this.playSequence();
-}
-
 
   addNoteToSequence(): void {
     const randomIndex = Math.floor(Math.random() * this.notes.length);
@@ -58,31 +68,29 @@ export class MelodyMemoryComponent implements OnInit {
   }
 
   async playSequence(): Promise<void> {
-  this.isPlaying = true;
-  this.message = '🎵 Escucha la secuencia...';
+    this.isPlaying = true;
+    this.message = '🎵 Escucha la secuencia...';
 
-  for (const note of this.sequence) {
-    this.currentNotePlaying = note.freq;
-    await this.playNoteAsync(note.freq);
-    this.currentNotePlaying = null;
-    await this.sleep(300); // Pausa entre notas para que no se peguen
+    for (const note of this.sequence) {
+      this.currentNotePlaying = note.freq;
+      await this.playNoteAsync(note.freq);
+      this.currentNotePlaying = null;
+      await this.sleep(300); 
+    }
+
+    this.isPlaying = false;
+    this.userSequence = [];
+    this.message = '🎶 Tu turno';
   }
 
-  this.isPlaying = false;
-  this.userSequence = [];
-  this.message = '🎶 Tu turno';
-}
-
   playNote(freq: number): void {
-    // Método para sonar la nota, sin esperar
     const context = new AudioContext();
     const oscillator = context.createOscillator();
     const gainNode = context.createGain();
 
     oscillator.type = 'sine';
     oscillator.frequency.value = freq;
-
-    gainNode.gain.value = 0.8; // volumen al 80%
+    gainNode.gain.value = 0.8;
 
     oscillator.connect(gainNode);
     gainNode.connect(context.destination);
@@ -91,7 +99,6 @@ export class MelodyMemoryComponent implements OnInit {
     oscillator.stop(context.currentTime + 0.5);
   }
 
-  // Método que retorna una Promise que se resuelve al terminar de sonar la nota
   playNoteAsync(freq: number): Promise<void> {
     return new Promise((resolve) => {
       const context = new AudioContext();
@@ -106,49 +113,51 @@ export class MelodyMemoryComponent implements OnInit {
       gainNode.connect(context.destination);
 
       oscillator.start();
-
       oscillator.stop(context.currentTime + 0.5);
 
-      oscillator.onended = () => {
-        resolve();
-      };
+     
+      oscillator.onended = () => resolve();
+      setTimeout(() => resolve(), 600);
     });
   }
 
   pressNote(note: Note): void {
-    if (this.isPlaying) return; // Bloquea si se está reproduciendo la secuencia o nota
+    if (this.isPlaying) return;
 
-    this.isPlaying = true; // Bloquea para que no se presionen otras notas
+    this.isPlaying = true;
     this.playNote(note.freq);
 
     this.userSequence.push(note);
-
     const currentIndex = this.userSequence.length - 1;
 
     if (note.freq !== this.sequence[currentIndex].freq) {
       this.message = '❌ Fallaste. Reiniciando...';
       setTimeout(() => {
         this.isPlaying = false;
-        this.startNewGame();
+        this.startNewGame(); 
       }, 1500);
       return;
     }
 
     if (this.userSequence.length === this.sequence.length) {
+      
+      this.score++;
+      this.sendScoreToBackend();
       this.message = '✅ Bien hecho. Siguiente nivel...';
       setTimeout(() => {
         this.isPlaying = false;
         this.level++;
         this.addNoteToSequence();
+        this.levelStartTime = Date.now();
         this.playSequence();
       }, 1500);
       return;
     }
 
-    // Si aún no termina, desbloquea para que pueda tocar siguiente nota
+   
     setTimeout(() => {
       this.isPlaying = false;
-    }, 600); // espera que termine de sonar la nota
+    }, 600);
   }
 
   sleep(ms: number): Promise<void> {
@@ -183,5 +192,38 @@ export class MelodyMemoryComponent implements OnInit {
       case 'hard': return 5;
       default: return 1;
     }
+  }
+
+  
+
+  
+  private mapSelectedLevelToLevelEnum(): string {
+    switch (this.selectedLevel) {
+      case 'easy': return 'FACIL';
+      case 'medium': return 'MEDIO';
+      case 'hard': return 'DIFICIL';
+      default: return 'FACIL';
+    }
+  }
+
+  
+  sendScoreToBackend(): void {
+    const payload = {
+      gameType: 'MUSIC_MEMORY',                 
+      level: this.mapSelectedLevelToLevelEnum(), 
+      movements: 0,                              
+      time: Math.floor((Date.now() - this.levelStartTime) / 1000), 
+      score: Number(this.score)                 
+    };
+
+    
+    const token = localStorage.getItem('auth_token'); // ejemplo
+    const headers = token ? new HttpHeaders({ 'Authorization': `Bearer ${token}` }) : undefined;
+
+    this.http.post(this.SCORE_URL, payload, headers ? { headers } : {})
+      .subscribe({
+        next: (res) => console.log('Score guardado:', res),
+        error: (err) => console.error('Error guardando score:', err)
+      });
   }
 }

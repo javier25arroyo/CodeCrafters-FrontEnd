@@ -9,6 +9,7 @@ import { AlertService } from './alert.service';
 })
 export class UserService extends BaseService<IUser> {
   protected override source: string = 'users';
+  private currentUser: IUser | null = null;
   private userListSignal = signal<IUser[]>([]);
   get users$() {
     return this.userListSignal;
@@ -86,7 +87,20 @@ export class UserService extends BaseService<IUser> {
 toggleEnabled(userId: number) {
   return this.http.patch(`${this.source}/${userId}/toggle-enabled`, {});
 }
+setCurrentUser(user: IUser) {
+    this.currentUser = user;
+  }
 
+  getCurrentUserRole(): string {
+    return this.currentUser?.role?.name || '';
+  }
+
+  loadCurrentUser() {
+    this.getMyProfile().subscribe({
+      next: (user) => this.setCurrentUser(user),
+      error: (err) => console.error('Error loading current user', err),
+    });
+  }
 
 
 }

@@ -1,7 +1,7 @@
 <app-nav></app-nav>
 <div class="game-container">
   <h1>🎼 Juego de Memoria Musical</h1>
-  <h2>Nivel: {{ level }}</h2>
+  <h2>Nivel: {{ level }} — Puntaje: {{ score }}</h2>
   <p>{{ message }}</p>
 
   <div class="buttons">
@@ -10,12 +10,12 @@
       (click)="pressNote(note)"
       [ngClass]="['note-btn', 'note-color-' + i]"
       [class.highlight]="currentNotePlaying === note.freq"
+      [disabled]="isPlaying"  
     >
       🔊 {{ note.label }}
     </button>
   </div>
 
-  
   <div class="level-selector">
     <p>Selecciona la dificultad:</p>
     <div class="level-options">

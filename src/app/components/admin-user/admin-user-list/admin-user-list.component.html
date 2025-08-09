@@ -21,11 +21,11 @@
           <td>{{ user.email }}</td>
           <td>{{ user.role?.name }}</td>
           <td>
-            <button (click)="onEditClick(user)">Editar</button>
-            <button [disabled]="loading" (click)="deleteUser(user)">Eliminar</button>
-            <button (click)="toggleUserActive(user)">
-             {{ user.active ? 'Desactivar' : 'Activar' }}
-            </button>
+            <button *ngIf="currentUserRole !== 'SUPER_ADMIN'" (click)="onEditClick(user)">Editar</button>
+            <button *ngIf="currentUserRole !== 'SUPER_ADMIN'" (click)="deleteUser(user)">Eliminar</button>
+            <button *ngIf="currentUserRole !== 'SUPER_ADMIN'" (click)="toggleUserActive(user)">
+              {{ user.active ? 'Desactivar' : 'Activar' }}
+          </button>
           </td>
         </tr>
       </tbody>
