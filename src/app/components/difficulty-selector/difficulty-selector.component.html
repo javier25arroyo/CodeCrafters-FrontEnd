@@ -1,0 +1,10 @@
+<div class="difficulty-buttons">
+  @for (config of configs; track config.level) {
+    <button
+      type="button"
+      (click)="onSelect(config.level)"
+      [class.active]="isActive(config.level)">
+      {{ config.label }}
+    </button>
+  }
+</div>

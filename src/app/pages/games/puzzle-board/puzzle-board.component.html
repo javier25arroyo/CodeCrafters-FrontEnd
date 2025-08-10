@@ -2,23 +2,6 @@
 <div class="puzzle-main-layout">
   <aside class="sidebar">
     <h2>Rompecabezas</h2>
-    
-    <!-- Selector de dificultad -->
-    <div class="difficulty-selector">
-      <h3>Dificultad:</h3>
-      <div class="difficulty-options">
-        @for (config of difficultyConfigs; track config.level) {
-          <button 
-            class="difficulty-option" 
-            [class.active]="isCurrentDifficulty(config.level)" 
-            (click)="changeDifficulty(config.level)"
-          >
-            {{ config.label }}
-          </button>
-        }
-      </div>
-    </div>
-
     <div class="image-selector">
       <h3>Imagen de referencia:</h3>
       <div class="image-options">
@@ -38,8 +21,13 @@
     </div>
   </aside>
   
-  <!-- Tablero en el centro -->
   <section class="puzzle-board-section">
+    <puzzle-difficulty-selector
+      [configs]="difficultyConfigs"
+      [current]="currentDifficulty"
+  (difficultyChange)="changeDifficulty($event)"
+    />
+
     <div class="puzzle-board" [style.grid-template-columns]="'repeat(' + boardSize + ', 1fr)'">
       @for (row of range(boardSize); track row) {
         @for (col of range(boardSize); track col) {
@@ -60,7 +48,6 @@
     </div>
   </section>
   
-  <!-- Imagen de referencia a la derecha -->
   <aside class="reference-sidebar">
     <div class="reference-image">
       <h4>Referencia:</h4>

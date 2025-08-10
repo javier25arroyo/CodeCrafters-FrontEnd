@@ -6,19 +6,13 @@
   <div class="difficulty-buttons">
     <button 
       (click)="setDifficulty('facil')" 
-      [class.active]="difficulty === 'facil'">
-      🟢 Fácil 
-    </button>
+      [class.active]="difficulty === 'facil'">🟢 Fácil</button>
     <button 
       (click)="setDifficulty('medio')" 
-      [class.active]="difficulty === 'medio'">
-      🟡 Medio 
-    </button>
+      [class.active]="difficulty === 'medio'">🟡 Medio</button>
     <button 
       (click)="setDifficulty('dificil')" 
-      [class.active]="difficulty === 'dificil'">
-      🔴 Difícil 
-    </button>
+      [class.active]="difficulty === 'dificil'">🔴 Difícil</button>
   </div>
 
   <div class="info">
@@ -37,9 +31,14 @@
     <div *ngFor="let row of grid; let i = index" class="row">
       <span
         *ngFor="let letter of row; let j = index"
-        class="cell {{ cellSizeClass }}"
+        class="cell"
+        [ngClass]="[
+          cellSizeClass,
+          isSelected(i, j) ? 'selected' : '',
+          isHighlighted(i, j) ? 'highlighted' : ''
+        ]"
         (click)="toggleSelection(i, j)"
-        [class.selected]="isSelected(i, j)">
+      >
         {{ letter }}
       </span>
     </div>
@@ -65,4 +64,4 @@
   <p *ngIf="restartCount >= maxRestarts" class="warning">
     ⚠️ Límite de reinicio alcanzado.
   </p>
-
+</div>

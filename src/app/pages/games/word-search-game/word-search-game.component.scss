@@ -73,7 +73,13 @@
       border-radius: 6px;
       border: 1px solid #ccc;
       transition: background-color 0.2s;
-
+ &.highlighted {
+    background-color: #ffeb3b !important; /* amarillo */
+    color: #000 !important;
+    font-weight: 700;
+    box-shadow: inset 0 0 0 2px #f5c400;
+    border-radius: 6px;
+  }
       &.selected {
         background-color: #1976d2;
         color: white;
