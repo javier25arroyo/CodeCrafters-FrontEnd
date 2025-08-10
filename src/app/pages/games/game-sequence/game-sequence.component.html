@@ -3,63 +3,46 @@
 <div class="container">
   <h2>🧠 Juego de Secuencia Numérica</h2>
 
-  <!-- Botones de dificultad -->
   <div class="difficulty-buttons">
-    <button 
-      (click)="setDifficulty('facil')" 
-      [class.active]="difficulty === 'facil'">
-      🟢 Fácil
-    </button>
-    <button 
-      (click)="setDifficulty('medio')" 
-      [class.active]="difficulty === 'medio'">
-      🟡 Medio
-    </button>
-    <button 
-      (click)="setDifficulty('dificil')" 
-      [class.active]="difficulty === 'dificil'">
-      🔴 Difícil
-    </button>
+    <button (click)="setDifficulty('facil')" [class.active]="difficulty === 'facil'">🟢 Fácil</button>
+    <button (click)="setDifficulty('medio')" [class.active]="difficulty === 'medio'">🟡 Medio</button>
+    <button (click)="setDifficulty('dificil')" [class.active]="difficulty === 'dificil'">🔴 Difícil</button>
   </div>
 
-  <!-- Información del juego -->
-  <p><strong>Puntaje:</strong> {{ score }}</p>
-  <p><strong>Intentos restantes:</strong> {{ intentosRestantes }}</p>
-  <p><strong>Reinicios disponibles:</strong> {{ MAX_RESTARTS - reiniciosUsados }}</p>
+  <div class="info">
+    <p><strong>Puntaje:</strong> {{ score }}</p>
+    <p><strong>Intentos restantes:</strong> {{ intentosRestantes }}</p>
+    <p><strong>Reinicios disponibles:</strong> {{ MAX_RESTARTS - reiniciosUsados }}</p>
+    <p class="message">{{ message }}</p>
+  </div>
 
-  <!-- Secuencia -->
   <div class="sequence">
-    <span *ngFor="let num of sequence">
+    <span class="slot" *ngFor="let num of sequence">
       {{ isNumberHidden(num) ? '___' : num }}
     </span>
   </div>
 
-  <!-- Entrada de respuesta -->
-  <input
-    type="number"
-    [(ngModel)]="userAnswer"
-    [disabled]="gameOver"
-    placeholder="¿Cuál número falta?"
-    aria-label="¿Cuál número falta?"
-  />
+  <div class="answer">
+    <input
+      type="number"
+      [(ngModel)]="userAnswer"
+      [disabled]="gameOver"
+      placeholder="¿Cuál número falta?"
+      aria-label="¿Cuál número falta?"
+    />
+  </div>
 
-  <!-- Botones de acción -->
-  <div class="actions">
-    <button 
-      class="verify-btn"
-      (click)="checkAnswer()" 
-      [disabled]="gameOver || !userAnswer">
-      Verificar
+  <div class="button-group">
+    <button class="confirm-btn" (click)="checkAnswer()" [disabled]="gameOver || !userAnswer">
+      ✅ Verificar
     </button>
 
-    <button 
-      class="restart-btn"
-      *ngIf="(MAX_RESTARTS - reiniciosUsados) > 0" 
-      (click)="restartGame()">
-      🔁 Reiniciar juego
+    <button class="restart-btn" (click)="restartGame()" [disabled]="(MAX_RESTARTS - reiniciosUsados) <= 0">
+      🔄 Reiniciar Juego
     </button>
   </div>
 
-  <!-- Mensaje -->
-  <p class="message">{{ message }}</p>
+  <p *ngIf="(MAX_RESTARTS - reiniciosUsados) <= 0" class="warning">
+    ⚠️ Límite de reinicio alcanzado.
+  </p>
 </div>

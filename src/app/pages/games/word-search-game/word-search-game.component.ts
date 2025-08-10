@@ -1,25 +1,31 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavComponent } from "../../../components/nav/nav.component";
+import { NavComponent } from '../../../components/nav/nav.component';
+import { finalize, take } from 'rxjs/operators';
+import { WordSearchGameService } from './word-search.game.service';
 
-interface Cell {
-  row: number;
-  col: number;
-}
-
+interface Cell { row: number; col: number; }
 type Difficulty = 'facil' | 'medio' | 'dificil';
+
+interface LevelConfig { gridSize: number; wordCount: number; poolIndex: number; }
 
 @Component({
   selector: 'app-word-search-game',
   standalone: true,
   imports: [CommonModule, NavComponent],
   templateUrl: './word-search-game.component.html',
-  styleUrls: ['./word-search-game.component.scss']
+  styleUrls: ['./word-search-game.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WordSearchGameComponent {
+  private readonly MAX_INTENTOS_GLOBAL = 20;
+  private readonly MAX_INTENTOS_COLOCACION = 50;
+  private readonly MAX_INTENTOS_POR_PALABRA = 100;
+
   gridSize = 12;
   grid: string[][] = [];
-  selectedCells: Cell[] = [];
+  selectedCells: Cell[] = [];            
+  private selectedSet = new Set<string>(); 
   message = '';
 
   difficulty: Difficulty = 'facil';
@@ -32,34 +38,45 @@ export class WordSearchGameComponent {
   foundWords: string[] = [];
   placedWords: string[] = [];
 
-  /** Clase dinámica para ajustar el tamaño de celda según la dificultad */
+  private highlightedSet = new Set<string>(); // celdas resaltadas
   cellSizeClass = 'size-12';
 
+  private saving = false;
+
+  // ===== Datos del juego (configurable / externo si quieres) =====
   private readonly wordPoolsByLevel: string[][] = [
     ['ABUELO', 'SILLA', 'RADIO', 'TELE', 'LIBRO', 'TÉ', 'GAFAS', 'COJIN', 'CAMISA', 'PAN'],
     ['CAMINAR', 'JARDIN', 'CROCHET', 'BASTON', 'FAMILIA', 'MERIENDA', 'FARMACIA', 'CANECA', 'RECUERDO', 'MANTA', 'AMIGOS', 'SABADO'],
     ['OSTEOPOROSIS', 'PENSIONADO', 'AUDIFONOS', 'HIPERTENSION', 'EJERCICIO', 'VOLUNTARIADO', 'TERAPIA', 'NUTRICION', 'MOVILIDAD', 'ENFERMERA', 'MEMORIA', 'ENVEJECER']
   ];
 
-  private readonly difficultiesConfig = {
-    facil: { gridSize: 12, wordCount: 6, poolIndex: 0 },
-    medio: { gridSize: 14, wordCount: 9, poolIndex: 1 },
+  private readonly difficultiesConfig: Record<Difficulty, LevelConfig> = {
+    facil:   { gridSize: 12, wordCount: 6,  poolIndex: 0 },
+    medio:   { gridSize: 14, wordCount: 9,  poolIndex: 1 },
     dificil: { gridSize: 16, wordCount: 12, poolIndex: 2 }
-  };
+  } as const;
 
-  constructor() {
+  constructor(
+    private readonly wsSvc: WordSearchGameService,
+    private readonly cdr: ChangeDetectorRef
+  ) {
+    this.wsSvc.setDifficulty(this.difficulty);
+    this.wsSvc.setScore(this.score);
     this.loadLevel();
   }
 
-  /** Cambia la dificultad y reinicia el juego */
+  private key(r: number, c: number) { return `${r},${c}`; }
+
+  trackByIndex = (_: number, i: number) => i;
   setDifficulty(level: Difficulty): void {
     this.difficulty = level;
     this.score = 0;
     this.restartCount = 0;
+    this.wsSvc.setDifficulty(level);
+    this.wsSvc.setScore(this.score);
     this.loadLevel();
   }
 
-  /** Configura y genera un nuevo tablero según la dificultad */
   loadLevel(): void {
     const config = this.difficultiesConfig[this.difficulty];
     const pool = this.wordPoolsByLevel[config.poolIndex];
@@ -67,45 +84,44 @@ export class WordSearchGameComponent {
     this.cellSizeClass = `size-${this.gridSize}`;
 
     let intentosGlobales = 0;
-    const maxIntentosGlobales = 20;
 
-    while (intentosGlobales < maxIntentosGlobales) {
+    while (intentosGlobales < this.MAX_INTENTOS_GLOBAL) {
       this.words = this.getRandomWords(config.wordCount, pool);
       this.resetGameState();
       this.generateGrid();
 
-      if (!this.message.includes('Error')) return;
+      if (!this.message.includes('Error')) {
+        this.cdr.markForCheck();
+        return;
+      }
       intentosGlobales++;
     }
 
     this.message = 'No se pudo generar la sopa de letras después de varios intentos. Recarga la página.';
+    this.cdr.markForCheck();
   }
 
-  /** Reinicia los valores de juego sin cambiar la dificultad */
   private resetGameState(): void {
     this.foundWords = [];
     this.selectedCells = [];
+    this.selectedSet.clear();
     this.message = '';
     this.placedWords = [];
     this.gameCompleted = false;
+    this.highlightedSet.clear();
   }
 
-  /** Obtiene un arreglo de palabras aleatorias del pool */
   private getRandomWords(count: number, pool: string[]): string[] {
     return [...pool].sort(() => 0.5 - Math.random()).slice(0, count);
   }
 
-  /** Genera la grilla colocando las palabras aleatoriamente */
   private generateGrid(): void {
     let intentos = 0;
-    const maxIntentos = 50;
     let todasColocadas = false;
 
-    while (!todasColocadas && intentos < maxIntentos) {
+    while (!todasColocadas && intentos < this.MAX_INTENTOS_COLOCACION) {
       intentos++;
-      this.grid = Array.from({ length: this.gridSize }, () =>
-        Array(this.gridSize).fill('')
-      );
+      this.grid = Array.from({ length: this.gridSize }, () => Array(this.gridSize).fill(''));
 
       todasColocadas = true;
       this.placedWords = [];
@@ -114,7 +130,7 @@ export class WordSearchGameComponent {
         let colocada = false;
         let intentosPalabra = 0;
 
-        while (!colocada && intentosPalabra < 100) {
+        while (!colocada && intentosPalabra < this.MAX_INTENTOS_POR_PALABRA) {
           const direccion = this.getRandomDirection();
           const inicio = this.getRandomStartPosition(word.length, direccion);
 
@@ -142,9 +158,8 @@ export class WordSearchGameComponent {
     this.verifyWordsInGrid();
   }
 
-  /** Direcciones posibles de colocación */
   private getRandomDirection(): Cell {
-    const directions = [
+    const directions: Cell[] = [
       { row: 0, col: 1 }, { row: 1, col: 0 },
       { row: 1, col: 1 }, { row: -1, col: 1 },
       { row: 0, col: -1 }, { row: -1, col: 0 },
@@ -153,7 +168,6 @@ export class WordSearchGameComponent {
     return directions[Math.floor(Math.random() * directions.length)];
   }
 
-  /** Posición inicial aleatoria */
   private getRandomStartPosition(length: number, dir: Cell): Cell {
     const row = dir.row === -1
       ? Math.floor(Math.random() * (this.gridSize - length)) + length
@@ -166,7 +180,6 @@ export class WordSearchGameComponent {
     return { row, col };
   }
 
-  /** Verifica si se puede colocar una palabra en la posición */
   private canPlaceWord(word: string, start: Cell, dir: Cell): boolean {
     return Array.from({ length: word.length }).every((_, i) => {
       const r = start.row + dir.row * i;
@@ -179,7 +192,6 @@ export class WordSearchGameComponent {
     });
   }
 
-  /** Coloca la palabra en la grilla */
   private placeWord(word: string, start: Cell, dir: Cell): void {
     for (let i = 0; i < word.length; i++) {
       const r = start.row + dir.row * i;
@@ -188,7 +200,6 @@ export class WordSearchGameComponent {
     }
   }
 
-  /** Llena las celdas vacías con letras aleatorias */
   private fillEmptyCells(): void {
     for (let i = 0; i < this.gridSize; i++) {
       for (let j = 0; j < this.gridSize; j++) {
@@ -199,7 +210,6 @@ export class WordSearchGameComponent {
     }
   }
 
-  /** Verifica que todas las palabras estén realmente en la grilla */
   private verifyWordsInGrid(): void {
     const directions = [
       { dr: 0, dc: 1 }, { dr: 1, dc: 0 },
@@ -233,50 +243,74 @@ export class WordSearchGameComponent {
     }
   }
 
-  /** Marca/desmarca celdas seleccionadas */
   toggleSelection(row: number, col: number): void {
     if (this.gameCompleted) return;
-    const index = this.selectedCells.findIndex(c => c.row === row && c.col === col);
-    index > -1 ? this.selectedCells.splice(index, 1) : this.selectedCells.push({ row, col });
+    const k = this.key(row, col);
+    const idx = this.selectedCells.findIndex(c => c.row === row && c.col === col);
+    if (idx > -1) {
+      this.selectedCells.splice(idx, 1);
+      this.selectedSet.delete(k);
+    } else {
+      this.selectedCells.push({ row, col });
+      this.selectedSet.add(k);
+    }
+    this.cdr.markForCheck();
   }
 
-  /** Confirma la palabra seleccionada */
   confirmSelection(): void {
     if (this.gameCompleted) return;
     this.checkSelectedWord();
+    // limpiar selección tras confirmar
     this.selectedCells = [];
+    this.selectedSet.clear();
+    this.cdr.markForCheck();
   }
 
-  /** Verifica si una celda está seleccionada */
   isSelected(row: number, col: number): boolean {
-    return this.selectedCells.some(cell => cell.row === row && cell.col === col);
+    return this.selectedSet.has(this.key(row, col));
   }
 
-  /** Comprueba si la palabra seleccionada es correcta */
+  isHighlighted(row: number, col: number): boolean {
+    return this.highlightedSet.has(this.key(row, col));
+  }
+
   private checkSelectedWord(): void {
     const word = this.selectedCells.map(cell => this.grid[cell.row][cell.col]).join('');
     if (this.words.includes(word) && !this.foundWords.includes(word)) {
       this.foundWords.push(word);
       this.score++;
+      this.wsSvc.setScore(this.score);
       this.message = `¡Encontraste "${word}"!`;
+
+      this.selectedCells.forEach(c => this.highlightedSet.add(this.key(c.row, c.col)));
 
       if (this.foundWords.length === this.words.length) {
         this.gameCompleted = true;
         this.message = `🎉 ¡Completaste el nivel ${this.difficulty.toUpperCase()}!`;
+        this.saveScoreOnce(); 
       }
     } else {
       this.message = '';
     }
   }
 
-  /** Reinicia el juego sin cambiar la dificultad */
   restartGame(): void {
     if (this.restartCount < this.maxRestarts) {
       this.restartCount++;
       this.score = 0;
+      this.wsSvc.setScore(this.score);
       this.loadLevel();
     } else {
       this.message = 'Solo puedes reiniciar una vez.';
     }
+    this.cdr.markForCheck();
+  }
+
+  private saveScoreOnce(): void {
+    if (this.saving) return;
+    this.saving = true;
+    this.wsSvc.saveFinalScore()
+      .pipe(take(1), finalize(() => { this.saving = false; }))
+      .subscribe();
   }
 }
