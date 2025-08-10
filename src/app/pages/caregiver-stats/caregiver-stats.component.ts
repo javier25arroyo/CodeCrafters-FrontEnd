@@ -1,61 +1,61 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CaregiverService } from '../../services/caregiver.service';
-import { AuthService } from '../../services/auth.service';
-import { IUser, IUserCaregiver } from '../../interfaces';
-import { NavComponent } from "../../components/nav/nav.component";
-import { FooterComponent } from "../../components/footer/footer.component";
+import { IUser } from '../../interfaces';
+import { NavComponent } from '../../components/nav/nav.component';
+
+type UserDisplay = { name: string; email: string };
 
 @Component({
   selector: 'app-caregiver-stats',
   standalone: true,
-  imports: [CommonModule, FormsModule, FooterComponent, NavComponent],
+  imports: [NgIf, FormsModule, NavComponent],
   templateUrl: './caregiver-stats.component.html',
   styleUrls: ['./caregiver-stats.component.scss']
 })
 export class CaregiverStatsComponent {
-  public email = '';
-  public userData: IUser | null = null;
-  public loading = false;
-  public error = '';
+  private userSvc = inject(CaregiverService);
 
-  constructor(
-    private svc: CaregiverService,
-    private auth: AuthService
-  ) {}
+  email = '';
+  loading = false;
+  error = '';
+  userData: UserDisplay | null = null;
 
-  private normalizeEmail(e: string): string {
-    return (e || '').trim().toLowerCase();
-  }
-
-  public onSearch(): void {
-  this.error = '';
-  this.userData = null;
-
-  if (!this.email.trim()) {
-    this.error = 'Ingresa un correo para buscar.';
-    return;
-  }
-  this.loading = true;
-
-  this.svc.getUserByEmail(this.email).subscribe({
-    next: (user) => {
-      this.userData = user;
-      this.loading = false;
-    },
-    error: (err) => {
-      this.error = (err?.status === 404)
-        ? 'No se encontró ningún usuario con ese email.'
-        : 'No se pudo buscar en este momento. Inténtalo de nuevo.';
-      this.loading = false;
-    }
-  });
-}
-
-  public clearSearch(): void {
-    this.email = '';
-    this.userData = null;
+  onSearch(): void {
     this.error = '';
+    this.userData = null;
+
+    const q = this.email.trim();
+    if (!q) {
+      this.error = 'Ingresa un correo para buscar.';
+      return;
+    }
+
+    this.loading = true;
+
+    this.userSvc.getUserByEmail(q).subscribe({
+      next: (u: IUser | any) => {
+        const name =
+          u?.name ??
+          u?.fullName ??
+          (u?.firstName || u?.lastName ? `${u?.firstName ?? ''} ${u?.lastName ?? ''}`.trim() : undefined) ??
+          u?.username ??
+          '—';
+
+        const email =
+          u?.email ?? u?.mail ?? u?.userEmail ?? q;
+
+        this.userData = { name, email };
+        this.loading = false;
+      },
+      error: (err) => {
+        this.loading = false;
+        this.error =
+          err?.status === 404
+            ? 'No se encontró ningún usuario con ese correo.'
+            : 'No se pudo realizar la búsqueda. Intenta de nuevo.';
+      }
+    });
   }
 }

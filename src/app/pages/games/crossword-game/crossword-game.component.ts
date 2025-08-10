@@ -1,74 +1,76 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
-import { NgFor, NgIf, NgClass } from '@angular/common';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { NgFor, NgIf, NgClass, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NavComponent } from '../../../components/nav/nav.component';
-import { Hint,DifficultySettings } from '../../../interfaces/index';
+import { Hint, DifficultySettings, LevelEnum } from '../../../interfaces/index';
+import { CrosswordStatsService } from '../../../services/gameService/crossword-stats.service';
 
-type Difficulty = 'easy' | 'medium' | 'hard';
+type UiDifficulty = 'easy' | 'medium' | 'hard';
 
-const MAX_HINTS = 3;
-const DIFFICULTY_SETTINGS: Record<Difficulty, DifficultySettings> = {
-  easy: {
-    maxHints: 5,
-    puzzleKeys: [
-      'puzzle-easy-1',
-      'puzzle-easy-2',
-      'puzzle-easy-3'
-    ]
-  },
-  medium: {
-    maxHints: 3,
-    puzzleKeys: [
-      'puzzle-medium-1',
-      'puzzle-medium-2',
-      'puzzle-medium-3'
-    ]
-  },
-  hard: {
-    maxHints: 1,
-    puzzleKeys: [
-      'puzzle-hard-1',
-      'puzzle-hard-2',
-      'puzzle-hard-3'
-    ]
-  }
+const DIFFICULTY_SETTINGS: Record<UiDifficulty, DifficultySettings> = {
+  easy:   { maxHints: 5, puzzleKeys: ['puzzle-easy-1','puzzle-easy-2','puzzle-easy-3'] },
+  medium: { maxHints: 3, puzzleKeys: ['puzzle-medium-1','puzzle-medium-2','puzzle-medium-3'] },
+  hard:   { maxHints: 1, puzzleKeys: ['puzzle-hard-1','puzzle-hard-2','puzzle-hard-3'] }
 };
 
 @Component({
   selector: 'app-crossword-game',
   standalone: true,
-  imports: [NgFor, NgIf, NgClass, FormsModule, NavComponent],
+  imports: [NgFor, NgIf, NgClass, FormsModule, NavComponent, DecimalPipe],
   templateUrl: './crossword-game.component.html',
   styleUrls: ['./crossword-game.component.scss']
 })
 export class CrosswordGameComponent implements OnInit, OnDestroy {
-  // Tablero
-  grid: (string|null)[][] = [];
-  userGrid: string[][] = [];
-  cellStatus: ('correct'|'incorrect'|'')[][] = [];
-  usedMask: boolean[][] = [];
-  hints: Hint[] = [];
-  clueNumbers: Record<string, number> = {};
-  isCorrect: boolean|null = null;
 
+  // Estado de juego
+  currentPuzzleId!: string;
+  currentDifficulty!: LevelEnum;
+  wordsFound = 0;
+  wordsTotal = 0;
+  mistakeCellsCount = 0;
+  hintsUsed = 0;
+  isCompleted = false;
+  startedAt = new Date();
+  finalScore = 0;
+
+  // Tableros
+  grid: (string | null)[][] = [];
+  solutionGrid: (string | null)[][] = [];
+  userGrid: string[][] = [];
+  cellStatus: ('correct' | 'incorrect' | '')[][] = [];
+  usedMask: boolean[][] = [];
+
+  // Pistas
+  hints: Hint[] = [];
+  horizontalHints: Hint[] = [];
+  verticalHints: Hint[] = [];
+  clueNumbers: Record<string, number> = {};
+
+  // UI
+  isCorrect: boolean | null = null;
   timer = '00:00';
   private startTs = 0;
   private timerInt!: any;
 
-  difficulty: Difficulty = 'easy';
+  // Dificultad (UI)
+  difficulty: UiDifficulty = 'easy';
   maxHints = DIFFICULTY_SETTINGS[this.difficulty].maxHints;
   revealLeft = this.maxHints;
 
-  ngOnInit() {
-  this.onDifficultyChange();
-  this.startTimer();
-}
+  constructor(private stats: CrosswordStatsService) {}
+
+  // ========= Ciclo de vida =========
+  ngOnInit(): void {
+    this.onDifficultyChange();
+    this.startTimer();
+  }
 
   ngOnDestroy(): void {
     clearInterval(this.timerInt);
   }
 
-  private startTimer() {
+  // ========= Timer =========
+  private startTimer(): void {
     this.startTs = Date.now();
     this.timerInt = setInterval(() => {
       const totalSec = Math.floor((Date.now() - this.startTs) / 1000);
@@ -78,125 +80,216 @@ export class CrosswordGameComponent implements OnInit, OnDestroy {
     }, 1000);
   }
 
-async loadPuzzle(key: string) {
-  const res = await fetch(`assets/crossword/${key}.json`);
-  const pz = await res.json();
-  this.hints = pz.hints;
-  this.setupBoard();
-}
-
-  private setupBoard() {
-  let maxR = 0, maxC = 0;
-  for (let h of this.hints) {
-    const len = h.word.length;
-    if (h.direction === 'across') {
-      maxR = Math.max(maxR, h.x);
-      maxC = Math.max(maxC, h.y + len - 1);
-    } else {
-      maxR = Math.max(maxR, h.x + len - 1);
-      maxC = Math.max(maxC, h.y);
-    }
+  private resetTimer(): void {
+    clearInterval(this.timerInt);
+    this.timer = '00:00';
+    this.startTimer();
   }
-  const ROWS = maxR + 1;
-  const COLS = maxC + 1;
 
-  this.grid = Array.from({ length: ROWS },
-    () => Array<string|null>(COLS).fill(null)
-  );
-
-  for (let h of this.hints) {
-    for (let i = 0; i < h.word.length; i++) {
-      const r = h.direction === 'across' ? h.x : h.x + i;
-      const c = h.direction === 'across' ? h.y + i : h.y;
-      this.grid[r][c] = '';
+  // ========= Carga de puzzle =========
+  async loadPuzzle(key: string): Promise<void> {
+    try {
+      const res = await fetch(`assets/crossword/${key}.json`);
+      if (!res.ok) throw new Error(`No se pudo cargar ${key}.json`);
+      const pz = await res.json();
+      this.hints = (pz?.hints ?? []) as Hint[];
+      this.setupBoard();
+      this.currentPuzzleId = key;
+      this.currentDifficulty = LevelEnum[this.difficulty.toUpperCase() as keyof typeof LevelEnum];
+      this.startedAt = new Date();
+    } catch (e) {
+      console.error(e);
+      // Estado seguro si falla la carga
+      this.hints = [];
+      this.setupBoard();
     }
   }
 
+  private setupBoard(): void {
+    // 1) Dimensiones
+    let maxR = 0, maxC = 0;
+    for (const h of this.hints) {
+      const len = h.word.length;
+      if (h.direction === 'across') {
+        maxR = Math.max(maxR, h.x);
+        maxC = Math.max(maxC, h.y + len - 1);
+      } else {
+        maxR = Math.max(maxR, h.x + len - 1);
+        maxC = Math.max(maxC, h.y);
+      }
+    }
+    const ROWS = maxR + 1;
+    const COLS = maxC + 1;
 
-  this.clueNumbers = {};
-  this.hints.forEach((h, idx) => {
-    this.clueNumbers[`${h.x}-${h.y}`] = idx + 1;
-  });
+    // 2) Tablero base y solución
+    this.grid = Array.from({ length: ROWS }, () => Array<string | null>(COLS).fill(null));
+    this.solutionGrid = Array.from({ length: ROWS }, () => Array<string | null>(COLS).fill(null));
 
-  this.userGrid   = this.grid.map(row => row.map(_ => ''));
-  this.cellStatus = this.grid.map(row => row.map(_ => ''));
-  this.usedMask   = this.grid.map(row => row.map(c => c !== null));
-
-  this.isCorrect = null;
-  this.maxHints   = DIFFICULTY_SETTINGS[this.difficulty].maxHints;
-  this.revealLeft = this.maxHints;
-}
-
-
-  onDifficultyChange() {
-  const cfg = DIFFICULTY_SETTINGS[this.difficulty];
-
-  this.maxHints   = cfg.maxHints;
-  this.revealLeft = cfg.maxHints;
-
-  const keys = cfg.puzzleKeys;
-  const randomKey = keys[Math.floor(Math.random() * keys.length)];
-
-  this.loadPuzzle(randomKey);
-}
-
-  get horizontalHints(): Hint[] {
-    return this.hints
-      .filter(h => h.direction === 'across')
-      .sort((a, b) => this.clueNumbers[`${a.x}-${a.y}`] - this.clueNumbers[`${b.x}-${b.y}`]);
-  }
-
-  get verticalHints(): Hint[] {
-    return this.hints
-      .filter(h => h.direction === 'down')
-      .sort((a, b) => this.clueNumbers[`${a.x}-${a.y}`] - this.clueNumbers[`${b.x}-${b.y}`]);
-  }
-
-  isEditableCell(r:number,c:number): boolean {
-    return this.grid[r][c] !== null;
-  }
-
-  onInputChange(e:any, r:number, c:number) {
-    this.userGrid[r][c] = e.target.value.toUpperCase().charAt(0) || '';
-  }
-
-  checkAnswers() {
-    this.isCorrect = true;
-    this.cellStatus = this.grid.map(r => r.map(c => c===null ? '' : ''));
-    this.hints.forEach(h => {
-      [...h.word].forEach((ch,i) => {
-        const r = h.direction==='across' ? h.x : h.x + i;
-        const c = h.direction==='across' ? h.y + i : h.y;
-        if (this.userGrid[r][c] === ch) {
-          this.cellStatus[r][c] = 'correct';
-        } else {
-          this.cellStatus[r][c] = 'incorrect';
-          this.isCorrect = false;
-        }
-      });
-    });
-  }
-
-  revealLetter() {
-    if (this.revealLeft === 0) return;
-    for (let h of this.hints) {
+    for (const h of this.hints) {
       for (let i = 0; i < h.word.length; i++) {
-        const r = h.direction==='across' ? h.x : h.x + i;
-        const c = h.direction==='across' ? h.y + i : h.y;
-        if (this.userGrid[r][c] !== h.word[i]) {
-          this.userGrid[r][c] = h.word[i];
-          this.cellStatus[r][c] = 'correct';
-          this.revealLeft--;
-          this.isCorrect = null;
-          return;
+        const r = h.direction === 'across' ? h.x : h.x + i;
+        const c = h.direction === 'across' ? h.y + i : h.y;
+        this.grid[r][c] = '';
+        this.solutionGrid[r][c] = h.word[i].toUpperCase();
+      }
+    }
+
+    // 3) Números de pista
+    this.clueNumbers = {};
+    this.hints.forEach((h, idx) => {
+      this.clueNumbers[`${h.x}-${h.y}`] = idx + 1;
+    });
+
+    // 4) Estructuras auxiliares
+    this.userGrid   = this.grid.map(row => row.map(() => ''));
+    this.cellStatus = this.grid.map(row => row.map(() => ''));
+    this.usedMask   = this.grid.map(row => row.map(c => c !== null));
+
+    // 5) Pistas separadas
+    this.horizontalHints = this.hints.filter(h => h.direction === 'across');
+    this.verticalHints   = this.hints.filter(h => h.direction === 'down');
+
+    // 6) Estado UI
+    this.isCorrect = null;
+    this.wordsTotal = this.hints.length;
+    this.wordsFound = 0;
+    this.mistakeCellsCount = 0;
+    this.hintsUsed = 0;
+    this.maxHints = DIFFICULTY_SETTINGS[this.difficulty].maxHints;
+    this.revealLeft = this.maxHints;
+    this.finalScore = 0;
+  }
+
+  // ========= UI Handlers =========
+  async onDifficultyChange(): Promise<void> {
+    const cfg = DIFFICULTY_SETTINGS[this.difficulty];
+    const keys = cfg.puzzleKeys;
+    const randomKey = keys[Math.floor(Math.random() * keys.length)];
+    await this.loadPuzzle(randomKey);
+    this.resetTimer();
+  }
+
+  onInputChange(ev: Event, ri: number, ci: number): void {
+    const el = ev.target as HTMLInputElement;
+    const val = (el.value || '').toUpperCase().slice(0, 1);
+    el.value = val;
+    this.userGrid[ri][ci] = val;
+    this.cellStatus[ri][ci] = '';
+  }
+
+  isEditableCell(ri: number, ci: number): boolean {
+    return this.grid[ri][ci] !== null;
+  }
+
+  // ========= Acciones =========
+  checkAnswers(): void {
+    let correctWords = 0;
+    const incorrectCells = new Set<string>();
+
+    for (const h of this.hints) {
+      let ok = true;
+      for (let i = 0; i < h.word.length; i++) {
+        const r = h.direction === 'across' ? h.x : h.x + i;
+        const c = h.direction === 'across' ? h.y + i : h.y;
+        const expected = this.solutionGrid[r][c]!;
+        const got = this.userGrid[r][c] || '';
+        const match = got === expected;
+
+        this.cellStatus[r][c] = match ? 'correct' : 'incorrect';
+        if (!match) {
+          ok = false;
+          incorrectCells.add(`${r},${c}`);
+        }
+      }
+      if (ok) correctWords++;
+    }
+
+    this.wordsFound = correctWords;
+    this.mistakeCellsCount = incorrectCells.size;
+    this.isCorrect = incorrectCells.size === 0;
+
+    if (this.isCorrect) {
+      this.isCompleted = true;
+      this.finishGame();
+    }
+  }
+
+  revealLetter(): void {
+    if (this.revealLeft <= 0) return;
+
+    const candidates: Array<[number, number]> = [];
+    for (let r = 0; r < this.grid.length; r++) {
+      for (let c = 0; c < this.grid[0].length; c++) {
+        if (!this.usedMask[r][c]) continue;
+        const expected = this.solutionGrid[r][c];
+        const got = this.userGrid[r][c] || '';
+        if (expected && got !== expected) {
+          candidates.push([r, c]);
         }
       }
     }
+
+    if (candidates.length === 0) return;
+
+    const [r, c] = candidates[Math.floor(Math.random() * candidates.length)];
+    this.userGrid[r][c] = this.solutionGrid[r][c]!;
+    this.cellStatus[r][c] = '';
+    this.revealLeft--;
+    this.hintsUsed++;
   }
 
-  resetGame() {
-    this.setupBoard();
-    clearInterval(this.timerInt);
-    this.startTimer();
+  resetGame(): void {
+    this.userGrid   = this.grid.map(row => row.map(() => ''));
+    this.cellStatus = this.grid.map(row => row.map(() => ''));
+    this.isCorrect = null;
+    this.wordsFound = 0;
+    this.mistakeCellsCount = 0;
+    this.hintsUsed = 0;
+    this.revealLeft = this.maxHints;
+    this.finalScore = 0;
+    this.isCompleted = false;
+    this.startedAt = new Date();
+    this.resetTimer();
+  }
+
+  // ========= Puntaje =========
+  private computeScore(): number {
+  const base =
+    this.currentDifficulty === LevelEnum.EASY   ? 5 :
+    this.currentDifficulty === LevelEnum.MEDIUM ? 10 : 15;
+
+  const hints    = this.hintsUsed ?? 0;
+  const mistakes = this.mistakeCellsCount ?? 0;
+  const elapsed  = Math.floor((Date.now() - this.startTs) / 1000);
+
+  const timePenalty     = Math.floor(elapsed / 120);   // -1 cada 2 min
+  const hintPenalty     = Math.floor(hints / 2);       // -1 cada 2 ayudas
+  const mistakePenalty  = Math.floor(mistakes / 15);   // -1 cada 15 errores
+
+  return Math.max(1, base - timePenalty - hintPenalty - mistakePenalty);
+}
+
+
+  private finishGame(): void {
+    const finishedAt = new Date();
+    this.finalScore = this.computeScore();
+
+    const payload = {
+      puzzleId: this.currentPuzzleId,
+      difficulty: this.currentDifficulty,
+      wordsFound: this.wordsFound,
+      wordsTotal: this.wordsTotal,
+      mistakes: this.mistakeCellsCount ?? 0,
+      hints: this.hintsUsed ?? 0,
+      completed: this.isCompleted === true,
+      startedAt: this.startedAt.toISOString(),
+      finishedAt: finishedAt.toISOString(),
+      score: this.finalScore
+    };
+
+    this.stats.post(payload).subscribe({
+      next: () => console.log('Crossword stat saved'),
+      error: (e) => console.error('Error saving crossword stat', e),
+    });
   }
 }

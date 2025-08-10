@@ -1,21 +1,19 @@
 <app-nav></app-nav>
 
 <div class="crossword-container">
-  <!-- Header: selector de dificultad + temporizador -->
   <div class="crossword-header">
     <div class="difficulty-selector" [ngClass]="difficulty">
-  <label for="difficulty">Dificultad:</label>
-  <select id="difficulty" [(ngModel)]="difficulty" (change)="onDifficultyChange()">
-    <option value="easy">Fácil</option>
-    <option value="medium">Medio</option>
-    <option value="hard">Difícil</option>
-  </select>
-</div>
+      <label for="difficulty">Dificultad:</label>
+      <select id="difficulty" [(ngModel)]="difficulty" (change)="onDifficultyChange()">
+        <option value="easy">Fácil</option>
+        <option value="medium">Medio</option>
+        <option value="hard">Difícil</option>
+      </select>
+    </div>
 
     <div class="timer">Tiempo: {{ timer }}</div>
   </div>
 
-  <!-- Contenido principal: crucigrama + pistas -->
   <div class="crossword-content">
     <!-- Rejilla -->
     <div class="grid-wrapper">
@@ -25,14 +23,13 @@
             <ng-container *ngIf="cell === null; else editTpl">
               <div class="black-cell"></div>
             </ng-container>
+
             <ng-template #editTpl>
               <div class="cell-wrapper">
-                <span
-                  *ngIf="clueNumbers[ri + '-' + ci]"
-                  class="clue-number"
-                >
+                <span *ngIf="clueNumbers[ri + '-' + ci]" class="clue-number">
                   {{ clueNumbers[ri + '-' + ci] }}
                 </span>
+
                 <input
                   maxlength="1"
                   [value]="userGrid[ri][ci]"
@@ -52,24 +49,22 @@
       </table>
     </div>
 
-    <!-- Pistas -->
     <div class="hints-wrapper">
       <div class="hints">
         <div class="hint-section">
           <h3>Horizontales</h3>
           <ul>
             <li *ngFor="let h of horizontalHints">
-              {{ clueNumbers[h.x + '-' + h.y] }}.
-              ({{ h.word.length }} letras) {{ h.clue }}
+              {{ clueNumbers[h.x + '-' + h.y] }}. {{ h.clue }}
             </li>
           </ul>
         </div>
+
         <div class="hint-section">
           <h3>Verticales</h3>
           <ul>
             <li *ngFor="let h of verticalHints">
-              {{ clueNumbers[h.x + '-' + h.y] }}.
-              ({{ h.word.length }} letras) {{ h.clue }}
+              {{ clueNumbers[h.x + '-' + h.y] }}. {{ h.clue }}
             </li>
           </ul>
         </div>
@@ -77,21 +72,16 @@
     </div>
   </div>
 
-  <!-- Controles: revisar, reiniciar, revelar -->
   <div class="controls">
     <button class="btn-checkA" (click)="checkAnswers()">Revisar respuestas</button>
     <button class="btn-reset" (click)="resetGame()">Reiniciar</button>
-    <button
-      class="btn-reveal"
-      (click)="revealLetter()"
-      [disabled]="revealLeft === 0"
-    >
+    <button class="btn-reveal" (click)="revealLetter()" [disabled]="revealLeft === 0">
       Revelar letra
     </button>
     <span class="help-counter">Ayudas: {{ revealLeft }}</span>
+    <span class="score" *ngIf="finalScore > 0">Puntaje: {{ finalScore | number:'1.0-0' }}</span>
   </div>
 
-  <!-- Mensaje final -->
   <div *ngIf="isCorrect !== null" class="feedback">
     <p *ngIf="isCorrect; else wrongTpl">✅ ¡Todas correctas!</p>
     <ng-template #wrongTpl>❌ Hay errores. Revisa las palabras.</ng-template>

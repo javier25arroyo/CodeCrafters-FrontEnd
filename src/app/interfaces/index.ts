@@ -107,6 +107,7 @@ export enum LevelEnum {
   MEDIUM = 'MEDIUM',
   HARD = 'HARD'
 }
+
 export interface Hint {
   word: string;
   clue: string;
@@ -130,4 +131,19 @@ export interface IUserCaregiver {
     phone?: string;
   };
   relationship?: string;
+}
+
+
+
+export interface CrosswordStatPayload {
+  puzzleId: string;
+  difficulty: LevelEnum;
+  wordsFound: number;
+  wordsTotal: number;
+  mistakes: number;
+  hints: number;
+  completed: boolean;
+  startedAt: string;     // ISO
+  finishedAt: string;    // ISO
+  score?: number;        // opcional; el backend puede recalcular
 }
