@@ -1,7 +1,7 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BaseService } from './base-service';
 import { ISearch, IUser } from '../interfaces';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { AlertService } from './alert.service';
 
 @Injectable({
@@ -9,10 +9,9 @@ import { AlertService } from './alert.service';
 })
 export class UserService extends BaseService<IUser> {
   protected override source: string = 'users';
-  private userListSignal = signal<IUser[]>([]);
-  get users$() {
-    return this.userListSignal;
-  }
+
+  private currentUserSubject = new BehaviorSubject<IUser | null>(null);
+  currentUser$ = this.currentUserSubject.asObservable();
 
   public search: ISearch = {
     page: 1,
@@ -30,7 +29,7 @@ export class UserService extends BaseService<IUser> {
           { length: this.search.totalPages ?? 0 },
           (_, i) => i + 1
         );
-        this.userListSignal.set(response.data);
+       
       },
       error: (err: any) => {
         console.error('error', err);
@@ -77,16 +76,27 @@ export class UserService extends BaseService<IUser> {
     });
   }
 
-
-  
   getMyProfile(): Observable<IUser> {
-  return this.http.get<IUser>(`${this.source}/me`);
-}
+    return this.http.get<IUser>(`${this.source}/me`);
+  }
 
-toggleEnabled(userId: number) {
-  return this.http.patch(`${this.source}/${userId}/toggle-enabled`, {});
-}
+  toggleEnabled(userId: number) {
+    return this.http.patch(`${this.source}/${userId}/toggle-enabled`, {});
+  }
 
 
+  loadCurrentUser(): void {
+    this.getMyProfile().subscribe({
+      next: (user) => this.currentUserSubject.next(user),
+      error: (err) => {
+        console.error('Error loading current user', err);
+        this.currentUserSubject.next(null);
+      },
+    });
+  }
 
+ 
+  getCurrentUserRole(): string {
+    return this.currentUserSubject.value?.role?.name || '';
+  }
 }

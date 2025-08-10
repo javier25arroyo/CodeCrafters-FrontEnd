@@ -67,40 +67,33 @@
         color: #555;
       }
 
-      button {
-        margin-right: 0.5rem;
-        padding: 0.4rem 0.8rem;
-        font-size: 0.9rem;
+      /* Estilos para botones icono */
+      button.icon-button {
+        background: transparent;
         border: none;
-        border-radius: 4px;
         cursor: pointer;
-        color: white;
-        transition: 0.3s ease;
+        font-size: 1.3rem;
+        padding: 0.2rem 0.4rem;
+        margin-right: 0.5rem;
+        color: #555;
+        transition: color 0.3s ease;
 
-        &:nth-child(1) {
-          background-color: #007bff;
-
-          &:hover {
-            background-color: #0056b3;
-          }
+        &:hover {
+          color: #000;
         }
+      }
 
-        &:nth-child(2) {
-          background-color: #dc3545;
+      /* Colores por tipo de acción */
+      button.icon-button.edit:hover {
+        color: #007bff; /* azul */
+      }
 
-          &:hover {
-            background-color: #a71d2a;
-          }
-        }
+      button.icon-button.delete:hover {
+        color: #dc3545; /* rojo */
+      }
 
-        &:nth-child(3) {
-          background-color: #ffc107;
-          color: #333;
-
-          &:hover {
-            background-color: #e0a800;
-          }
-        }
+      button.icon-button.toggle:hover {
+        color: #ffc107; /* amarillo */
       }
     }
   }
