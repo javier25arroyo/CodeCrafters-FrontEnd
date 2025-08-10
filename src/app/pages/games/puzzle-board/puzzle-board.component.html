@@ -22,15 +22,11 @@
   </aside>
   
   <section class="puzzle-board-section">
-    <div class="difficulty-buttons">
-      @for (config of difficultyConfigs; track config.level) {
-        <button
-          (click)="changeDifficulty(config.level)"
-          [class.active]="isCurrentDifficulty(config.level)">
-          {{ config.label }}
-        </button>
-      }
-    </div>
+    <puzzle-difficulty-selector
+      [configs]="difficultyConfigs"
+      [current]="currentDifficulty"
+  (difficultyChange)="changeDifficulty($event)"
+    />
 
     <div class="puzzle-board" [style.grid-template-columns]="'repeat(' + boardSize + ', 1fr)'">
       @for (row of range(boardSize); track row) {
