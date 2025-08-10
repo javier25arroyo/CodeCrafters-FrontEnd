@@ -16,14 +16,24 @@
     </button>
   </div>
 
-  <div class="level-selector">
-    <p>Selecciona la dificultad:</p>
-    <div class="level-options">
-      <button class="level-btn" (click)="selectLevel('easy')" [class.selected]="selectedLevel === 'easy'">Fácil</button>
-      <button class="level-btn" (click)="selectLevel('medium')" [class.selected]="selectedLevel === 'medium'">Medio</button>
-      <button class="level-btn" (click)="selectLevel('hard')" [class.selected]="selectedLevel === 'hard'">Difícil</button>
-    </div>
-  </div>
+  <div class="difficulty-buttons">
+  <button
+    (click)="selectLevel('easy')"
+    [class.active]="selectedLevel === 'easy'">
+    Fácil
+  </button>
+  <button
+    (click)="selectLevel('medium')"
+    [class.active]="selectedLevel === 'medium'">
+    Medio
+  </button>
+  <button
+    (click)="selectLevel('hard')"
+    [class.active]="selectedLevel === 'hard'">
+    Difícil
+  </button>
+</div>
+  
 
-  <button class="restart-btn" (click)="startNewGame()" [disabled]="isPlaying">🔄 Reiniciar</button>
+  <button class="restart-btn" (click)="startNewGame()" [disabled]="isPlaying">Reiniciar</button>
 </div>

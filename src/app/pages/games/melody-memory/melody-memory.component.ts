@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavComponent } from '../../../components/nav/nav.component';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { MusicMemoryService } from './music-memory.service';
 
 interface Note {
   freq: number;
@@ -36,14 +37,10 @@ export class MelodyMemoryComponent implements OnInit {
 
   selectedLevel: 'easy' | 'medium' | 'hard' = 'easy';
 
-  // Puntaje acumulado (NO se reinicia al presionar "Reiniciar")
   score: number = 0;
-  levelStartTime: number = 0; // para calcular time por nivel (opcional)
+  levelStartTime: number = 0;
 
-  // BACKEND URL (ajusta host/puerto)
-  private readonly SCORE_URL = '/scores';
-
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, @Inject(MusicMemoryService) private musicMemoryService : MusicMemoryService) {}
 
   ngOnInit(): void {
     this.startNewGame();
@@ -75,7 +72,7 @@ export class MelodyMemoryComponent implements OnInit {
       this.currentNotePlaying = note.freq;
       await this.playNoteAsync(note.freq);
       this.currentNotePlaying = null;
-      await this.sleep(300); 
+      await this.sleep(300);
     }
 
     this.isPlaying = false;
@@ -84,7 +81,6 @@ export class MelodyMemoryComponent implements OnInit {
   }
 
   playNote(freq: number): void {
-
     const context = new AudioContext();
     const oscillator = context.createOscillator();
     const gainNode = context.createGain();
@@ -116,7 +112,6 @@ export class MelodyMemoryComponent implements OnInit {
       oscillator.start();
       oscillator.stop(context.currentTime + 0.5);
 
-     
       oscillator.onended = () => resolve();
       setTimeout(() => resolve(), 600);
     });
@@ -135,13 +130,12 @@ export class MelodyMemoryComponent implements OnInit {
       this.message = '❌ Fallaste. Reiniciando...';
       setTimeout(() => {
         this.isPlaying = false;
-        this.startNewGame(); 
+        this.startNewGame();
       }, 1500);
       return;
     }
 
     if (this.userSequence.length === this.sequence.length) {
-      
       this.score++;
       this.sendScoreToBackend();
       this.message = '✅ Bien hecho. Siguiente nivel...';
@@ -155,7 +149,6 @@ export class MelodyMemoryComponent implements OnInit {
       return;
     }
 
-   
     setTimeout(() => {
       this.isPlaying = false;
     }, 600);
@@ -195,36 +188,19 @@ export class MelodyMemoryComponent implements OnInit {
     }
   }
 
-  
-
-  
   private mapSelectedLevelToLevelEnum(): string {
     switch (this.selectedLevel) {
-      case 'easy': return 'FACIL';
-      case 'medium': return 'MEDIO';
-      case 'hard': return 'DIFICIL';
-      default: return 'FACIL';
+      case 'easy': return 'EASY';
+      case 'medium': return 'MEDIUM';
+      case 'hard': return 'HARD';
+      default: return 'EASY';
     }
   }
 
-  
   sendScoreToBackend(): void {
-    const payload = {
-      gameType: 'MUSIC_MEMORY',                 
-      level: this.mapSelectedLevelToLevelEnum(), 
-      movements: 0,                              
-      time: Math.floor((Date.now() - this.levelStartTime) / 1000), 
-      score: Number(this.score)                 
-    };
-
-    
-    const token = localStorage.getItem('auth_token'); // ejemplo
-    const headers = token ? new HttpHeaders({ 'Authorization': `Bearer ${token}` }) : undefined;
-
-    this.http.post(this.SCORE_URL, payload, headers ? { headers } : {})
-      .subscribe({
-        next: (res) => console.log('Score guardado:', res),
-        error: (err) => console.error('Error guardando score:', err)
-      });
-  }
+  this.musicMemoryService.submitScore(this.score).subscribe({
+    next: res => console.log('Score guardado:', res),
+    error: err => console.error('Error guardando score:', err)
+  });
+}
 }

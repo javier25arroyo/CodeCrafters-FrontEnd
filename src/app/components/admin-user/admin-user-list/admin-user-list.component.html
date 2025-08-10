@@ -21,12 +21,34 @@
           <td>{{ user.email }}</td>
           <td>{{ user.role?.name }}</td>
           <td>
-            <button *ngIf="currentUserRole !== 'SUPER_ADMIN'" (click)="onEditClick(user)">Editar</button>
-            <button *ngIf="currentUserRole !== 'SUPER_ADMIN'" (click)="deleteUser(user)">Eliminar</button>
-            <button *ngIf="currentUserRole !== 'SUPER_ADMIN'" (click)="toggleUserActive(user)">
-              {{ user.active ? 'Desactivar' : 'Activar' }}
-          </button>
-          </td>
+  <button
+    *ngIf="currentUserRole !== 'SUPER_ADMIN' && user.role?.name !== 'SUPER_ADMIN'"
+    (click)="onEditClick(user)"
+    title="Editar"
+    class="icon-button edit"
+  >
+    ✏️
+  </button>
+
+  <button
+    *ngIf="currentUserRole !== 'SUPER_ADMIN' && user.role?.name !== 'SUPER_ADMIN'"
+    (click)="deleteUser(user)"
+    title="Eliminar"
+    class="icon-button delete"
+  >
+    🗑️
+  </button>
+
+  <button
+    *ngIf="currentUserRole !== 'SUPER_ADMIN' && user.role?.name !== 'SUPER_ADMIN'"
+    (click)="toggleUserActive(user)"
+    title="{{ user.active ? 'Desactivar' : 'Activar' }}"
+    class="icon-button toggle"
+  >
+    {{ user.active ? '✔️' : '❌' }}
+  </button>
+</td>
+
         </tr>
       </tbody>
     </table>
