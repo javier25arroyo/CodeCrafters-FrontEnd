@@ -9,6 +9,6 @@
     { "word": "MESA",    "clue": "Mueble para comer",    "x": 5, "y": 11, "direction": "across"},
     { "word": "JARDIN",  "clue": "Espacio verde",        "x": 6, "y": 3, "direction":   "down" },
     { "word": "PUERTA",  "clue": "Entrada de la casa",    "x": 8, "y": 0, "direction": "across"},
-    { "word": "COCINA",  "clue": "Donde se prepara...",   "x":10, "y": 0, "direction": "across"}
+    { "word": "COCINA",  "clue": "Donde se prepara la comida",   "x":10, "y": 0, "direction": "across"}
   ]
 }
