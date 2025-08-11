@@ -7,15 +7,24 @@
     <main class="dashboard-main">
       <h2 class="dashboard-title">¡Bienvenido de nuevo, Usuario!</h2>
 
-      <section class="dashboard-section">
-        <card-info-user
-          title="Zona de juegos"
-          description="Explora juegos para entrenar tu mente."
-          buttonText="Ir a juegos"
-          imageUrl="assets/img/dashboardUser/zoneGames.png"
-          routerLink="/game-gallery"
-        ></card-info-user>
-      </section>
+      <section class="cards-grid">
+  <card-info-user
+    title="Zona de juegos"
+    description="Explora juegos para entrenar tu mente."
+    buttonText="Ir a juegos"
+    imageUrl="assets/img/dashboardUser/juegos.jpg"
+    routerLink="/game-gallery"
+  ></card-info-user>
+
+  <card-info-user
+    title="Tus logros"
+    description="Consulta los logros que has obtenido."
+    buttonText="Ver logros"
+    imageUrl="assets/img/dashboardUser/logros.jpg"
+    routerLink="/achievements"
+  ></card-info-user>
+</section>
+
 
       <section class="dashboard-tip">
         <daily-tip></daily-tip>

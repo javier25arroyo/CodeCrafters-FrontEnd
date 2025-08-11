@@ -1,0 +1,27 @@
+<app-nav></app-nav>
+<div class="achv-container">
+  <h2>🏆 Logros</h2>
+
+  <div *ngIf="loading" class="state">Cargando…</div>
+  <div *ngIf="!loading && error" class="state error">{{ error }}</div>
+
+  <ul *ngIf="!loading && !error" class="grid">
+    <li *ngFor="let a of list; trackBy: trackByKey" [class.unlocked]="a.unlocked" class="card">
+      <div class="icon" aria-hidden="true">{{ a.icon }}</div>
+      <div class="body">
+        <div class="title">{{ a.title }}</div>
+        <div class="desc">{{ a.description }}</div>
+        <div class="meta" *ngIf="a.meta">Juego: {{ a.meta }}</div>
+
+        <div class="bar" *ngIf="a.target" role="progressbar"
+             [attr.aria-valuenow]="percent(a)"
+             aria-valuemin="0" [attr.aria-valuemax]="100">
+          <div class="fill" [style.width.%]="percent(a)"></div>
+        </div>
+
+        <div class="pct" *ngIf="a.target">{{ percent(a) }}%</div>
+        <div class="badge" *ngIf="a.unlocked">Desbloqueado</div>
+      </div>
+    </li>
+  </ul>
+</div>

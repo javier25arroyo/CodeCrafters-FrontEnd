@@ -48,6 +48,7 @@ export class MelodyMemoryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.musicMemoryService.setDifficulty(this.selectedLevel as any);
     this.startNewGame();
   }
 
@@ -181,8 +182,9 @@ export class MelodyMemoryComponent implements OnInit {
     
     this.selectedLevel = level;
     this.level = this.getLevelNumber(level);
-    this.sequence = [];
+    this.musicMemoryService.setDifficulty(level as any);
 
+    this.sequence = [];
     for (let i = 0; i < this.getNoteCountForLevel(); i++) {
       this.addNoteToSequence();
     }
