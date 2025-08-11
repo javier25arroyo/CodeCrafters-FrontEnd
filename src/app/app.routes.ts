@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
-import { FondoBonitoComponent } from './fondo-bonito/fondo-bonito.component';
+import { FondoBonitoComponent } from './components/fondo-bonito/fondo-bonito.component';
 import { AuthGuard } from './guards/auth.guard';
 import { GuestGuard } from './guards/guest.guard';
 import { IRoleType } from './interfaces';

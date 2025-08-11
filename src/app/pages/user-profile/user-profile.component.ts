@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { HttpClientModule } from '@angular/common/http';
 import { NavComponent } from '../../components/nav/nav.component';
-import { FondoBonitoComponent } from '../../fondo-bonito/fondo-bonito.component';
+import { FondoBonitoComponent } from '../../components/fondo-bonito/fondo-bonito.component';
 
 @Component({
   selector: 'app-user-profile',
