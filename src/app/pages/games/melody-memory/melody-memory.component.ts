@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavComponent } from '../../../components/nav/nav.component';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { MusicMemoryService } from './music-memory.service';
 
 interface Note {
@@ -36,17 +36,23 @@ export class MelodyMemoryComponent implements OnInit {
   currentNotePlaying: number | null = null;
 
   selectedLevel: 'easy' | 'medium' | 'hard' = 'easy';
-
   score: number = 0;
   levelStartTime: number = 0;
 
-  constructor(private http: HttpClient, @Inject(MusicMemoryService) private musicMemoryService : MusicMemoryService) {}
+  // Usar un solo contexto de audio para todo el juego
+  private audioContext = new AudioContext();
+
+  constructor(
+    private http: HttpClient,
+    @Inject(MusicMemoryService) private musicMemoryService: MusicMemoryService
+  ) {}
 
   ngOnInit(): void {
     this.startNewGame();
   }
 
   startNewGame(): void {
+    this.stopAllSounds(); // parar cualquier nota pendiente
     this.sequence = [];
     this.userSequence = [];
     this.level = this.getLevelNumber(this.selectedLevel);
@@ -81,39 +87,36 @@ export class MelodyMemoryComponent implements OnInit {
   }
 
   playNote(freq: number): void {
-    const context = new AudioContext();
-    const oscillator = context.createOscillator();
-    const gainNode = context.createGain();
+    const oscillator = this.audioContext.createOscillator();
+    const gainNode = this.audioContext.createGain();
 
     oscillator.type = 'sine';
     oscillator.frequency.value = freq;
     gainNode.gain.value = 0.8;
 
     oscillator.connect(gainNode);
-    gainNode.connect(context.destination);
+    gainNode.connect(this.audioContext.destination);
 
     oscillator.start();
-    oscillator.stop(context.currentTime + 0.5);
+    oscillator.stop(this.audioContext.currentTime + 0.5);
   }
 
   playNoteAsync(freq: number): Promise<void> {
     return new Promise((resolve) => {
-      const context = new AudioContext();
-      const oscillator = context.createOscillator();
-      const gainNode = context.createGain();
+      const oscillator = this.audioContext.createOscillator();
+      const gainNode = this.audioContext.createGain();
 
       oscillator.type = 'sine';
       oscillator.frequency.value = freq;
       gainNode.gain.value = 0.8;
 
       oscillator.connect(gainNode);
-      gainNode.connect(context.destination);
+      gainNode.connect(this.audioContext.destination);
 
       oscillator.start();
-      oscillator.stop(context.currentTime + 0.5);
+      oscillator.stop(this.audioContext.currentTime + 0.5);
 
       oscillator.onended = () => resolve();
-      setTimeout(() => resolve(), 600);
     });
   }
 
@@ -121,6 +124,7 @@ export class MelodyMemoryComponent implements OnInit {
     if (this.isPlaying) return;
 
     this.isPlaying = true;
+    this.currentNotePlaying = note.freq;
     this.playNote(note.freq);
 
     this.userSequence.push(note);
@@ -130,6 +134,7 @@ export class MelodyMemoryComponent implements OnInit {
       this.message = '❌ Fallaste. Reiniciando...';
       setTimeout(() => {
         this.isPlaying = false;
+        this.currentNotePlaying = null;
         this.startNewGame();
       }, 1500);
       return;
@@ -141,6 +146,7 @@ export class MelodyMemoryComponent implements OnInit {
       this.message = '✅ Bien hecho. Siguiente nivel...';
       setTimeout(() => {
         this.isPlaying = false;
+        this.currentNotePlaying = null;
         this.level++;
         this.addNoteToSequence();
         this.levelStartTime = Date.now();
@@ -151,7 +157,16 @@ export class MelodyMemoryComponent implements OnInit {
 
     setTimeout(() => {
       this.isPlaying = false;
+      this.currentNotePlaying = null;
     }, 600);
+  }
+
+  stopAllSounds(): void {
+    // Reinicia el contexto de audio si estaba parado
+    if (this.audioContext.state !== 'running') {
+      this.audioContext.resume();
+    }
+    this.currentNotePlaying = null;
   }
 
   sleep(ms: number): Promise<void> {
@@ -159,6 +174,11 @@ export class MelodyMemoryComponent implements OnInit {
   }
 
   selectLevel(level: 'easy' | 'medium' | 'hard'): void {
+    if (this.isPlaying) {
+    console.warn('No se puede cambiar de nivel mientras se está reproduciendo la secuencia.');
+    return;
+    }
+    
     this.selectedLevel = level;
     this.level = this.getLevelNumber(level);
     this.sequence = [];
@@ -198,9 +218,9 @@ export class MelodyMemoryComponent implements OnInit {
   }
 
   sendScoreToBackend(): void {
-  this.musicMemoryService.submitScore(this.score).subscribe({
-    next: res => console.log('Score guardado:', res),
-    error: err => console.error('Error guardando score:', err)
-  });
-}
+    this.musicMemoryService.submitScore(this.score).subscribe({
+      next: res => console.log('Score guardado:', res),
+      error: err => console.error('Error guardando score:', err)
+    });
+  }
 }
