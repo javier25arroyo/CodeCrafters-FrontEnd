@@ -3,7 +3,7 @@ import { NgFor, NgIf, NgClass, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NavComponent } from '../../../components/nav/nav.component';
 import { Hint, DifficultySettings, LevelEnum } from '../../../interfaces/index';
-import { CrosswordStatsService } from '../../../services/gameService/crossword-stats.service';
+import { GameScoreService } from '../../../services/gameService/game-score.service';
 
 type UiDifficulty = 'easy' | 'medium' | 'hard';
 
@@ -57,7 +57,7 @@ export class CrosswordGameComponent implements OnInit, OnDestroy {
   maxHints = DIFFICULTY_SETTINGS[this.difficulty].maxHints;
   revealLeft = this.maxHints;
 
-  constructor(private stats: CrosswordStatsService) {}
+  constructor(private gameScore: GameScoreService) {}
 
   // ========= Ciclo de vida =========
   ngOnInit(): void {
@@ -269,27 +269,29 @@ export class CrosswordGameComponent implements OnInit, OnDestroy {
   return Math.max(1, base - timePenalty - hintPenalty - mistakePenalty);
 }
 
+  private posted = false;
 
   private finishGame(): void {
-    const finishedAt = new Date();
-    this.finalScore = this.computeScore();
+    if (this.posted) return;
+    const elapsedSec = Math.floor((Date.now() - this.startTs) / 1000);
 
-    const payload = {
-      puzzleId: this.currentPuzzleId,
-      difficulty: this.currentDifficulty,
-      wordsFound: this.wordsFound,
-      wordsTotal: this.wordsTotal,
-      mistakes: this.mistakeCellsCount ?? 0,
-      hints: this.hintsUsed ?? 0,
-      completed: this.isCompleted === true,
-      startedAt: this.startedAt.toISOString(),
-      finishedAt: finishedAt.toISOString(),
-      score: this.finalScore
+  const score = this.computeScore();
+  this.finalScore = score;
+
+    const scorePayload = {
+      gameType: 'CROSSWORD' as const,
+      level: this.currentDifficulty,
+      movements: 0,
+      time: elapsedSec,
+      score: score
     };
 
-    this.stats.post(payload).subscribe({
-      next: () => console.log('Crossword stat saved'),
-      error: (e) => console.error('Error saving crossword stat', e),
-    });
+    this.gameScore.saveScore(scorePayload).subscribe({
+    next: () => {
+      this.posted = true;
+      console.log('Score saved to scores!');
+    },
+    error: (e) => console.error('Score error', e),
+  });
   }
 }
