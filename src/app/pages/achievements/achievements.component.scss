@@ -1,0 +1,21 @@
+.achv-container { max-width: 900px; margin: 2rem auto; padding: 1rem; }
+.state { margin: 1rem 0; }
+.state.error { color: #b00020; }
+
+.grid {
+  list-style: none; padding: 0; margin: 0;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px;
+}
+li {
+  display: flex; gap: 12px; padding: 12px; border: 1px solid #eee; border-radius: 10px; background: #fff;
+  opacity: .6; transition: .2s;
+}
+li.unlocked { opacity: 1; border-color: #c7f0c2; box-shadow: 0 0 0 2px #e8ffe6 inset; }
+.icon { font-size: 28px; }
+.title { font-weight: 600; }
+.desc { color: #555; font-size: .95rem; }
+.bar { height: 8px; background: #eee; border-radius: 8px; margin-top: 6px; overflow: hidden; }
+.fill { height: 100%; width: 0; background: #4caf50; }
+.pct { font-size: .8rem; color: #333; margin-top: 4px; }
+.badge { margin-top: 6px; font-size: .8rem; font-weight: 700; color: #256029; }
+.meta { color:#6b7280; font-size:.85rem; margin-top:2px; }

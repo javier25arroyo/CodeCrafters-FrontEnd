@@ -2,11 +2,9 @@
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
-  /* Fondo eliminado para usar el fondo global */
 }
 
 .dashboard-overlay {
-  /* Fondo eliminado para usar el fondo global */
   display: none;
 }
 
@@ -27,8 +25,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* Centrado vertical */
-  height: 100vh;            /* Ocupar toda la pantalla */
+  justify-content: center;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
@@ -44,13 +41,61 @@
   text-align: center;
 }
 
-.dashboard-section {
-  display: flex; /* Usamos flex en lugar de grid para centrar una sola tarjeta */
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+.cards-grid {
   width: 100%;
-  max-width: 600px;
+  max-width: 1100px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(280px, 1fr));
+  gap: 24px;
+  align-items: stretch; 
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 900px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+:host ::ng-deep card-info-user {
+  display: flex;
+  height: 100%;
+}
+
+:host ::ng-deep card-info-user .card,
+:host ::ng-deep card-info-user .card-info,
+:host ::ng-deep card-info-user > * {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: center; 
+  gap: 16px; 
+  padding: 1.5rem;
+  min-height: 260px; 
+  text-align: center;
+}
+
+:host ::ng-deep card-info-user button {
+  padding: 0.9rem 2.2rem;
+  font-size: 1.05rem;
+  border-radius: 12px;
+  background-color: #0d47a1;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: transform .15s ease, background-color .2s ease;
+  align-self: center; 
+}
+
+:host ::ng-deep card-info-user button:hover {
+  background-color: #08306b;
+  transform: translateY(-1px);
+}
+
+.dashboard-section {
+  width: 100%;
+  max-width: 1100px;
   padding: 1rem;
   margin-bottom: 2rem;
 }
@@ -72,14 +117,13 @@
 }
 
 .dashboard-card:hover {
-  transform: scale(1.1);
+  transform: scale(1.03);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
 }
 
 .dashboard-card-image {
   max-width: 80%;
   height: auto;
-  margin-bottom: 1.5rem;
 }
 
 .dashboard-card-title {
@@ -96,13 +140,11 @@
 }
 
 @media (max-width: 768px) {
+  .dashboard-main {
+    padding: 1rem 0;
+  }
   .dashboard-section {
     max-width: 90%;
     padding: 0 1rem;
-  }
-
-  .dashboard-main {
-    padding: 1rem 0;
-    height: auto;
   }
 }
