@@ -1,16 +1,16 @@
 <app-nav></app-nav>
 
 <div class="crossword-container">
-  <div class="crossword-header">
-    <div class="difficulty-selector" [ngClass]="difficulty">
-      <label for="difficulty">Dificultad:</label>
-      <select id="difficulty" [(ngModel)]="difficulty" (change)="onDifficultyChange()">
-        <option value="easy">Fácil</option>
-        <option value="medium">Medio</option>
-        <option value="hard">Difícil</option>
-      </select>
-    </div>
+  <!-- Selector de dificultad centrado -->
+  <div class="difficulty-section">
+    <puzzle-difficulty-selector
+      [configs]="difficultyConfigs"
+      [current]="difficulty"
+      (difficultyChange)="onDifficultyChange($event)">
+    </puzzle-difficulty-selector>
+  </div>
 
+  <div class="crossword-header">
     <div class="timer">Tiempo: {{ timer }}</div>
   </div>
 
