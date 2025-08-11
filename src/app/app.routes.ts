@@ -1,4 +1,3 @@
-
 import { Routes } from '@angular/router';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
@@ -31,7 +30,7 @@ import { AdminUserManagementComponent } from './pages/admin-user-management/admi
 import { MelodyMemoryComponent } from './pages/games/melody-memory/melody-memory.component';
 import { CaregiverStatsComponent } from './pages/caregiver-stats/caregiver-stats.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
-
+import { AchievementsComponent } from './pages/achievements/achievements.component';
 
 export const routes: Routes = [
   {
@@ -114,14 +113,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-
-
-  path: 'word-search-game',
-  component: WordSearchGameComponent,
-  canActivate: [AuthGuard],
-  data: { authorities: [IRoleType.user] },
-},
-
+    path: 'word-search-game',
+    component: WordSearchGameComponent,
+    canActivate: [AuthGuard],
+    data: { authorities: [IRoleType.user] },
+  },
   {
     path: 'crossword',
     component: CrosswordGameComponent,
@@ -143,6 +139,14 @@ export const routes: Routes = [
   {
     path: 'user-profile',
     component: UserProfileComponent,
+    canActivate: [AuthGuard],
+    data: {
+      authorities: [IRoleType.user],
+    },
+  },
+  {
+    path: 'achievements',
+    component: AchievementsComponent,
     canActivate: [AuthGuard],
     data: {
       authorities: [IRoleType.user],
@@ -171,7 +175,6 @@ export const routes: Routes = [
           authorities: [IRoleType.admin, IRoleType.superAdmin],
         },
       },
-      
       {
         path: 'profile',
         component: ProfileComponent,
@@ -198,7 +201,6 @@ export const routes: Routes = [
     component: DashboardAdminComponent,
     canActivate: [AuthGuard],
   },
-
   {
     path: 'melody-memory',
     component: MelodyMemoryComponent,
