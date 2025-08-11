@@ -43,6 +43,7 @@ export class MelodyMemoryComponent implements OnInit {
   constructor(private http: HttpClient, @Inject(MusicMemoryService) private musicMemoryService : MusicMemoryService) {}
 
   ngOnInit(): void {
+    this.musicMemoryService.setDifficulty(this.selectedLevel as any);
     this.startNewGame();
   }
 
@@ -161,8 +162,9 @@ export class MelodyMemoryComponent implements OnInit {
   selectLevel(level: 'easy' | 'medium' | 'hard'): void {
     this.selectedLevel = level;
     this.level = this.getLevelNumber(level);
-    this.sequence = [];
+    this.musicMemoryService.setDifficulty(level as any);
 
+    this.sequence = [];
     for (let i = 0; i < this.getNoteCountForLevel(); i++) {
       this.addNoteToSequence();
     }
