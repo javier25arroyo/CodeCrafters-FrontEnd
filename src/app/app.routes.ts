@@ -31,6 +31,8 @@ import { MelodyMemoryComponent } from './pages/games/melody-memory/melody-memory
 import { CaregiverStatsComponent } from './pages/caregiver-stats/caregiver-stats.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { AchievementsComponent } from './pages/achievements/achievements.component';
+import { TimelineLobbyComponent } from './pages/games/timeline/timeline-lobby/timeline-lobby.component';
+import { TimelineBoardComponent } from './pages/games/timeline/timeline-board/timeline-board.component';
 
 export const routes: Routes = [
   {
@@ -41,6 +43,14 @@ export const routes: Routes = [
     path: 'login',
     component: LoginComponent,
     canActivate: [GuestGuard],
+  },
+  {
+    path: 'timeline-lobby',
+    component: TimelineLobbyComponent,
+  },
+  {
+    path: 'timeline-dashboard',
+    component: TimelineBoardComponent,
   },
   {
     path: 'game-gallery',

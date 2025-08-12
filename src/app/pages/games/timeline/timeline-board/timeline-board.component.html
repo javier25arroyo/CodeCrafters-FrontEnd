@@ -1,0 +1,30 @@
+<div *ngIf="store.snapshot as s; else empty">
+  <h2>Timeline — Sala {{s.roomId}}</h2>
+  <p>Turno de: {{s.currentPlayerId}}</p>
+
+  <h3>Línea de tiempo</h3>
+  <div class="timeline">
+    <div *ngFor="let c of s.timeline; let i = index" class="card">
+      <div class="title">{{c.title}}</div>
+      <div class="year">{{c.year}}</div>
+      <button (click)="play('', i)" disabled>+</button>
+    </div>
+    <button (click)="play('', s.timeline.length)" disabled>+</button>
+  </div>
+
+  <h3>Mi mano (del jugador en turno)</h3>
+  <ng-container *ngFor="let p of s.players">
+    <div *ngIf="p.userId===s.currentPlayerId" class="hand">
+      <div class="card" *ngFor="let c of p.hand">
+        <div class="title">{{c.title}}</div>
+        <div class="year">{{c.year}}</div>
+        <div>
+          <span>Insertar en:</span>
+          <button *ngFor="let _ of [].constructor(s.timeline.length+1); let idx = index"
+                  (click)="play(c.id, idx)">{{idx}}</button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
+<ng-template #empty><p>Entra por el Lobby.</p></ng-template>

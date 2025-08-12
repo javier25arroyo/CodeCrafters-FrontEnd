@@ -1,0 +1,62 @@
+/* Centrado */
+.controls--center {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+/* Grupo compacto “pegado” */
+.stack {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--panel-2);
+  box-shadow: var(--shadow);
+}
+
+/* Ítems internos */
+.stack > button,
+.stack > input {
+  height: 42px;
+  padding: 0 12px;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  outline: none;
+  font-weight: 600;
+}
+
+/* Separadores entre elementos */
+.stack > button { border-right: 1px solid var(--card-border); cursor: pointer; }
+.stack > button:last-child { border-right: 0; }
+
+/* Input dentro del grupo */
+.stack > input {
+  width: 180px;
+  min-width: 150px;
+  background: var(--card);
+  color: var(--text);
+  border-right: 1px solid var(--card-border);
+}
+.stack > input:focus {
+  box-shadow: inset 0 0 0 2px rgba(99,102,241,.25);
+}
+
+/* Estados */
+.stack > button:hover { background: rgba(255,255,255,.04); }
+.stack > button:active { transform: translateY(1px); }
+.stack > button:disabled { opacity: .5; cursor: not-allowed; background: transparent; }
+
+/* Responsive: apilar en pantallas chicas */
+@media (max-width: 640px) {
+  .stack { flex-wrap: wrap; }
+  .stack > button, .stack > input {
+    flex: 1 1 100%;
+    border-right: 0 !important;
+    border-bottom: 1px solid var(--card-border);
+  }
+  .stack > button:last-child { border-bottom: 0; }
+}

@@ -1,0 +1,164 @@
+:host {
+  display: block;
+  padding: 24px;
+  color: var(--text);
+}
+
+h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+
+p {
+  margin: 0 0 16px;
+  color: var(--muted);
+}
+
+.timeline {
+  position: relative;
+  overflow-x: auto;
+  padding: 28px 16px 12px;
+  margin: 0 -8px 18px;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(220px, 260px);
+  gap: 14px;
+
+  &::-webkit-scrollbar { height: 10px; }
+  &::-webkit-scrollbar-thumb {
+    background: #0b1324;
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+  }
+
+  /* Línea base de la timeline */
+  &::before {
+    content: '';
+    position: sticky;
+    left: 0;
+    top: 34px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent 70%);
+    grid-column: 1 / -1;
+    margin: 0 8px;
+  }
+}
+
+.card {
+  position: relative;
+  background: linear-gradient(180deg, var(--card) 0%, #0e1a33 100%);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 14px 12px;
+  box-shadow: var(--shadow);
+  transform: translateY(0);
+  transition: transform .15s ease, box-shadow .2s;
+
+  &:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(0,0,0,.35); }
+
+  .title {
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 8px;
+  }
+  .year {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    letter-spacing: .4px;
+    color: white;
+    width: 64px; height: 32px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    box-shadow: 0 6px 16px rgba(34,211,238,.25);
+  }
+}
+
+/* Botones “+” para insertar entre cartas (si los activas) */
+.timeline .card button,
+.timeline > button {
+  margin-top: 10px;
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: var(--panel-2);
+  border: 1px solid var(--card-border);
+  color: var(--text);
+  cursor: pointer;
+  transition: transform .08s, box-shadow .2s, border-color .2s;
+
+  &:hover { border-color: var(--primary); box-shadow: 0 6px 16px rgba(99,102,241,.25); }
+  &:active { transform: translateY(1px); }
+  &:disabled { opacity: .45; cursor: not-allowed; }
+}
+
+/* Mano del jugador en turno */
+.hand {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+}
+
+.hand .card {
+  background: linear-gradient(180deg, #0c1a33 0%, #0a0f1f 100%);
+  border: 1px solid var(--card-border);
+  animation: pop .2s ease-out;
+
+  .year { background: linear-gradient(135deg, var(--good), #34d399); }
+
+  .actions {
+    margin-top: 10px;
+    display: flex; align-items: center; flex-wrap: wrap; gap: 6px;
+
+    span { color: var(--muted); font-size: .9rem; margin-right: 4px; }
+
+    button {
+      height: 30px; padding: 0 10px; border-radius: 999px;
+      border: 1px solid var(--card-border);
+      background: var(--panel-2);
+      color: var(--text);
+      cursor: pointer;
+      transition: border-color .2s, transform .06s;
+
+      &:hover { border-color: var(--primary); }
+      &:active { transform: translateY(1px); }
+    }
+  }
+}
+
+.badge-good {
+  display: inline-block; padding: 4px 8px; border-radius: 999px;
+  font-size: .8rem; font-weight: 700; color: white;
+  background: linear-gradient(135deg, var(--good), #34d399);
+}
+.badge-bad  {
+  display: inline-block; padding: 4px 8px; border-radius: 999px;
+  font-size: .8rem; font-weight: 700; color: white;
+  background: linear-gradient(135deg, var(--bad), #f87171);
+}
+
+@keyframes pop {
+  from { transform: scale(.98); opacity: .0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+.page {
+  box-sizing: border-box;
+  min-height: 100dvh;              /* viewport real, evita bugs móviles */
+  padding: 64px 16px 220px;        /* 👈 padding-bottom grande por el footer */
+  display: flex;
+  justify-content: center;         /* centrar horizontal */
+  align-items: flex-start;         /* contenido arriba */
+  position: relative;
+  z-index: 1;                      /* que quede por encima del footer */
+}
+
+.lobby {
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+h2 { text-align: center; }
+

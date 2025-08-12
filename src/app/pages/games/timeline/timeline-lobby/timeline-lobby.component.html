@@ -1,0 +1,28 @@
+<div class="page">
+  <div class="lobby">
+    <h2>Timeline — Lobby</h2>
+
+    <div class="controls controls--center">
+      <div class="stack">
+        <button (click)="createRoom()">Crear sala</button>
+        <input [(ngModel)]="roomId" placeholder="ID de sala">
+        <button (click)="joinRoom()">Unirme</button>
+        <button routerLink="timeline-dashboard"
+                [disabled]="!store.snapshot || store.snapshot.phase!=='RUNNING'">
+          Ir al tablero
+        </button>
+        <button (click)="startGame()" [disabled]="!store.snapshot || store.snapshot.phase!=='LOBBY'">
+          Iniciar (host)
+        </button>
+      </div>
+    </div>
+
+    <div class="info" *ngIf="store.snapshot as s">
+      <p><b>Sala:</b> {{ s.roomId }} | <b>Fase:</b> {{ s.phase }}</p>
+      <h3>Jugadores ({{ s.players.length }}/4)</h3>
+      <ul>
+        <li *ngFor="let p of s.players">{{ p.name || p.userId }}</li>
+      </ul>
+    </div>
+  </div>
+</div>
