@@ -12,17 +12,9 @@
     </button>
   </div>
 
-  <div class="difficulty-buttons">
-    <button (click)="selectLevel('easy')" [class.active]="selectedLevel === 'easy'">
-      Fácil
-    </button>
-    <button (click)="selectLevel('medium')" [class.active]="selectedLevel === 'medium'">
-      Medio
-    </button>
-    <button (click)="selectLevel('hard')" [class.active]="selectedLevel === 'hard'">
-      Difícil
-    </button>
-  </div>
+  <puzzle-difficulty-selector [configs]="difficultyConfigs" [current]="currentDifficulty"
+    (difficultyChange)="changeDifficulty($event)">
+  </puzzle-difficulty-selector>
 
   <button class="restart-btn" (click)="startNewGame()" [disabled]="isPlaying">Reiniciar</button>
 
