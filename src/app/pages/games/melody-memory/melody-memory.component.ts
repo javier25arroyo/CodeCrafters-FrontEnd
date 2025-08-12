@@ -45,7 +45,7 @@ export class MelodyMemoryComponent implements OnInit {
   constructor(
     private http: HttpClient,
     @Inject(MusicMemoryService) private musicMemoryService: MusicMemoryService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.musicMemoryService.setDifficulty(this.selectedLevel as any);
@@ -142,9 +142,9 @@ export class MelodyMemoryComponent implements OnInit {
     }
 
     if (this.userSequence.length === this.sequence.length) {
-  this.score++;  
-  this.sendScoreToBackend(1); 
-  this.message = '✅ Bien hecho. Siguiente nivel...';
+      this.score++;
+      this.sendScoreToBackend(1);
+      this.message = '✅ Bien hecho. Siguiente nivel...';
 
       setTimeout(() => {
         this.isPlaying = false;
@@ -164,7 +164,7 @@ export class MelodyMemoryComponent implements OnInit {
   }
 
   stopAllSounds(): void {
-   
+
     if (this.audioContext.state !== 'running') {
       this.audioContext.resume();
     }
@@ -177,10 +177,10 @@ export class MelodyMemoryComponent implements OnInit {
 
   selectLevel(level: 'easy' | 'medium' | 'hard'): void {
     if (this.isPlaying) {
-    console.warn('No se puede cambiar de nivel mientras se está reproduciendo la secuencia.');
-    return;
+      console.warn('No se puede cambiar de nivel mientras se está reproduciendo la secuencia.');
+      return;
     }
-    
+
     this.selectedLevel = level;
     this.level = this.getLevelNumber(level);
     this.musicMemoryService.setDifficulty(level as any);
@@ -221,9 +221,9 @@ export class MelodyMemoryComponent implements OnInit {
   }
 
   sendScoreToBackend(increment: number): void {
-  this.musicMemoryService.submitScore(increment).subscribe({
-    next: res => console.log('Score guardado:', res),
-    error: err => console.error('Error guardando score:', err)
-  });
-}
+    this.musicMemoryService.submitScore(increment).subscribe({
+      next: res => console.log('Score guardado:', res),
+      error: err => console.error('Error guardando score:', err)
+    });
+  }
 }

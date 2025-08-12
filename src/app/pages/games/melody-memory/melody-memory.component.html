@@ -5,38 +5,28 @@
   <p>{{ message }}</p>
 
   <div class="buttons">
-    <button
-      *ngFor="let note of notes; let i = index"
-      (click)="pressNote(note)"
-      [ngClass]="['note-btn', 'note-color-' + i]"
-      [class.highlight]="currentNotePlaying === note.freq"
-      [disabled]="isPlaying"  
-    >
+    <button *ngFor="let note of notes; let i = index" (click)="pressNote(note)"
+      [ngClass]="['note-btn', 'note-color-' + i]" [class.highlight]="currentNotePlaying === note.freq"
+      [disabled]="isPlaying">
       🔊 {{ note.label }}
     </button>
   </div>
 
   <div class="difficulty-buttons">
-  <button
-    (click)="selectLevel('easy')"
-    [class.active]="selectedLevel === 'easy'">
-    Fácil
-  </button>
-  <button
-    (click)="selectLevel('medium')"
-    [class.active]="selectedLevel === 'medium'">
-    Medio
-  </button>
-  <button
-    (click)="selectLevel('hard')"
-    [class.active]="selectedLevel === 'hard'">
-    Difícil
-  </button>
-</div>
-  
+    <button (click)="selectLevel('easy')" [class.active]="selectedLevel === 'easy'">
+      Fácil
+    </button>
+    <button (click)="selectLevel('medium')" [class.active]="selectedLevel === 'medium'">
+      Medio
+    </button>
+    <button (click)="selectLevel('hard')" [class.active]="selectedLevel === 'hard'">
+      Difícil
+    </button>
+  </div>
+
   <button class="restart-btn" (click)="startNewGame()" [disabled]="isPlaying">Reiniciar</button>
-  
-   <div class="buttonreplay">
+
+  <div class="buttonreplay">
     <button (click)="playSequence()" [disabled]="isPlaying">
       Reproducir Secuencia
     </button>
