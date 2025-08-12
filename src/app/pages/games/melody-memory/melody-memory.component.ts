@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavComponent } from '../../../components/nav/nav.component';
 import { HttpClient } from '@angular/common/http';
 import { MusicMemoryService, DifficultyLevel } from './music-memory.service';
 import { DifficultySelectorComponent } from '../../../components/difficulty-selector/difficulty-selector.component';
@@ -17,7 +16,9 @@ interface DifficultyConfig {
 @Component({
   selector: 'app-melody-memory',
   standalone: true,
-  imports: [CommonModule, NavComponent, DifficultySelectorComponent],
+
+  imports: [CommonModule, DifficultySelectorComponent],
+
   templateUrl: './melody-memory.component.html',
   styleUrls: ['./melody-memory.component.scss'],
 })

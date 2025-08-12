@@ -1,22 +1,42 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgFor, NgIf, NgClass, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NavComponent } from '../../../components/nav/nav.component';
+import { DifficultySelectorComponent } from '../../../components/difficulty-selector/difficulty-selector.component';
 import { Hint, DifficultySettings, LevelEnum } from '../../../interfaces/index';
 import { GameScoreService } from '../../../services/gameService/game-score.service';
+import { DifficultyLevel, DifficultyConfig } from '../puzzle-board/puzzle.game.service';
 
-type UiDifficulty = 'easy' | 'medium' | 'hard';
+const CROSSWORD_DIFFICULTY_CONFIGS: DifficultyConfig[] = [
+  {
+    level: DifficultyLevel.EASY,
+    boardSize: 0, // No usado en crossword
+    maxPieces: 5, // maxHints
+    label: 'Fácil'
+  },
+  {
+    level: DifficultyLevel.MEDIUM,
+    boardSize: 0, // No usado en crossword
+    maxPieces: 3, // maxHints
+    label: 'Medio'
+  },
+  {
+    level: DifficultyLevel.HARD,
+    boardSize: 0, // No usado en crossword
+    maxPieces: 1, // maxHints
+    label: 'Difícil'
+  }
+];
 
-const DIFFICULTY_SETTINGS: Record<UiDifficulty, DifficultySettings> = {
-  easy:   { maxHints: 5, puzzleKeys: ['puzzle-easy-1','puzzle-easy-2','puzzle-easy-3'] },
-  medium: { maxHints: 3, puzzleKeys: ['puzzle-medium-1','puzzle-medium-2','puzzle-medium-3'] },
-  hard:   { maxHints: 1, puzzleKeys: ['puzzle-hard-1','puzzle-hard-2','puzzle-hard-3'] }
+const DIFFICULTY_SETTINGS: Record<DifficultyLevel, DifficultySettings> = {
+  [DifficultyLevel.EASY]:   { maxHints: 5, puzzleKeys: ['puzzle-easy-1','puzzle-easy-2','puzzle-easy-3'] },
+  [DifficultyLevel.MEDIUM]: { maxHints: 3, puzzleKeys: ['puzzle-medium-1','puzzle-medium-2','puzzle-medium-3'] },
+  [DifficultyLevel.HARD]:   { maxHints: 1, puzzleKeys: ['puzzle-hard-1','puzzle-hard-2','puzzle-hard-3'] }
 };
 
 @Component({
   selector: 'app-crossword-game',
   standalone: true,
-  imports: [NgFor, NgIf, NgClass, FormsModule, NavComponent, DecimalPipe],
+  imports: [NgFor, NgIf, NgClass, FormsModule, DecimalPipe, DifficultySelectorComponent],
   templateUrl: './crossword-game.component.html',
   styleUrls: ['./crossword-game.component.scss']
 })
@@ -52,8 +72,9 @@ export class CrosswordGameComponent implements OnInit, OnDestroy {
   private startTs = 0;
   private timerInt!: any;
 
-  // Dificultad (UI)
-  difficulty: UiDifficulty = 'easy';
+  // Dificultad
+  difficulty: DifficultyLevel = DifficultyLevel.EASY;
+  difficultyConfigs = CROSSWORD_DIFFICULTY_CONFIGS;
   maxHints = DIFFICULTY_SETTINGS[this.difficulty].maxHints;
   revealLeft = this.maxHints;
 
@@ -95,7 +116,8 @@ export class CrosswordGameComponent implements OnInit, OnDestroy {
       this.hints = (pz?.hints ?? []) as Hint[];
       this.setupBoard();
       this.currentPuzzleId = key;
-      this.currentDifficulty = LevelEnum[this.difficulty.toUpperCase() as keyof typeof LevelEnum];
+      this.currentDifficulty = this.difficulty === DifficultyLevel.EASY ? LevelEnum.EASY :
+                               this.difficulty === DifficultyLevel.MEDIUM ? LevelEnum.MEDIUM : LevelEnum.HARD;
       this.startedAt = new Date();
     } catch (e) {
       console.error(e);
@@ -161,7 +183,10 @@ export class CrosswordGameComponent implements OnInit, OnDestroy {
   }
 
   // ========= UI Handlers =========
-  async onDifficultyChange(): Promise<void> {
+  async onDifficultyChange(newDifficulty?: DifficultyLevel): Promise<void> {
+    if (newDifficulty) {
+      this.difficulty = newDifficulty;
+    }
     const cfg = DIFFICULTY_SETTINGS[this.difficulty];
     const keys = cfg.puzzleKeys;
     const randomKey = keys[Math.floor(Math.random() * keys.length)];

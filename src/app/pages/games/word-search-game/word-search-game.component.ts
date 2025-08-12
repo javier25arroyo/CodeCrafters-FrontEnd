@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavComponent } from '../../../components/nav/nav.component';
 import { finalize, take } from 'rxjs/operators';
 import { WordSearchGameService } from './word-search.game.service';
 
@@ -12,7 +11,7 @@ interface LevelConfig { gridSize: number; wordCount: number; poolIndex: number; 
 @Component({
   selector: 'app-word-search-game',
   standalone: true,
-  imports: [CommonModule, NavComponent],
+  imports: [CommonModule],
   templateUrl: './word-search-game.component.html',
   styleUrls: ['./word-search-game.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -67,14 +67,22 @@ export class DailyTipComponent implements OnInit {
   currentTip: string = '';
   isVisible: boolean = true;
   private index: number = 0;
+  closed = false;
+  intervalMs = 7000;
 
   ngOnInit(): void {
     this.index = Math.floor(Math.random() * this.wellnessTips.length);
     this.currentTip = this.wellnessTips[this.index];
     
     setInterval(() => {
-      this.changeTip();
-    }, 7000);
+      if (!this.closed) {
+        this.changeTip();
+      }
+    }, this.intervalMs);
+  }
+
+  close(): void {
+    this.closed = true;
   }
 
   private changeTip(): void {
