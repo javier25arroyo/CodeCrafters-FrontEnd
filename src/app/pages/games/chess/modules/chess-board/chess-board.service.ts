@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { FENConverter } from 'src/app/chess-logic/FENConverter';
+import { FENConverter } from '../../chess-logic/FENConverter';
+
 
 @Injectable({
   providedIn: 'root'

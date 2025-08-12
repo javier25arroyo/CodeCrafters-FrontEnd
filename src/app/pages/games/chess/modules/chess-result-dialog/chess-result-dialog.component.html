@@ -1,0 +1,6 @@
+<div class="result-dialog-content">
+  <h2 class="winner-title">{{ data.winner }} gana</h2>
+  <!-- Mostrar la razón traducida si existe -->
+  <div class="reason" *ngIf="translateReason(data.reason)">{{ translateReason(data.reason) }}</div>
+  <button mat-raised-button color="primary" (click)="close()">Cerrar</button>
+</div>

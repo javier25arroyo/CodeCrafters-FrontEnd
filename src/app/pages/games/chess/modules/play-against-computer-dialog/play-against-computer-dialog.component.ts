@@ -3,8 +3,9 @@ import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { StockfishService } from '../computer-mode/stockfish.service';
-import { Color } from 'src/app/chess-logic/models';
+import { Color } from '../../chess-logic/models';
 import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-play-against-computer-dialog',
@@ -14,7 +15,11 @@ import { Router } from '@angular/router';
   imports: [MatDialogModule, MatButtonModule, CommonModule]
 })
 export class PlayAgainstComputerDialogComponent {
-  public stockfishLevels: readonly number[] = [1, 2, 3, 4, 5];
+  public levels = [
+    { label: 'Fácil', value: 1 },
+    { label: 'Medio', value: 3 },
+    { label: 'Difícil', value: 5 }
+  ];
   public stockfishLevel: number = 1;
 
   constructor(
@@ -29,14 +34,15 @@ export class PlayAgainstComputerDialogComponent {
 
   public play(color: "w" | "b"): void {
     this.dialog.closeAll();
+    // El color seleccionado es el color del usuario, la IA debe ser el opuesto
+    const iaColor = color === "w" ? Color.Black : Color.White;
     this.stockfishService.computerConfiguration$.next({
-      color: color === "w" ? Color.Black : Color.White,
+      color: iaColor,
       level: this.stockfishLevel
     });
-    this.router.navigate(["against-computer"]);
+    // Navega a la partida contra la IA, el primer movimiento lo maneja ComputerModeComponent
+    this.router.navigate(["chess", "against-computer"]);
   }
 
-  public closeDialog(): void {
-    this.router.navigate(["against-friend"]);
-  }
+  // Método closeDialog eliminado, ya no es necesario
 }

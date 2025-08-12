@@ -1,6 +1,5 @@
-
+<!-- Reutiliza el tablero base pero agrega el botón volver solo aquí -->
 <div class="chess-board-container">
-
     <app-chess-timer *ngIf="timerStarted" style="margin-bottom: 10px;"></app-chess-timer>
   <div class="chess-board" [ngClass]="{'rotated': flipMode}">
       <div *ngFor="let row of chessBoardView; let x = index" class="row">
@@ -19,7 +18,6 @@
       </div>
   </div>
     <button class="flip-btn" (click)="flipBoard()">Flip</button>
-    <!-- Botón volver solo visible en FriendModeComponent, no aquí -->
         <div class="move-list-wrapper">
             <app-move-list [moveList]="moveList" [gameHistoryPointer]="gameHistoryPointer" [gameHistoryLength]="gameHistory.length"
                     (showPreviousPositionEvent)="showPreviousPosition($event)"></app-move-list>
@@ -36,4 +34,3 @@
         &times;
     </span>
 </div>
-

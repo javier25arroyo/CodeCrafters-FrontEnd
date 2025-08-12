@@ -31,6 +31,9 @@ import { MelodyMemoryComponent } from './pages/games/melody-memory/melody-memory
 import { CaregiverStatsComponent } from './pages/caregiver-stats/caregiver-stats.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { AchievementsComponent } from './pages/achievements/achievements.component';
+import { ComputerModeComponent } from './pages/games/chess/modules/computer-mode/computer-mode.component';
+import { FriendModeComponent } from './pages/games/chess/modules/friend-mode/friend-mode.component';
+import { NavMenuComponent } from './pages/games/chess/modules/nav-menu/nav-menu.component';
 
 export const routes: Routes = [
   {
@@ -204,5 +207,17 @@ export const routes: Routes = [
   {
     path: 'melody-memory',
     component: MelodyMemoryComponent,
+  },
+  {
+    path: 'chess',
+    component: NavMenuComponent,
+    canActivate: [AuthGuard],
+    data: { authorities: [IRoleType.user] },
+    children: [
+      { path: '', pathMatch: 'full', redirectTo: 'menu' },
+      { path: 'menu', component: NavMenuComponent },
+      { path: 'against-friend', component: FriendModeComponent },
+      { path: 'against-computer', component: ComputerModeComponent },
+    ]
   }
 ];

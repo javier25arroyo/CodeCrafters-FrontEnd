@@ -1,0 +1,10 @@
+{
+  "/api/stockfish": {
+    "target": "https://stockfish.online/api/s/v2.php",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api/stockfish": ""
+    }
+  }
+}

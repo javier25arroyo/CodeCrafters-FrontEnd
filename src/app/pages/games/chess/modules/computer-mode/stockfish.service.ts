@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ChessMove, ComputerConfiguration, StockfishQueryParams, StockfishResponse, stockfishLevels } from './models';
 import { BehaviorSubject, Observable, of, switchMap } from 'rxjs';
-import { Color, FENChar } from 'src/app/chess-logic/models';
+import { Color, FENChar } from '../../chess-logic/models';
 
 @Injectable({
   providedIn: 'root'
@@ -51,5 +51,21 @@ export class StockfishService {
           return of(this.moveFromStockfishString(bestMove));
         })
       )
+  }
+
+  // Método directo para hacer que la IA juegue - más confiable para el movimiento inicial
+  public play(fen: string): void {
+    console.log('StockfishService: Solicitando movimiento para FEN: ' + fen);
+    this.getBestMove(fen).subscribe({
+      next: (move) => {
+        console.log('StockfishService: Movimiento recibido:', move);
+        // Creamos un evento personalizado de forma compatible con TypeScript
+        const event = new CustomEvent('stockfishMove', { detail: move }) as Event;
+        window.dispatchEvent(event);
+      },
+      error: (err) => {
+        console.error('Error al obtener movimiento de Stockfish:', err);
+      }
+    });
   }
 }

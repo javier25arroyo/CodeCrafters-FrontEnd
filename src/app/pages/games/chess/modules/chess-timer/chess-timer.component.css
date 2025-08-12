@@ -1,0 +1,20 @@
+.timer-container {
+  display: flex;
+  align-items: center;
+  background: #f4f7fb;
+  border-radius: 10px;
+  padding: 0.4rem 1.1rem;
+  font-size: 1.18rem;
+  color: #23408e;
+  font-weight: 600;
+  box-shadow: 0 2px 8px 0 rgba(35,64,142,0.08);
+  margin-bottom: 0.5rem;
+}
+.timer-label {
+  margin-right: 0.5rem;
+  font-size: 1.2em;
+}
+.timer-value {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 1px;
+}

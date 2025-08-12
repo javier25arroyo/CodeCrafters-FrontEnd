@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from "@angular/material/icon";
-import { MoveList } from 'src/app/chess-logic/models';
+import { MoveList } from '../../chess-logic/models';
 
 @Component({
   selector: 'app-move-list',

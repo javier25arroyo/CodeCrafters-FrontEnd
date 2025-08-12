@@ -1,4 +1,4 @@
-import { Color, FENChar } from "src/app/chess-logic/models";
+import { Color, FENChar } from "../../chess-logic/models";
 
 export type StockfishQueryParams = {
     fen: string;

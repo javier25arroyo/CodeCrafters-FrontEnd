@@ -1,0 +1,40 @@
+.result-dialog-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2.2rem 2.5rem 2rem 2.5rem;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px 0 rgba(35,64,142,0.13), 0 1.5px 8px 0 rgba(35,64,142,0.10);
+  min-width: 320px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+.winner-title {
+  color: #23408e;
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-bottom: 1.2rem;
+  text-align: center;
+}
+.reason {
+  color: #3a5db7;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+button[mat-raised-button] {
+  min-width: 120px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  background: #23408e !important;
+  color: #fff !important;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px 0 rgba(35,64,142,0.08);
+  padding: 0.7rem 0;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+button[mat-raised-button]:hover {
+  background: #19306a !important;
+  box-shadow: 0 4px 16px 0 rgba(35,64,142,0.13);
+}

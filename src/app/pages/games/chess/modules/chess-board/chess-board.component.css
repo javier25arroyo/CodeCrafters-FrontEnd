@@ -1,13 +1,59 @@
+/* Centrar y dar color azul a la move-list */
+.move-list-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 18px;
+    color: #0d47a1;
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+/* Centrado del contenedor principal */
+.chess-board-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* Centrar el botón debajo del tablero */
+.flip-btn {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    align-self: center;
+    padding: 8px 24px;
+    font-size: 1.1rem;
+    border-radius: 6px;
+    border: none;
+    background: #0d47a1;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.flip-btn:hover {
+    background: #1565c0;
+}
+
 .chess-board {
     display: flex;
     justify-content: center;
     flex-direction: column-reverse;
     width: 480px;
     height: 480px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    transition: transform 0.7s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.game-over-message {
+    text-align: center;
+    margin-top: 20px;
 }
 
 .rotated {
     transform: rotate(180deg);
+    margin: 0 auto;
 }
 
 .row {
@@ -51,7 +97,7 @@
 }
 
 .dark {
-    background-color: #779AAF
+    background-color: #0d47a1
 }
 
 .light {

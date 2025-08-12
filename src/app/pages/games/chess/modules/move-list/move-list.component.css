@@ -1,3 +1,7 @@
+/* Flechas de navegación en azul */
+mat-icon {
+    color: #0d47a1 !important;
+}
 .move-list {
     max-height: 100px;
     overflow-y: scroll;
@@ -17,23 +21,42 @@
 .row {
     width: 250px;
     display: flex;
-    color: white
+    color: #0d47a1;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    margin-bottom: 2px;
+    font-weight: 500;
 }
 
 .move-number {
     width: 50px;
+    color: #0d47a1;
 }
 
 .current-move {
-    background-color: rgb(0, 143, 168);
+    background: #fff;
+    color: #0d47a1;
+    border: 1.5px solid #0d47a1;
+    border-radius: 8px;
+    font-weight: bold;
+    z-index: 1;
+    box-sizing: border-box;
 }
 
 .move {
     cursor: pointer;
     width: 100px;
+    color: #0d47a1;
+    background: transparent;
+    border-radius: 8px;
+    transition: background 0.2s, color 0.2s;
+    border: none;
 }
 
 .move:hover {
-    background-color: rgb(0, 143, 168);
-    opacity: 0.7
+    /* Sin fondo ni cambio de color en hover */
+    background: transparent;
+    color: #0d47a1;
+    opacity: 1;
 }
