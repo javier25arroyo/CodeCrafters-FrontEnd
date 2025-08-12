@@ -3,12 +3,11 @@ import { CommonModule } from '@angular/common';
 import { GameScoreService, GameScoreStat } from '../../services/game-score-stat.service';
 import { UserService } from '../../services/user.service';
 import { HttpClientModule } from '@angular/common/http';
-import { NavComponent } from '../../components/nav/nav.component';
 
 @Component({
   selector: 'app-game-stats',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, NavComponent],
+  imports: [CommonModule, HttpClientModule],
   templateUrl: './game-score-stat.component.html',
   styleUrls: ['./game-score-stat.component.scss']
 })
