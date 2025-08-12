@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavComponent } from '../../../components/nav/nav.component';
 
 export interface Card {
   id: number;
@@ -14,7 +13,7 @@ export interface Card {
   standalone: true,
   templateUrl: './memorycard-game.component.html',
   styleUrls: ['./memorycard-game.component.scss'],
-  imports: [CommonModule, NavComponent],
+  imports: [CommonModule],
 })
 export class MemoryGameComponent implements OnInit {
   cards: Card[] = [];

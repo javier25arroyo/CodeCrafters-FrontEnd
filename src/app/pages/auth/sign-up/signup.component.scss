@@ -190,3 +190,39 @@
     }
   }
 }
+/* --- Mejoras compartidas --- */
+.enhanced-auth {
+  background: radial-gradient(circle at 25% 20%, #eef3ff, #f7f9fc);
+  .login-card { backdrop-filter: blur(4px); border:1px solid rgba(255,255,255,0.6); animation: fadeUp .55s ease; }
+}
+
+@keyframes fadeUp { from { opacity:0; transform: translateY(14px);} to { opacity:1; transform:translateY(0);} }
+
+.auth-title { font-weight:600; letter-spacing:.5px; }
+.auth-subtitle { color:#6c757d; font-size:.85rem; margin:0; }
+
+.form-field { position:relative; transition: background .35s ease, box-shadow .35s ease; border-radius:12px; padding:4px 10px 10px; }
+.form-field:focus-within { background:#f5f8ff; box-shadow:0 0 0 3px rgba(59,130,246,.25); }
+.form-check.form-field { padding:10px 14px; }
+.form-check-input { cursor:pointer; }
+
+.form-control { transition: border-color .25s ease, box-shadow .25s ease, background .3s; border-radius:10px; }
+.form-control:focus { box-shadow:0 0 0 3px rgba(59,130,246,.35); }
+.form-control.is-valid { border-color:#16a34a; }
+.form-control.is-invalid { border-color:#dc3545; }
+
+.auth-btn { font-weight:600; letter-spacing:.4px; padding:.75rem 1rem; border-radius:12px; position:relative; overflow:hidden; }
+.auth-btn::after { content:""; position:absolute; inset:0; background:linear-gradient(90deg,rgba(255,255,255,.15),rgba(255,255,255,0)); transform:translateX(-100%); transition:transform .6s ease; }
+.auth-btn:hover::after { transform:translateX(0); }
+.auth-btn:hover { transform: translateY(-2px); box-shadow:0 10px 18px -8px rgba(0,0,0,.18); }
+.auth-btn:active { transform: translateY(0); box-shadow:0 6px 12px -6px rgba(0,0,0,.25); }
+
+.switch-link { position:relative; font-weight:600; }
+.switch-link::after { content:""; position:absolute; left:0; bottom:-2px; height:2px; width:0; background:#0d6efd; transition:width .3s ease; border-radius:2px; }
+.switch-link:hover::after { width:100%; }
+
+.alt-link { color:#555; }
+.alt-link a { text-decoration:none; }
+.alt-link a:hover { text-decoration:underline; }
+
+@media (max-width: 800px) { .login-card { padding:28px 22px !important; } .auth-title { font-size:1.15rem; } }
