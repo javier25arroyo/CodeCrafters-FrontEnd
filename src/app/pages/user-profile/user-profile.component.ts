@@ -4,8 +4,6 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { HttpClientModule } from '@angular/common/http';
-import { NavComponent } from '../../components/nav/nav.component';
-import { FondoBonitoComponent } from '../../fondo-bonito/fondo-bonito.component';
 
 @Component({
   selector: 'app-user-profile',
@@ -14,8 +12,6 @@ import { FondoBonitoComponent } from '../../fondo-bonito/fondo-bonito.component'
     CommonModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NavComponent,
-    FondoBonitoComponent,
   ],
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss']

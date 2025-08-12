@@ -25,12 +25,23 @@
 
 .dashboard-section {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Ajuste de tamaño mínimo */
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Ancho mínimo más específico */
   gap: 2rem; /* Espaciado más amplio */
   width: 80%; /* Ajustar el ancho del contenido */
   max-width: 1000px; /* Limitar el ancho máximo */
   padding: 1rem; /* Espaciado interno */
   margin: 0 auto 4rem; /* Espaciado adicional entre las tarjetas y el footer */
+  justify-items: center; /* Centrar las tarjetas en el grid */
+  
+  /* Hacer que todas las tarjetas tengan la misma altura y ancho */
+  card-info-user {
+    height: 160px; /* Altura fija para uniformidad */
+    width: 100%; /* Ancho completo del grid item */
+    max-width: 400px; /* Ancho máximo para uniformidad */
+    min-width: 350px; /* Ancho mínimo para consistencia */
+    display: flex;
+    align-items: stretch;
+  }
 }
 
 .dashboard-card {
@@ -71,4 +82,88 @@
   align-self: stretch; /* Asegurar que el footer ocupe todo el ancho */
   margin-top: auto; /* Mantener el footer pegado al fondo */
   text-align: center; /* Centrar el texto del footer */
+}
+
+/* Estilos para uniformidad de las tarjetas */
+::ng-deep .dashboard-section card-info-user .card-info-user {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+  padding: 1.5rem; /* Padding uniforme */
+  
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    flex: 2; /* Proporción del contenido */
+    min-width: 0; /* Permite que el texto se ajuste */
+    
+    .title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .description {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      font-size: 0.95rem;
+      line-height: 1.4;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .action-btn {
+      margin-top: auto;
+      align-self: flex-start;
+      width: fit-content;
+    }
+  }
+  
+  .card-image {
+    height: 100%;
+    max-height: 120px;
+    width: 120px; /* Ancho fijo para las imágenes */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; /* No se encoge */
+  }
+}
+
+/* Responsive para dispositivos móviles */
+@media (max-width: 768px) {
+  .dashboard-section {
+    grid-template-columns: 1fr; /* Una sola columna en móvil */
+    width: 95%;
+    
+    card-info-user {
+      min-width: 300px;
+      max-width: 100%;
+      height: 140px; /* Altura ligeramente menor en móvil */
+    }
+  }
+  
+  ::ng-deep .dashboard-section card-info-user .card-info-user {
+    padding: 1rem;
+    
+    .card-content .title {
+      font-size: 1rem;
+    }
+    
+    .card-content .description {
+      font-size: 0.9rem;
+    }
+    
+    .card-image {
+      width: 100px;
+      max-height: 100px;
+    }
+  }
 }

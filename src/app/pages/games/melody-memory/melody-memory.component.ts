@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavComponent } from '../../../components/nav/nav.component';
 import { HttpClient } from '@angular/common/http';
 import { MusicMemoryService } from './music-memory.service';
 
@@ -12,7 +11,7 @@ interface Note {
 @Component({
   selector: 'app-melody-memory',
   standalone: true,
-  imports: [CommonModule, NavComponent],
+  imports: [CommonModule],
   templateUrl: './melody-memory.component.html',
   styleUrls: ['./melody-memory.component.scss'],
 })

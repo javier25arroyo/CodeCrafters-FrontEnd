@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
+import { NavComponent } from '../../components/nav/nav.component';
 import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CaregiverService } from '../../services/caregiver.service';
 import { IUser } from '../../interfaces';
-import { NavComponent } from '../../components/nav/nav.component';
 
 type UserDisplay = { name: string; email: string };
 
