@@ -7,7 +7,7 @@ import { CardInfoUserComponent } from "../../components/card-info-user/card-info
   standalone: true,
   imports: [
     DailyTipComponent,
-    CardInfoUserComponent,
+    CardInfoUserComponent
   ],
   templateUrl: "./dashboard-usuario.component.html",
   styleUrls: ["./dashboard-usuario.component.scss"],
