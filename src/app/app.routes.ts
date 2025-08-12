@@ -22,7 +22,7 @@ import { AdminSuggestionsComponent } from './pages/admin-suggestions/admin-sugge
 import { PuzzleBoardComponent } from './pages/games/puzzle-board/puzzle-board.component';
 import { WordSearchGameComponent } from './pages/games/word-search-game/word-search-game.component';
 import { DashboardAdminComponent } from './pages/dashboard-admin/dashboard-admin.component';
-import { CaregiverDashboardComponent } from './pages/caregiver-dashboard/caregiver-dashboard.component'; 
+import { CaregiverDashboardComponent } from './pages/caregiver-dashboard/caregiver-dashboard.component';
 import { AdminRoleGuard } from './guards/admin-role.guard';
 import { AdminUserListComponent } from './components/admin-user/admin-user-list/admin-user-list.component';
 import { AdminUserFormComponent } from './components/admin-user/admin-user-form/admin-user-form.component';
@@ -31,6 +31,7 @@ import { MelodyMemoryComponent } from './pages/games/melody-memory/melody-memory
 import { CaregiverStatsComponent } from './pages/caregiver-stats/caregiver-stats.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { AchievementsComponent } from './pages/achievements/achievements.component';
+import { GameStatsComponent } from './pages/game-score-stat/game-score-stat.component';
 
 export const routes: Routes = [
   {
@@ -72,15 +73,17 @@ export const routes: Routes = [
     path: 'caregiver-dashboard',
     component: CaregiverDashboardComponent,
     canActivate: [AuthGuard],
-    data: { 
-      authorities: [IRoleType.caregiver] }
+    data: {
+      authorities: [IRoleType.caregiver]
+    }
   },
   {
     path: 'caregiver-stats',
     component: CaregiverStatsComponent,
     canActivate: [AuthGuard],
-    data: { 
-      authorities: [IRoleType.caregiver] }
+    data: {
+      authorities: [IRoleType.caregiver]
+    }
   },
   {
     path: 'signup',
@@ -204,5 +207,9 @@ export const routes: Routes = [
   {
     path: 'melody-memory',
     component: MelodyMemoryComponent,
+  },
+  {
+    path: 'game-stats',
+    component: GameStatsComponent,
   }
 ];
