@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { NavComponent } from '../../components/nav/nav.component';
 import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CaregiverService } from '../../services/caregiver.service';
@@ -10,7 +9,7 @@ type UserDisplay = { name: string; email: string };
 @Component({
   selector: 'app-caregiver-stats',
   standalone: true,
-  imports: [NgIf, FormsModule, NavComponent],
+  imports: [NgIf, FormsModule],
   templateUrl: './caregiver-stats.component.html',
   styleUrls: ['./caregiver-stats.component.scss']
 })
