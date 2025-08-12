@@ -1,4 +1,3 @@
-/* Ajuste para navbar fijo */
 :host {
   display: block;
   margin-top: 120px !important;
@@ -10,35 +9,34 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between; /* Espaciado entre el contenido y el footer */
+  justify-content: space-between;
   padding: 2rem;
-  background: linear-gradient(to bottom, #0d47a1 20%, #ffffff 80%); /* Fondo con gradiente */
+  background: linear-gradient(to bottom, #0d47a1 20%, #ffffff 80%);
 }
 
 .dashboard-title {
-  font-size: 3rem; /* Tamaño más grande para destacar el título */
+  font-size: 3rem;
   font-weight: bold;
-  margin: 3rem 0 2rem; /* Espaciado entre el título y el header */
-  color: #0d47a1; /* Color azul para el título */
-  text-align: center; /* Centrar el texto */
+  margin: 3rem 0 2rem;
+  color: #0d47a1;
+  text-align: center;
 }
 
 .dashboard-section {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Ancho mínimo más específico */
-  gap: 2rem; /* Espaciado más amplio */
-  width: 80%; /* Ajustar el ancho del contenido */
-  max-width: 1000px; /* Limitar el ancho máximo */
-  padding: 1rem; /* Espaciado interno */
-  margin: 0 auto 4rem; /* Espaciado adicional entre las tarjetas y el footer */
-  justify-items: center; /* Centrar las tarjetas en el grid */
-  
-  /* Hacer que todas las tarjetas tengan la misma altura y ancho */
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  width: 80%;
+  max-width: 1000px;
+  padding: 1rem;
+  margin: 0 auto 4rem;
+  justify-items: center;
+
   card-info-user {
-    height: 160px; /* Altura fija para uniformidad */
-    width: 100%; /* Ancho completo del grid item */
-    max-width: 400px; /* Ancho máximo para uniformidad */
-    min-width: 350px; /* Ancho mínimo para consistencia */
+    height: 160px;
+    width: 100%;
+    max-width: 400px;
+    min-width: 350px;
     display: flex;
     align-items: stretch;
   }
@@ -46,60 +44,59 @@
 
 .dashboard-card {
   background-color: #ffffff;
-  border-radius: 16px; /* Bordes más redondeados */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada */
-  padding: 2rem; /* Espaciado interno más amplio */
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 2rem;
   text-align: center;
   cursor: pointer;
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .dashboard-card:hover {
-  transform: scale(1.1); /* Efecto de zoom más notable */
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25); /* Sombra más intensa al pasar el mouse */
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
 }
 
 .dashboard-card-image {
-  max-width: 80%; /* Ajuste de tamaño de imagen */
+  max-width: 80%;
   height: auto;
-  margin-bottom: 1.5rem; /* Espaciado más amplio debajo de la imagen */
+  margin-bottom: 1.5rem;
 }
 
 .dashboard-card-title {
-  font-size: 1.8rem; /* Tamaño más grande para el título de la tarjeta */
+  font-size: 1.8rem;
   font-weight: bold;
   margin-bottom: 1rem;
-  color: #0d47a1; /* Color azul para el título de la tarjeta */
+  color: #0d47a1;
 }
 
 .dashboard-card-description {
-  font-size: 1.2rem; /* Tamaño más grande para la descripción */
+  font-size: 1.2rem;
   color: #555;
-  line-height: 1.6; /* Mejor espaciado entre líneas */
+  line-height: 1.6;
 }
 
 .app-footer {
-  align-self: stretch; /* Asegurar que el footer ocupe todo el ancho */
-  margin-top: auto; /* Mantener el footer pegado al fondo */
-  text-align: center; /* Centrar el texto del footer */
+  align-self: stretch;
+  margin-top: auto;
+  text-align: center;
 }
 
-/* Estilos para uniformidad de las tarjetas */
 ::ng-deep .dashboard-section card-info-user .card-info-user {
   height: 100%;
   width: 100%;
   display: flex;
   align-items: stretch;
-  padding: 1.5rem; /* Padding uniforme */
-  
+  padding: 1.5rem;
+
   .card-content {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-    flex: 2; /* Proporción del contenido */
-    min-width: 0; /* Permite que el texto se ajuste */
-    
+    flex: 2;
+    min-width: 0;
+
     .title {
       font-size: 1.1rem;
       font-weight: 600;
@@ -108,7 +105,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    
+
     .description {
       flex-grow: 1;
       display: flex;
@@ -118,49 +115,48 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    
+
     .action-btn {
       margin-top: auto;
       align-self: flex-start;
       width: fit-content;
     }
   }
-  
+
   .card-image {
     height: 100%;
     max-height: 120px;
-    width: 120px; /* Ancho fijo para las imágenes */
+    width: 120px;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0; /* No se encoge */
+    flex-shrink: 0;
   }
 }
 
-/* Responsive para dispositivos móviles */
 @media (max-width: 768px) {
   .dashboard-section {
-    grid-template-columns: 1fr; /* Una sola columna en móvil */
+    grid-template-columns: 1fr;
     width: 95%;
-    
+
     card-info-user {
       min-width: 300px;
       max-width: 100%;
-      height: 140px; /* Altura ligeramente menor en móvil */
+      height: 140px;
     }
   }
-  
+
   ::ng-deep .dashboard-section card-info-user .card-info-user {
     padding: 1rem;
-    
+
     .card-content .title {
       font-size: 1rem;
     }
-    
+
     .card-content .description {
       font-size: 0.9rem;
     }
-    
+
     .card-image {
       width: 100px;
       max-height: 100px;
