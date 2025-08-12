@@ -19,7 +19,7 @@ export class MusicMemoryService {
     this.currentDifficulty = difficulty;
   }
 
-  submitScore(score: number) {
+  submitScore(scoreIncrement: number) {
     const levelMapping = {
       easy: 'EASY',
       medium: 'MEDIUM',
@@ -29,11 +29,11 @@ export class MusicMemoryService {
     const scoreData = {
   gameType: 'MUSIC_MEMORY',
   level: levelMapping[this.currentDifficulty as keyof typeof levelMapping],
-  score: score,
+  score: scoreIncrement,
   movements: 0,
   time: 0
 };
 
-    return this.http.post('games/score', scoreData);
+    return this.http.post('games/score/music-melody', scoreData);
   }
 }

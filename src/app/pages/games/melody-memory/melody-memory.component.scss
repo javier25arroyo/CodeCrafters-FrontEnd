@@ -39,9 +39,28 @@ app-nav {
       }
     }
   }
+  .buttonreplay {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.buttonreplay button {
+  padding: 0.5rem 1rem;   /* más pequeño */
+  font-size: 1rem;       /* más pequeño */
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.buttonreplay button:hover:not(.highlight) {
+  background-color: #64b5f6;
+}
 
   .restart-btn {
-    margin-top: 1.5rem;
+    margin-top: 3rem;
     padding: 0.8rem 1.5rem;
     font-size: 1rem;
     border: none;

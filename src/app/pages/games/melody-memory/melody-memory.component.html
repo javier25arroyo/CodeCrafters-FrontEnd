@@ -1,7 +1,7 @@
 <app-nav></app-nav>
 <div class="game-container">
   <h1>🎼 Juego de Memoria Musical</h1>
-  <h2>Nivel: {{ level }} — Puntaje: {{ score }}</h2>
+  <h2>Nivel: {{ level }} — Puntaje Total: {{ score }}</h2>
   <p>{{ message }}</p>
 
   <div class="buttons">
@@ -34,6 +34,11 @@
   </button>
 </div>
   
-
   <button class="restart-btn" (click)="startNewGame()" [disabled]="isPlaying">Reiniciar</button>
+  
+   <div class="buttonreplay">
+    <button (click)="playSequence()" [disabled]="isPlaying">
+      Reproducir Secuencia
+    </button>
+  </div>
 </div>

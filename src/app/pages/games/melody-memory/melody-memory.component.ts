@@ -63,7 +63,7 @@ export class MelodyMemoryComponent implements OnInit {
     }
 
     this.levelStartTime = Date.now();
-    this.playSequence();
+    this.message = 'Presiona "Reproducir" para escuchar la secuencia';
   }
 
   addNoteToSequence(): void {
@@ -142,9 +142,10 @@ export class MelodyMemoryComponent implements OnInit {
     }
 
     if (this.userSequence.length === this.sequence.length) {
-      this.score++;
-      this.sendScoreToBackend();
-      this.message = '✅ Bien hecho. Siguiente nivel...';
+  this.score++;  
+  this.sendScoreToBackend(1); 
+  this.message = '✅ Bien hecho. Siguiente nivel...';
+
       setTimeout(() => {
         this.isPlaying = false;
         this.currentNotePlaying = null;
@@ -163,7 +164,7 @@ export class MelodyMemoryComponent implements OnInit {
   }
 
   stopAllSounds(): void {
-    // Reinicia el contexto de audio si estaba parado
+   
     if (this.audioContext.state !== 'running') {
       this.audioContext.resume();
     }
@@ -219,10 +220,10 @@ export class MelodyMemoryComponent implements OnInit {
     }
   }
 
-  sendScoreToBackend(): void {
-    this.musicMemoryService.submitScore(this.score).subscribe({
-      next: res => console.log('Score guardado:', res),
-      error: err => console.error('Error guardando score:', err)
-    });
-  }
+  sendScoreToBackend(increment: number): void {
+  this.musicMemoryService.submitScore(increment).subscribe({
+    next: res => console.log('Score guardado:', res),
+    error: err => console.error('Error guardando score:', err)
+  });
+}
 }
