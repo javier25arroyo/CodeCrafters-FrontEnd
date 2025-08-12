@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 export interface GameScoreStat {
   gameType: string;
-  maxScore: number;
+  totalScore: number;
 }
 
 @Injectable({

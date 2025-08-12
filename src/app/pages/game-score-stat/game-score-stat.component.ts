@@ -45,7 +45,10 @@ export class GameStatsComponent implements OnInit {
 
   private loadScores(userId: number): void {
     this.gameScoreService.getScoresByUserId(userId).subscribe({
-      next: (data) => this.scores = data,
+      next: (data) => {
+        console.log('Scores recibidos:', data);
+        this.scores = data;
+      },
       error: (err) => {
         console.error('Error cargando estadísticas:', err);
         this.scores = [];

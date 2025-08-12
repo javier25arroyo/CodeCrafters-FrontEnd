@@ -7,13 +7,13 @@
     <thead>
       <tr>
         <th>Juego</th>
-        <th>Puntaje Máximo</th>
+        <th>Puntaje Total</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let score of scores">
         <td>{{ getGameName(score.gameType) }}</td>
-        <td>{{ score.maxScore }}</td>
+        <td>{{ score.totalScore }}</td>
       </tr>
     </tbody>
   </table>
