@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center; /* centra verticalmente el contenido */
   gap: 0.55rem;
   border-radius: 1rem;
   margin-bottom: 1rem;
@@ -10,15 +10,16 @@
   box-shadow: 0 4px 18px -6px rgba(20, 40, 80, 0.15);
   padding: 1rem 1.1rem 0.9rem;
   height: auto;
+  min-height: 260px; /* da altura para que el centrado sea visible */
   text-align: center;
 
   .card-image { display: none; }
 
   .card-content {
-    flex: 0 0 auto;
+  flex: 0 0 auto;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+  justify-content: center; /* centra verticalmente dentro del bloque de contenido */
     align-items: center;
     gap: 0.45rem;
     text-align: center;
