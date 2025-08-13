@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NavComponent } from '../../../components/nav/nav.component';
 import { GameSequenceService } from './game-sequence.service';
 import { finalize, take } from 'rxjs/operators';
 
@@ -10,7 +9,7 @@ type Difficulty = 'facil' | 'medio' | 'dificil';
 @Component({
   selector: 'app-game-sequence',
   standalone: true,
-  imports: [CommonModule, FormsModule, NavComponent],
+  imports: [CommonModule, FormsModule,],
   templateUrl: './game-sequence.component.html',
   styleUrls: ['./game-sequence.component.scss']
 })

@@ -1,0 +1,70 @@
+/* Emoticonos para IA y usuarios */
+.robot-emote {
+  font-size: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.users-vs-emote {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 32px;
+  gap: 16px;
+}
+
+.users-vs-emote .user {
+  font-size: 40px;
+}
+
+.users-vs-emote .vs {
+  font-size: 28px;
+  font-weight: bold;
+  color: #0d47a1;
+  margin: 0 8px;
+}
+
+/* Botones de dificultad estilo imagen */
+.stockfish-strength-container {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 16px;
+}
+
+.strength-div {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background: #f7f7f7;
+  cursor: pointer;
+  min-width: 120px;
+  padding: 8px 24px 8px 12px;
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0 8px;
+  transition: box-shadow 0.2s, background 0.2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+.strength-div.selected {
+  background: #1976d2;
+  color: #fff;
+  border: 1.5px solid #1976d2;
+  box-shadow: 0 2px 8px rgba(25,118,210,0.12);
+}
+
+.strength-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 12px;
+  border: 2px solid #222;
+  display: inline-block;
+}
+
+.strength-dot.easy { background: #19d326; }
+.strength-dot.medium { background: #ffe600; }
+.strength-dot.hard { background: #e53935; }

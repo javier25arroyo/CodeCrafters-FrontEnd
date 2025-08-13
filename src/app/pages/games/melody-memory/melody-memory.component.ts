@@ -1,18 +1,24 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavComponent } from '../../../components/nav/nav.component';
 import { HttpClient } from '@angular/common/http';
-import { MusicMemoryService } from './music-memory.service';
+import { MusicMemoryService, DifficultyLevel } from './music-memory.service';
+import { DifficultySelectorComponent } from '../../../components/difficulty-selector/difficulty-selector.component';
 
 interface Note {
   freq: number;
+  label: string;
+}
+interface DifficultyConfig {
+  level: DifficultyLevel;
   label: string;
 }
 
 @Component({
   selector: 'app-melody-memory',
   standalone: true,
-  imports: [CommonModule, NavComponent],
+
+  imports: [CommonModule, DifficultySelectorComponent],
+
   templateUrl: './melody-memory.component.html',
   styleUrls: ['./melody-memory.component.scss'],
 })
@@ -30,40 +36,55 @@ export class MelodyMemoryComponent implements OnInit {
 
   sequence: Note[] = [];
   userSequence: Note[] = [];
-  isPlaying: boolean = false;
-  level: number = 1;
-  message: string = '';
+  isPlaying = false;
+  level = 1;
+  message = '';
   currentNotePlaying: number | null = null;
 
-  selectedLevel: 'easy' | 'medium' | 'hard' = 'easy';
-  score: number = 0;
-  levelStartTime: number = 0;
+  score = 0;
+  levelStartTime = 0;
 
-  // Usar un solo contexto de audio para todo el juego
+  currentDifficulty: DifficultyLevel = DifficultyLevel.EASY;
+  difficultyConfigs = [
+    { level: DifficultyLevel.EASY, label: 'Fácil', boardSize: 0, maxPieces: 0 },
+    { level: DifficultyLevel.MEDIUM, label: 'Medio', boardSize: 0, maxPieces: 0 },
+    { level: DifficultyLevel.HARD, label: 'Difícil', boardSize: 0, maxPieces: 0 }
+  ];
+
+
+
   private audioContext = new AudioContext();
 
   constructor(
     private http: HttpClient,
     @Inject(MusicMemoryService) private musicMemoryService: MusicMemoryService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.musicMemoryService.setDifficulty(this.selectedLevel as any);
+    this.musicMemoryService.setDifficulty(this.currentDifficulty);
+    this.startNewGame();
+  }
+
+
+  changeDifficulty(level: DifficultyLevel): void {
+    if (this.isPlaying) return;
+    this.currentDifficulty = level;
+    this.musicMemoryService.setDifficulty(level);
     this.startNewGame();
   }
 
   startNewGame(): void {
-    this.stopAllSounds(); // parar cualquier nota pendiente
+    this.stopAllSounds();
     this.sequence = [];
     this.userSequence = [];
-    this.level = this.getLevelNumber(this.selectedLevel);
+    this.level = this.getLevelNumber(this.currentDifficulty);
 
     for (let i = 0; i < this.getNoteCountForLevel(); i++) {
       this.addNoteToSequence();
     }
 
     this.levelStartTime = Date.now();
-    this.playSequence();
+    this.message = 'Presiona "Reproducir" para escuchar la secuencia';
   }
 
   addNoteToSequence(): void {
@@ -143,8 +164,9 @@ export class MelodyMemoryComponent implements OnInit {
 
     if (this.userSequence.length === this.sequence.length) {
       this.score++;
-      this.sendScoreToBackend();
+      this.sendScoreToBackend(1);
       this.message = '✅ Bien hecho. Siguiente nivel...';
+
       setTimeout(() => {
         this.isPlaying = false;
         this.currentNotePlaying = null;
@@ -163,7 +185,6 @@ export class MelodyMemoryComponent implements OnInit {
   }
 
   stopAllSounds(): void {
-    // Reinicia el contexto de audio si estaba parado
     if (this.audioContext.state !== 'running') {
       this.audioContext.resume();
     }
@@ -174,53 +195,24 @@ export class MelodyMemoryComponent implements OnInit {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  selectLevel(level: 'easy' | 'medium' | 'hard'): void {
-    if (this.isPlaying) {
-    console.warn('No se puede cambiar de nivel mientras se está reproduciendo la secuencia.');
-    return;
-    }
-    
-    this.selectedLevel = level;
-    this.level = this.getLevelNumber(level);
-    this.musicMemoryService.setDifficulty(level as any);
-
-    this.sequence = [];
-    for (let i = 0; i < this.getNoteCountForLevel(); i++) {
-      this.addNoteToSequence();
-    }
-
-    this.playSequence();
-  }
-
-  getLevelNumber(level: 'easy' | 'medium' | 'hard'): number {
+  getLevelNumber(level: DifficultyLevel): number {
     switch (level) {
-      case 'easy': return 1;
-      case 'medium': return 2;
-      case 'hard': return 3;
-      default: return 1;
+      case DifficultyLevel.EASY: return 1;
+      case DifficultyLevel.MEDIUM: return 2;
+      case DifficultyLevel.HARD: return 3;
     }
   }
 
   getNoteCountForLevel(): number {
-    switch (this.selectedLevel) {
-      case 'easy': return 1;
-      case 'medium': return 3;
-      case 'hard': return 5;
-      default: return 1;
+    switch (this.currentDifficulty) {
+      case DifficultyLevel.EASY: return 1;
+      case DifficultyLevel.MEDIUM: return 2;
+      case DifficultyLevel.HARD: return 3;
     }
   }
 
-  private mapSelectedLevelToLevelEnum(): string {
-    switch (this.selectedLevel) {
-      case 'easy': return 'EASY';
-      case 'medium': return 'MEDIUM';
-      case 'hard': return 'HARD';
-      default: return 'EASY';
-    }
-  }
-
-  sendScoreToBackend(): void {
-    this.musicMemoryService.submitScore(this.score).subscribe({
+  sendScoreToBackend(increment: number): void {
+    this.musicMemoryService.submitScore(increment).subscribe({
       next: res => console.log('Score guardado:', res),
       error: err => console.error('Error guardando score:', err)
     });

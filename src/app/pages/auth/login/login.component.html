@@ -1,4 +1,4 @@
-<div class="login-container">
+<div class="login-container enhanced-auth">
   <div class="d-flex align-items-center justify-content-center h-100">
     <div class="login-card">
       <div class="w-100">
@@ -9,11 +9,12 @@
         </div>
         <div class="login-main">
           <form (ngSubmit)="handleLogin($event)" autocomplete="off" #frm="ngForm">
-            <div class="mb-3">
-              <h4>Iniciar sesión en tu cuenta</h4>
+            <div class="mb-3 text-center">
+              <h4 class="auth-title">Iniciar sesión en tu cuenta</h4>
+              <p class="auth-subtitle">Accede para continuar tu progreso</p>
             </div>
 
-            <div class="form-group mb-3">
+            <div class="form-group mb-3 form-field">
               <label for="email" class="form-label mb-2">Correo electrónico</label>
               <input #email="ngModel" type="text" class="form-control" id="email" name="email"
                 placeholder="Correo electrónico" [(ngModel)]="loginForm.email" [ngClass]="{
@@ -25,7 +26,7 @@
               </div>
             </div>
 
-            <div class="form-group mb-5">
+            <div class="form-group mb-4 form-field">
               <label for="password" class="form-label mb-2">Contraseña</label>
               <div class="form-input position-relative">
                 <input #password="ngModel" [type]="passwordFieldType" class="form-control" id="password" name="password"
@@ -44,8 +45,8 @@
               <a routerLink="/forgot-password">¿Olvidaste tu contraseña?</a>
             </div>
             <div class="form-group mb-0">
-              <button class="btn btn-primary btn-block w-100" type="submit">
-                Iniciar sesión
+              <button class="btn btn-primary btn-block w-100 auth-btn" type="submit">
+                <span>Iniciar sesión</span>
               </button>
               @if(loginError) {
               <p class="text-danger">{{loginError}}</p>
@@ -65,9 +66,9 @@
               <p class="text-danger">{{googleLoginError}}</p>
               }
             </div>
-            <p class="mt-3 text-center">
+            <p class="mt-3 text-center small alt-link">
               ¿No tienes una cuenta?
-              <a routerLink="/signup">Regístrate</a>
+              <a routerLink="/signup" class="switch-link">Regístrate</a>
             </p>
           </form>
         </div>

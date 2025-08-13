@@ -1,0 +1,45 @@
+.dashboard-content {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h2 {
+    color: #333;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.styled-table thead {
+    background-color: #4a90e2;
+    color: white;
+}
+
+.styled-table thead th {
+    padding: 12px 20px;
+    text-align: left;
+}
+
+.styled-table tbody tr {
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s ease;
+}
+
+.styled-table tbody tr:hover {
+    background-color: #e0f0ff;
+}
+
+.styled-table tbody td {
+    padding: 12px 20px;
+    color: #333;
+}

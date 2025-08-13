@@ -6,26 +6,9 @@
   background: #0d47a1;
   color: white;
   text-align: center;
-  padding: 2rem 0; /* Adjust padding to ensure it fits within the edges */
-  margin: 0; /* Remove any margin that might cause misalignment */
-  z-index: 1; /* Lower z-index to avoid overlapping with header */
-
-  .footer-logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 1rem;
-
-    img {
-      width: 50px;
-      margin-right: 0.5rem;
-    }
-
-    span {
-      font-size: 1.8rem;
-      font-weight: bold;
-    }
-  }
+  padding: 2rem 0; 
+  margin: 0; 
+  z-index: 1; 
 
   .footer-links {
     display: flex;

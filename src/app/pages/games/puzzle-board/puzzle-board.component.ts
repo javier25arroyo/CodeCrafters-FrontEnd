@@ -1,6 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavComponent } from '../../../components/nav/nav.component';
 import { DifficultySelectorComponent } from '../../../components/difficulty-selector/difficulty-selector.component';
 import { PuzzleService, PuzzlePiece, DifficultyLevel, DifficultyConfig } from './puzzle.game.service';
 
@@ -9,7 +8,7 @@ import { PuzzleService, PuzzlePiece, DifficultyLevel, DifficultyConfig } from '.
   templateUrl: './puzzle-board.component.html',
   styleUrls: ['./puzzle-board.component.scss'],
   standalone: true,
-  imports: [CommonModule, NavComponent, DifficultySelectorComponent],
+  imports: [CommonModule, DifficultySelectorComponent],
   providers: [PuzzleService]
 })
 export class PuzzleBoardComponent implements OnInit {

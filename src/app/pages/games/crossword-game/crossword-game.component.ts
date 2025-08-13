@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgFor, NgIf, NgClass, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NavComponent } from '../../../components/nav/nav.component';
 import { DifficultySelectorComponent } from '../../../components/difficulty-selector/difficulty-selector.component';
 import { Hint, DifficultySettings, LevelEnum } from '../../../interfaces/index';
 import { GameScoreService } from '../../../services/gameService/game-score.service';
@@ -37,7 +36,7 @@ const DIFFICULTY_SETTINGS: Record<DifficultyLevel, DifficultySettings> = {
 @Component({
   selector: 'app-crossword-game',
   standalone: true,
-  imports: [NgFor, NgIf, NgClass, FormsModule, NavComponent, DecimalPipe, DifficultySelectorComponent],
+  imports: [NgFor, NgIf, NgClass, FormsModule, DecimalPipe, DifficultySelectorComponent],
   templateUrl: './crossword-game.component.html',
   styleUrls: ['./crossword-game.component.scss']
 })
