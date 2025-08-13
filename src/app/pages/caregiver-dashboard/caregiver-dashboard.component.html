@@ -1,25 +1,21 @@
-<app-nav></app-nav>
-
-<div class="page">
-  <div class="dashboard-bg">
-    <div class="dashboard-overlay"></div>
-
-    <div class="dashboard-content">
-      <main class="dashboard-main">
-        <h2 class="dashboard-title">¡Bienvenido Cuidador!</h2>
-
-        <section class="dashboard-section">
-          <card-info-user
-            title="Estadísticas"
-            description="Consulta el progreso de tus usuarios."
-            buttonText="Ver estadísticas"
-            imageUrl="assets/img/dashboardUser/stats.png"
-            routerLink="/caregiver-stats">
-          </card-info-user>
-        </section>
-      </main>
-    </div>
+<div class="dashboard-bg">
+  <div class="dashboard-overlay"></div>
+  <div class="dashboard-content">
+    <main class="dashboard-main">
+      <div class="dashboard-header">
+        <h2 class="dashboard-title">¡Bienvenido, Cuidador!</h2>
+        <p class="dashboard-subtitle">Gestiona y consulta el progreso de tus usuarios de manera sencilla.</p>
+      </div>
+      <section class="dashboard-section dashboard-cards">
+        <card-info-user
+          title="Estadísticas"
+          description="Consulta el progreso de tus usuarios."
+          buttonText="Ver estadísticas"
+          imageUrl="assets/img/dashboardUser/stats.png"
+          routerLink="/caregiver-stats">
+        </card-info-user>
+        <!-- Puedes agregar más tarjetas aquí en el futuro -->
+      </section>
+    </main>
   </div>
-
-  <app-footer></app-footer>
 </div>

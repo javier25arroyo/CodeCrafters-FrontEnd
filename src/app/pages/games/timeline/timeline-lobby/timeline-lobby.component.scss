@@ -1,0 +1,40 @@
+.page {
+  box-sizing: border-box; min-height: 100dvh;
+  padding: 64px 16px 220px; display: flex; justify-content: center; align-items: flex-start;
+  position: relative; z-index: 1;
+}
+.lobby { width: 100%; max-width: 980px; margin: 0 auto; }
+
+.controls--center { display: flex; justify-content: center; margin-bottom: 18px; }
+.stack {
+  display: inline-flex; align-items: center; gap: 0;
+  border: 1px solid var(--card-border); border-radius: 12px; overflow: hidden;
+  background: var(--panel-2); box-shadow: var(--shadow);
+}
+.stack > button, .stack > input {
+  height: 42px; padding: 0 12px; border: 0; background: transparent; color: var(--text); outline: none; font-weight: 600;
+}
+.stack > button { border-right: 1px solid var(--card-border); cursor: pointer; }
+.stack > button:last-child { border-right: 0; }
+.stack > input { width: 180px; min-width: 150px; background: var(--card); color: var(--text); border-right: 1px solid var(--card-border); }
+.stack > input:focus { box-shadow: inset 0 0 0 2px rgba(99,102,241,.25); }
+.stack > button:hover { background: rgba(255,255,255,.04); }
+.stack > button:active { transform: translateY(1px); }
+.stack > button:disabled { opacity: .5; cursor: not-allowed; background: transparent; }
+
+.info { margin-top: 10px; padding-top: 14px; border-top: 1px dashed var(--card-border); }
+.info ul { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 10px; list-style: none; padding: 0; margin: 0; }
+.info li { background: var(--card); border: 1px solid var(--card-border); border-radius: 12px; padding: 12px; }
+
+.toast{
+  position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+  padding: 8px 12px; border-radius: 999px; background:#111827; color:#fff;
+  box-shadow: 0 10px 30px rgba(0,0,0,.3); z-index: 50;
+}
+
+.help{ height:34px; padding:0 12px; border-radius:8px; border:1px solid rgba(0,0,0,.15); background:transparent; color:inherit; }
+.modal{ position:fixed; inset:0; display:grid; place-items:center; background:rgba(0,0,0,.6); z-index:2500; }
+.modal .box{ width:min(680px,92vw); background:#0c1222; border:1px solid rgba(255,255,255,.12); border-radius:16px; padding:18px; color:#e5e7eb; }
+.modal .box h3{ margin:0 0 8px; }
+.modal .box .nav{ display:flex; gap:8px; justify-content:flex-end; margin-top:12px; }
+.modal .box button{ height:34px; padding:0 12px; border:1px solid rgba(255,255,255,.15); background:transparent; color:#e5e7eb; border-radius:8px; }

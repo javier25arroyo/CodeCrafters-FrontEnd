@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
+import { NavComponent } from '../../components/nav/nav.component';
 import { CommonModule } from '@angular/common';
 import { AchievementsService } from '../../services/achievements.service';
 import { Achievement, pct } from './achievements.model';
-import { NavComponent } from '../../components/nav/nav.component';
 
 @Component({
   selector: 'app-achievements',
   standalone: true,
-  imports: [CommonModule, NavComponent,],
+  imports: [CommonModule, NavComponent],
   templateUrl: './achievements.component.html',
   styleUrls: ['./achievements.component.scss']
 })

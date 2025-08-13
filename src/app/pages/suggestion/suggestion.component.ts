@@ -2,14 +2,13 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
-import { NavComponent } from '../../components/nav/nav.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-suggestion',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule, NavComponent, FooterComponent],
+  imports: [CommonModule, FormsModule, HttpClientModule, FooterComponent],
   templateUrl: './suggestion.component.html',
   styleUrls: ['./suggestion.component.scss']
 })

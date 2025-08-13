@@ -1,13 +1,21 @@
+
+// Fondo y overlay globales
 .dashboard-bg {
   min-height: 100vh;
+  width: 100vw;
   position: relative;
+  background: linear-gradient(135deg, #e3f0ff 0%, #f8fafc 100%);
   overflow-x: hidden;
-  /* Fondo eliminado para usar el fondo global */
 }
 
 .dashboard-overlay {
-  /* Fondo eliminado para usar el fondo global */
-  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(13, 71, 161, 0.08);
+  z-index: 0;
 }
 
 .dashboard-content {
@@ -27,82 +35,105 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* Centrado vertical */
-  height: 100vh;            /* Ocupar toda la pantalla */
+  justify-content: flex-start;
   width: 100%;
-  max-width: 1200px;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 24px 0 0 0;
+  padding: 40px 0 0 0;
   text-align: center;
 }
 
-.dashboard-title {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #191d28;
-  margin-bottom: 24px;
-  text-align: center;
-}
-
-.dashboard-section {
-  display: flex; /* Usamos flex en lugar de grid para centrar una sola tarjeta */
+.dashboard-header {
+  display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  width: 100%;
-  max-width: 600px;
-  padding: 1rem;
   margin-bottom: 2rem;
 }
 
+.dashboard-logo {
+  width: 90px;
+  height: auto;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 2px 8px rgba(13, 71, 161, 0.10));
+}
+
+.dashboard-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #0d47a1;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.5px;
+}
+
+.dashboard-subtitle {
+  font-size: 1.1rem;
+  color: #4a4a4a;
+  margin-bottom: 1.5rem;
+  font-weight: 400;
+}
+
+.dashboard-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  align-items: stretch;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto 2rem auto;
+}
+
+.dashboard-cards card-info-user {
+  flex: 1 1 320px;
+  max-width: 350px;
+  min-width: 260px;
+}
+
+// Tarjeta de tip (si se usa)
 .dashboard-tip {
   width: 100%;
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
 
-.dashboard-card {
-  background-color: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  padding: 2rem;
-  text-align: center;
-  cursor: pointer;
-  transition: transform 0.3s, box-shadow 0.3s;
+// Animación y hover para tarjetas
+.dashboard-cards card-info-user {
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 10px rgba(13, 71, 161, 0.08);
+  border-radius: 18px;
+  background: #fff;
+}
+.dashboard-cards card-info-user:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 8px 24px rgba(13, 71, 161, 0.18);
 }
 
-.dashboard-card:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-}
-
-.dashboard-card-image {
-  max-width: 80%;
-  height: auto;
-  margin-bottom: 1.5rem;
-}
-
-.dashboard-card-title {
-  font-size: 1.8rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  color: #0d47a1;
-}
-
-.dashboard-card-description {
-  font-size: 1.2rem;
-  color: #555;
-  line-height: 1.6;
-}
-
-@media (max-width: 768px) {
-  .dashboard-section {
-    max-width: 90%;
-    padding: 0 1rem;
-  }
-
+// Responsive
+@media (max-width: 900px) {
   .dashboard-main {
-    padding: 1rem 0;
-    height: auto;
+    max-width: 98vw;
+    padding: 24px 0 0 0;
+  }
+  .dashboard-section {
+    max-width: 98vw;
+    gap: 1.2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard-header {
+    margin-bottom: 1.2rem;
+  }
+  .dashboard-title {
+    font-size: 1.3rem;
+  }
+  .dashboard-section {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0 0.5rem;
+  }
+  .dashboard-cards card-info-user {
+    min-width: 90vw;
+    max-width: 98vw;
   }
 }
