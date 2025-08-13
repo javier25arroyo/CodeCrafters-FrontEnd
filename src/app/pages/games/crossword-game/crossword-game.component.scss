@@ -1,3 +1,202 @@
-.crossword-placeholder {
-  padding: 1rem;
+// --- selector de dificultad + tiempo ---
+.crossword-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+
+  .difficulty-selector {
+    display: flex;
+    align-items: center;
+    label {
+      margin-right: 0.6rem;
+      font-weight: bold;
+      color: #333;
+    }
+    select {
+      padding: 0.4rem 0.6rem;
+      font-size: 1rem;
+      border: 1px solid #bbb;
+      border-radius: 4px;
+      background: #fff;
+      &:hover { border-color: #888; }
+    }
+  }
+
+  .difficulty-selector.easy select {
+    border-color: #4caf50;   
+    color: #2e7d32;
+  }
+  .difficulty-selector.medium select {
+    border-color: #ffeb3b;   
+    color: #f9a825;
+  }
+  .difficulty-selector.hard select {
+    border-color: #f44336;   
+    color: #c62828;
+  }
+
+  .difficulty-selector.easy select {
+    background: #e8f5e9;
+  }
+  .difficulty-selector.medium select {
+    background: #fffde7;
+  }
+  .difficulty-selector.hard select {
+    background: #ffebee;
+  }
+
+
+  .timer {
+    font-size: 1.2rem;
+    color: #333;
+  }
+}
+
+// --- contenedor gris global ---
+.crossword-container {
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 2rem auto;
+  max-width: 1200px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+// --- layout principal: tablero + pistas ---
+.crossword-content {
+  display: flex;
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto 1.5rem;
+  overflow: visible;
+}
+
+// --- grid-wrapper para scroll y z-index limpio ---
+.grid-wrapper {
+  flex: 0 0 auto;
+  background: #333;
+  padding: 0.5rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  max-height: 100%;
+}
+
+// --- tabla del crucigrama ---
+.crossword-grid {
+  background-color: #333;
+  border-collapse: collapse;
+
+  td {
+    position: relative;  
+    width: 30px;         
+    height: 30px;
+    background-color: #333;
+    border: 1px solid #555;
+    padding: 0;
+  }
+
+  .black-cell {
+    width: 100%;
+    height: 100%;
+    background-color: #333;
+  }
+
+  input.cell {
+    width: 100%;
+    height: 100%;
+    border: none;
+    font-size: 18px;
+    text-align: center;
+    background-color: #fff;
+    color: #222;
+  }
+  input.cell.correct   { background-color: #dcedc8; }
+  input.cell.incorrect { background-color: #ffebee; }
+  input.unused         { background-color: #eee; }
+
+  .clue-number {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    font-size: 0.6rem;
+    font-weight: bold;
+    color: #222;
+    pointer-events: none;
+    z-index: 2;
+  }
+}
+
+// --- pistas ---
+.hints-wrapper {
+  flex: 1;
+}
+
+.hints {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .hint-section {
+    h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.3rem;
+      color: #333;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      li {
+        font-size: 0.95rem;
+        margin: 0.2rem 0;
+        color: #444;
+      }
+    }
+  }
+}
+
+  .controls {
+    position: relative; 
+    z-index: 1000;
+    pointer-events: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem auto;
+    max-width: 1000px;
+  }
+
+  button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.1s ease, background-color 0.2s;
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+    }
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+  .btn-checkA  { background: #00539C; }
+  .btn-reveal { background: #F2A33C; }
+  .btn-reset  { background: #C62828; }
+
+  .help-counter {
+    font-weight: bold;
+    color: #333;
+  }
+
+
+// --- mensaje final ---
+.feedback {
+  text-align: center;
+  font-size: 1rem;
+  color: #333;
 }
