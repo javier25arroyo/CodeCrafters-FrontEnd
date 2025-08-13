@@ -1,7 +1,26 @@
 <div class="game-container">
   <h1>🧠 Juego de Memoria</h1>
+  <div style="margin-bottom: 1rem;">
+    <puzzle-difficulty-selector
+      [configs]="difficultyConfigs"
+      [current]="currentDifficulty"
+      (difficultyChange)="onDifficultyChange($event)">
+    </puzzle-difficulty-selector>
+  </div>
+  <div class="score-panel">
+    <span>Puntaje: <strong>{{ score }}</strong></span>
+  </div>
+  <div class="content-wrap">
+    <aside class="rules-card">
+      <h3>Reglas</h3>
+      <ul>
+        <li>Equivocación: -2 puntos</li>
+        <li>Elección correcta: +2 puntos</li>
+        <li>Empareja todas las cartas para ganar</li>
+      </ul>
+    </aside>
 
-  <div class="game-board">
+    <div class="game-board">
     <div
       *ngFor="let card of cards"
       class="card"
@@ -18,9 +37,20 @@
         </div>
       </div>
     </div>
+    </div>
   </div>
-
   <button class="restart-btn" (click)="resetGame()">
     🔄 Nuevo Juego
   </button>
+  <!-- Modal de Puntaje -->
+  <div class="score-modal-backdrop" *ngIf="showScoreModal">
+    <div class="score-modal">
+      <h2>¡Juego completado!</h2>
+      <p>Tu puntaje: <strong>{{ score }}</strong></p>
+      <div class="actions">
+        <button class="btn-primary" (click)="goToGameGallery()">Volver a Game Gallery</button>
+        <button class="btn-secondary" (click)="resetGame()">Jugar de nuevo</button>
+      </div>
+    </div>
+  </div>
 </div>
