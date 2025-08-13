@@ -30,7 +30,6 @@ export class ChessModeSelectorComponent implements AfterViewInit {
   constructor(private dialog: MatDialog, private router: Router) {}
 
   ngAfterViewInit(): void {
-    // Open dialog after view init to ensure template is available
     setTimeout(() => this.dialog.open(this.tpl, { disableClose: true }), 0);
   }
 
@@ -41,7 +40,6 @@ export class ChessModeSelectorComponent implements AfterViewInit {
 
   goVsAI() {
   this.dialog.closeAll();
-  // Open AI setup dialog to choose difficulty and side
   this.dialog.open(PlayAgainstComputerDialogComponent, { disableClose: true });
   }
 }

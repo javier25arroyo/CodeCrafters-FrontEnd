@@ -90,9 +90,7 @@ export class FENConverter {
         return "-";
     }
 
-    /**
-     * Convierte un FEN a un tablero de piezas (Piece | null)[][]
-     */
+    
     public static fromFEN(fen: string): (Piece | null)[][] {
         const rows = fen.split(' ')[0].split('/');
         const board: (Piece | null)[][] = [];
@@ -104,7 +102,6 @@ export class FENConverter {
                     for (let k = 0; k < Number(char); k++) row.push(null);
                     j += Number(char);
                 } else {
-                    // Pieza
                     switch (char) {
                         case 'P': row.push(new Pawn(Color.White)); break;
                         case 'N': row.push(new Knight(Color.White)); break;

@@ -1,3 +1,4 @@
+
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MoveListComponent } from '../move-list/move-list.component';
@@ -9,6 +10,7 @@ import { Subscription, filter, fromEvent, tap } from 'rxjs';
 import { FENConverter } from '../chess-logic/FENConverter';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ChessResultDialogComponent } from '../chess-result-dialog/chess-result-dialog.component';
+
 
 @Component({
   selector: 'app-chess-board',
@@ -22,20 +24,19 @@ export class ChessBoardComponent implements OnInit, OnDestroy {
 
   protected chessBoard = new ChessBoard();
   public chessBoardView: (FENChar | null)[][] = this.chessBoard.chessBoardView;
-  public get playerColor(): Color { return this.chessBoard.playerColor; };
-  public get safeSquares(): SafeSquares { return this.chessBoard.safeSquares; };
-  public get gameOverMessage(): string | undefined { return this.chessBoard.gameOverMessage; };
+  public get playerColor(): Color { return this.chessBoard.playerColor; }
+  public get safeSquares(): SafeSquares { return this.chessBoard.safeSquares; }
+  public get gameOverMessage(): string | undefined { return this.chessBoard.gameOverMessage; }
 
   private selectedSquare: SelectedSquare = { piece: null };
   private pieceSafeSquares: Coords[] = [];
   private lastMove: LastMove | undefined = this.chessBoard.lastMove;
   private checkState: CheckState = this.chessBoard.checkState;
 
-  public get moveList(): MoveList { return this.chessBoard.moveList; };
-  public get gameHistory(): GameHistory { return this.chessBoard.gameHistory; };
+  public get moveList(): MoveList { return this.chessBoard.moveList; }
+  public get gameHistory(): GameHistory { return this.chessBoard.gameHistory; }
   public gameHistoryPointer: number = 0;
 
-  // promotion properties
   public isPromotionActive: boolean = false;
   private promotionCoords: Coords | null = null;
   private promotedPiece: FENChar | null = null;
@@ -46,12 +47,16 @@ export class ChessBoardComponent implements OnInit, OnDestroy {
   }
 
   public flipMode: boolean = false;
-  // Controls if the Flip button is shown in the template. Subclasses can override.
   public showFlipButton: boolean = false;
   private subscriptions$ = new Subscription();
   private resultShown = false;
 
   constructor(protected chessBoardService: ChessBoardService, private dialog: MatDialog) { }
+
+  public get isVsAI(): boolean {
+    // Detecta si el componente es ComputerModeComponent
+    return this.constructor.name === 'ComputerModeComponent';
+  }
 
   public ngOnInit(): void {
     const keyEventSubscription$: Subscription = fromEvent<KeyboardEvent>(document, "keyup")
@@ -85,7 +90,7 @@ export class ChessBoardComponent implements OnInit, OnDestroy {
   }
 
   public flipBoard(): void {
-  this.flipMode = !this.flipMode;
+    this.flipMode = !this.flipMode;
   }
 
   public isSquareDark(x: number, y: number): boolean {
@@ -145,7 +150,6 @@ export class ChessBoardComponent implements OnInit, OnDestroy {
     if (!this.selectedSquare.piece) return;
     if (!this.isSquareSafeForSelectedPiece(newX, newY)) return;
 
-    // pawn promotion
     const isPawnSelected: boolean = this.selectedSquare.piece === FENChar.WhitePawn || this.selectedSquare.piece === FENChar.BlackPawn;
     const isPawnOnlastRank: boolean = isPawnSelected && (newX === 7 || newX === 0);
     const shouldOpenPromotionDialog: boolean = !this.isPromotionActive && isPawnOnlastRank;
@@ -154,7 +158,6 @@ export class ChessBoardComponent implements OnInit, OnDestroy {
       this.pieceSafeSquares = [];
       this.isPromotionActive = true;
       this.promotionCoords = { x: newX, y: newY };
-      // because now we wait for player to choose promoted piece
       return;
     }
 
@@ -171,7 +174,6 @@ export class ChessBoardComponent implements OnInit, OnDestroy {
     this.gameHistoryPointer++;
   }
 
-  // Allow parent components to set who starts; if Black starts, flip the board to face Black
   public setStartingColor(color: Color): void {
     this.chessBoard.setStartingPlayer(color);
     if (color === Color.Black) this.flipMode = true;
@@ -199,7 +201,6 @@ export class ChessBoardComponent implements OnInit, OnDestroy {
     else
       this.moveSound(new Set<MoveType>([MoveType.BasicMove]));
 
-    // Show result dialog if game finished
     if (!this.resultShown && this.chessBoard.gameOverMessage) {
       const msg = this.getResultMessage();
       if (msg) {
@@ -208,6 +209,7 @@ export class ChessBoardComponent implements OnInit, OnDestroy {
       }
     }
   }
+
   public move(x: number, y: number): void {
     this.selectingPiece(x, y);
     this.placingPiece(x, y);
@@ -227,19 +229,18 @@ export class ChessBoardComponent implements OnInit, OnDestroy {
   }
 
   private moveSound(moveType: Set<MoveType>): void {
-  const moveSound = new Audio("assets/chesssounds/move.mp3");
+    const moveSound = new Audio("assets/chesssounds/move.mp3");
 
-  if (moveType.has(MoveType.Promotion)) moveSound.src = "assets/chesssounds/promote.mp3";
-  else if (moveType.has(MoveType.Capture)) moveSound.src = "assets/chesssounds/capture.mp3";
-  else if (moveType.has(MoveType.Castling)) moveSound.src = "assets/chesssounds/castling.mp3";
+    if (moveType.has(MoveType.Promotion)) moveSound.src = "assets/chesssounds/promote.mp3";
+    else if (moveType.has(MoveType.Capture)) moveSound.src = "assets/chesssounds/capture.mp3";
+    else if (moveType.has(MoveType.Castling)) moveSound.src = "assets/chesssounds/castling.mp3";
 
-  if (moveType.has(MoveType.CheckMate)) moveSound.src = "assets/chesssounds/checkmate.mp3";
-  else if (moveType.has(MoveType.Check)) moveSound.src = "assets/chesssounds/check.mp3";
+    if (moveType.has(MoveType.CheckMate)) moveSound.src = "assets/chesssounds/checkmate.mp3";
+    else if (moveType.has(MoveType.Check)) moveSound.src = "assets/chesssounds/check.mp3";
 
     moveSound.play();
   }
 
-  // Base message builder for User vs User
   protected getResultMessage(): string | null {
     const msg = this.chessBoard.gameOverMessage;
     if (!msg) return null;

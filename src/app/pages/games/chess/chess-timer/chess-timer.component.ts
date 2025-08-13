@@ -17,7 +17,7 @@ import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, S
 })
 export class ChessTimerComponent implements OnInit, OnChanges, OnDestroy {
   @Input() direction: 'up' | 'down' = 'up';
-  @Input() duration = 300; // segundos para cuenta regresiva
+  @Input() duration = 300;
   @Input() running = false;
   @Input() startImmediately = false;
 

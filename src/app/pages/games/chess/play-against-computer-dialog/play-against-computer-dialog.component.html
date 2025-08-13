@@ -1,12 +1,18 @@
 <mat-dialog-content>
     <h2 mat-dialog-title>Dificultad de la IA</h2>
 
-    <div class="stockfish-strength-container">
-        <div *ngFor="let level of stockfishLevels" class="strength-div" (click)="selectStockfishLevel(level)"
-            [ngClass]="{'selected': level === stockfishLevel}">
-            {{ level === 1 ? 'Fácil' : level === 2 ? 'Medio' : 'Difícil' }}
+        <div class="difficulty-buttons">
+            <button
+                type="button"
+                *ngFor="let level of stockfishLevels; let i = index"
+                (click)="selectStockfishLevel(level)"
+                [class.active]="level === stockfishLevel">
+                <span *ngIf="i === 0">🟢 </span>
+                <span *ngIf="i === 1">🟡 </span>
+                <span *ngIf="i === 2">🔴 </span>
+                {{ level === 1 ? 'Fácil' : level === 2 ? 'Medio' : 'Difícil' }}
+            </button>
         </div>
-    </div>
 
     <div class="choose-side">
     <img src="assets/img/chesspieces/white king.svg" class="king-img" draggable="false" (click)="play('w')">

@@ -28,13 +28,10 @@ export class ComputerModeComponent extends ChessBoardComponent implements OnInit
 
     const computerConfiSubscription$: Subscription = this.stockfishService.computerConfiguration$.subscribe({
       next: (computerConfiguration: ComputerConfiguration) => {
-        // If computer plays White, orient board for human Black and let Black start
         if (computerConfiguration.color === Color.White) {
           this.flipBoard();
-          // White to move first so AI opens
           this.setStartingColor(Color.White);
         } else {
-          // Human is White and starts
           this.setStartingColor(Color.White);
         }
       }
@@ -68,7 +65,6 @@ export class ComputerModeComponent extends ChessBoardComponent implements OnInit
     const msg = this.chessBoard.gameOverMessage;
     if (!msg) return null;
 
-    // Determine human side: opposite of computer color
     const computerColor = this.stockfishService.computerConfiguration$.value.color;
     const humanColor = computerColor === Color.White ? 'Black' : 'White';
 

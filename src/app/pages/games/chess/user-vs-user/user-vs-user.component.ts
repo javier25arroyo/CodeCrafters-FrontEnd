@@ -11,7 +11,7 @@ import { MoveListComponent } from '../move-list/move-list.component';
   imports: [CommonModule, MoveListComponent]
 })
 export class UserVsUserComponent extends ChessBoardComponent implements OnInit {
-  public override showFlipButton: boolean = true; // only user-vs-user shows Flip
+  public override showFlipButton: boolean = true;
 
   public override ngOnInit(): void {
     super.ngOnInit();

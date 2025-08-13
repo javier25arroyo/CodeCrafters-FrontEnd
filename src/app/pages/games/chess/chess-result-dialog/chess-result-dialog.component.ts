@@ -10,14 +10,18 @@ type DialogData = { message: string };
   standalone: true,
   imports: [CommonModule, MatDialogModule, MatButtonModule],
   template: `
-    <h2 mat-dialog-title>Game Over</h2>
-    <mat-dialog-content>
-      <p>{{ data.message }}</p>
-    </mat-dialog-content>
-    <mat-dialog-actions align="end">
-      <button mat-button mat-dialog-close>Close</button>
-    </mat-dialog-actions>
-  `
+    <div class="custom-modal">
+      <h2 mat-dialog-title>Game Over</h2>
+      <mat-dialog-content>
+        <div *ngIf="data.message === 'Winner: AI'" class="robot-emote" aria-label="robot">🤖</div>
+        <p>{{ data.message }}</p>
+      </mat-dialog-content>
+      <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>Close</button>
+      </mat-dialog-actions>
+    </div>
+  `,
+  styleUrls: ['./chess-result-dialog.component.css']
 })
 export class ChessResultDialogComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {}

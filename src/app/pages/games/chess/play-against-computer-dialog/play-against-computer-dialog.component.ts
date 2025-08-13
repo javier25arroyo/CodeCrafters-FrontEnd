@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 })
 export class PlayAgainstComputerDialogComponent {
   public stockfishLevels: readonly number[] = [1, 2, 3];
-  public stockfishLevel: number = 1; // 1: fácil, 2: medio, 3: difícil
+  public stockfishLevel: number = 1;
 
   constructor(
     private stockfishService: StockfishService,

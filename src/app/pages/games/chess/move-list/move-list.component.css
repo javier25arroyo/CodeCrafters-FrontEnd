@@ -1,8 +1,11 @@
+
 .move-list {
     max-height: 100px;
     overflow-y: scroll;
     display: flex;
     flex-direction: column-reverse;
+    margin-bottom: 32px; /* Espacio para separar del footer */
+    margin-top: 8px; /* Espacio superior opcional */
 }
 
 .move-list::-webkit-scrollbar {
@@ -17,7 +20,7 @@
 .row {
     width: 250px;
     display: flex;
-    color: white
+    color: #0d47a1;
 }
 
 .move-number {
@@ -25,7 +28,18 @@
 }
 
 .current-move {
-    background-color: #0d47a1;
+    background-color: #fff;
+    color: #0d47a1 !important;
+    border: 2px solid #0d47a1;
+    border-radius: 6px;
+    font-weight: bold;
+    padding: 2px 12px;
+    box-sizing: border-box;
+    min-width: 60px;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .move {
@@ -38,7 +52,6 @@
     opacity: 0.7
 }
 
-/* Material icon buttons to primary blue */
 button[mat-icon-button] {
     color: #0d47a1;
 }

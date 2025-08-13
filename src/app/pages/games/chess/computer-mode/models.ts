@@ -27,7 +27,6 @@ export type ComputerConfiguration = {
 }
 
 export const stockfishLevels: Readonly<Record<number, number>> = {
-    // 1: fácil, 2: medio, 3: difícil
     1: 10,
     2: 13,
     3: 16

@@ -58,11 +58,9 @@ export class ChessBoard {
         this._gameHistory = [{ board: this.chessBoardView, lastMove: this._lastMove, checkState: this._checkState }];
     }
 
-    // Allows external components to define who starts (White by default)
     public setStartingPlayer(color: Color): void {
         this._playerColor = color;
         this._safeSquares = this.findSafeSqures();
-        // also update FEN to reflect side to move
         this._boardAsFEN = this.FENConverter.convertBoardToFEN(
             this.chessBoard,
             this._playerColor,
@@ -169,16 +167,13 @@ export class ChessBoard {
         if (!piece) return false;
 
         const newPiece: Piece | null = this.chessBoard[newX][newY];
-        // we cant put piece on a square that already contains piece of the same square
         if (newPiece && newPiece.color === piece.color) return false;
 
-        // simulate position
         this.chessBoard[prevX][prevY] = null;
         this.chessBoard[newX][newY] = piece;
 
         const isPositionSafe: boolean = !this.isInCheck(piece.color, false);
 
-        // restore position back
         this.chessBoard[prevX][prevY] = piece;
         this.chessBoard[newX][newY] = newPiece;
 
@@ -204,18 +199,14 @@ export class ChessBoard {
                     let newPiece: Piece | null = this.chessBoard[newX][newY];
                     if (newPiece && newPiece.color === piece.color) continue;
 
-                    // need to restrict pawn moves in certain directions
                     if (piece instanceof Pawn) {
-                        // cant move pawn two squares straight if there is piece infront of him
                         if (dx === 2 || dx === -2) {
                             if (newPiece) continue;
                             if (this.chessBoard[newX + (dx === 2 ? -1 : 1)][newY]) continue;
                         }
 
-                        // cant move pawn one square straight if piece is infront of him
                         if ((dx === 1 || dx === -1) && dy === 0 && newPiece) continue;
 
-                        // cant move pawn diagonally if there is no piece, or piece has same color as pawn
                         if ((dy === 1 || dy === -1) && (!newPiece || piece.color === newPiece.color)) continue;
                     }
 
@@ -326,7 +317,6 @@ export class ChessBoard {
         else this.fiftyMoveRuleCounter += 0.5;
 
         this.handlingSpecialMoves(piece, prevX, prevY, newX, newY, moveType);
-        // update the board
         if (promotedPieceType) {
             this.chessBoard[newX][newY] = this.promotedPiece(promotedPieceType);
             moveType.add(MoveType.Promotion);
@@ -360,7 +350,6 @@ export class ChessBoard {
 
     private handlingSpecialMoves(piece: Piece, prevX: number, prevY: number, newX: number, newY: number, moveType: Set<MoveType>): void {
         if (piece instanceof King && Math.abs(newY - prevY) === 2) {
-            // newY > prevY  === king side castle
 
             const rookPositionX: number = prevX;
             const rookPositionY: number = newY > prevY ? 7 : 0;
@@ -426,7 +415,6 @@ export class ChessBoard {
         return false;
     }
 
-    // Insufficient material
 
     private playerHasOnlyTwoKnightsAndKing(pieces: { piece: Piece, x: number, y: number }[]): boolean {
         return pieces.filter(piece => piece.piece instanceof Knight).length === 2;
@@ -452,18 +440,15 @@ export class ChessBoard {
             }
         }
 
-        // King vs King
         if (whitePieces.length === 1 && blackPieces.length === 1)
             return true;
 
-        // King and Minor Piece vs King
         if (whitePieces.length === 1 && blackPieces.length === 2)
             return blackPieces.some(piece => piece.piece instanceof Knight || piece.piece instanceof Bishop);
 
         else if (whitePieces.length === 2 && blackPieces.length === 1)
             return whitePieces.some(piece => piece.piece instanceof Knight || piece.piece instanceof Bishop);
 
-        // both sides have bishop of same color
         else if (whitePieces.length === 2 && blackPieces.length === 2) {
             const whiteBishop = whitePieces.find(piece => piece.piece instanceof Bishop);
             const blackBishop = blackPieces.find(piece => piece.piece instanceof Bishop);
@@ -551,15 +536,12 @@ export class ChessBoard {
         const piecesFile = new Set(samePiecesCoords.map(coords => coords.y));
         const piecesRank = new Set(samePiecesCoords.map(coords => coords.x));
 
-        // means that all of the pieces are on different files (a, b, c, ...)
         if (piecesFile.size === samePiecesCoords.length)
             return columns[prevY];
 
-        // means that all of the pieces are on different rank (1, 2, 3, ...)
         if (piecesRank.size === samePiecesCoords.length)
             return String(prevX + 1);
 
-        // in case that there are pieces that shares both rank and a file with multiple or one piece
         return columns[prevY] + String(prevX + 1);
     }
 

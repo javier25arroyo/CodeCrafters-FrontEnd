@@ -12,4 +12,3 @@ type SquareWithoutPiece = {
 
 export type SelectedSquare = SquareWithPiece | SquareWithoutPiece;
 
-// columns are defined in chess-logic/models to be shared across app

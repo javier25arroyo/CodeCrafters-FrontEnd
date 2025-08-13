@@ -1,5 +1,6 @@
 <div class="chess-page">
-    <div class="board-wrapper">
+    <!-- Emoticonos eliminados para ambos modos -->
+        <div class="board-wrapper">
         <div class="chess-board" [ngClass]="{'rotated': flipMode}">
             <div *ngFor="let row of chessBoardView; let x = index" class="row">
                 <div *ngFor="let piece of row; let y = index" class="square"
@@ -20,7 +21,7 @@
 
         <button *ngIf="showFlipButton" class="flip-btn" (click)="flipBoard()">Flip</button>
 
-        <h2 *ngIf="gameOverMessage" class="game-over-message">{{gameOverMessage}}</h2>
+    <!-- Eliminado: el mensaje de fin de juego solo se muestra en el modal -->
 
         <app-move-list
             [moveList]="moveList"
@@ -34,4 +35,5 @@
 <div *ngIf="isPromotionActive" class="promotion-dialog">
     <img *ngFor="let piece of promotionPieces()" [src]="pieceImagePaths[piece]" (click)="promotePiece(piece)">
     <span class="close-promotion-dialog" (click)="closePawnPromotionDialog()">&times;</span>
+<!-- Modal de promoción sin cambios -->
 </div>
