@@ -15,12 +15,39 @@
   }
 }
 
+.content-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto 2rem;
+  /* Reserva espacio a la izquierda para las reglas con un pequeño margen */
+  padding-left: 320px; /* 260px de ancho + ~60px de separación visual */
+}
+
+.rules-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(60,70,85,0.12), 0 1.5px 6px rgba(60,70,85,0.08);
+  padding: 1rem 1.25rem;
+  color: #2c3e50;
+  h3 { margin: 0 0 0.5rem; color: #0d47a1; }
+  ul { margin: 0; padding-left: 1.2rem; }
+  li { margin: 0.25rem 0; }
+  position: absolute;
+  left: -80px; /* desplaza un poco a la izquierda para que no se superponga con las cartas */
+  top: 0;
+  width: 260px;
+  z-index: 1;
+}
+
 .game-board {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
   max-width: 600px;
-  margin-bottom: 2rem;
+  margin: 0 auto 2rem; /* centra el tablero */
+  /* Compensar el espacio reservado a la izquierda para alinear visualmente al centro */
+  transform: translateX(-160px);
 }
 
 .card {
@@ -130,11 +157,21 @@
   }
 }
 
+/* Reducir compensación en pantallas más anchas antes del modo móvil */
+@media (max-width: 1200px) {
+  .content-wrap { padding-left: 0; }
+  .rules-card { position: static; width: 100%; margin-top: 1rem; }
+  .game-board { transform: none; }
+}
+
 // Responsividad
 @media (max-width: 768px) {
+  .content-wrap { padding-left: 0; }
+  .rules-card { position: static; width: 100%; margin-top: 1rem; }
   .game-board {
     grid-template-columns: repeat(3, 1fr);
     max-width: 400px;
+    
   }
 
   .card {
@@ -151,10 +188,56 @@
   .game-board {
     grid-template-columns: repeat(2, 1fr);
     max-width: 280px;
+    
   }
 
   .card {
     width: 100px;
     height: 100px;
   }
+}
+
+/* Modal de puntaje */
+.score-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.score-modal {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(60,70,85,0.2), 0 1.5px 6px rgba(60,70,85,0.12);
+  padding: 1.25rem 1.5rem;
+  width: min(420px, 90vw);
+  text-align: center;
+}
+
+.score-modal .actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.btn-primary {
+  background-color: #0d47a1;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background-color: #f5f5f5;
+  color: #0d47a1;
+  border: 2px solid #0d47a1;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
 }
