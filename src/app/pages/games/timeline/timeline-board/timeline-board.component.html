@@ -1,0 +1,64 @@
+<div *ngIf="store.snapshot as s; else empty" class="board">
+  <div class="topbar">
+    <div class="players">
+      <div class="pill" *ngFor="let p of s.players" [class.active]="p.userId===s.currentPlayerId">
+        <span class="avatar">{{ (p.name || p.userId) | slice:0:1 | uppercase }}</span>
+        <span class="name">{{ p.name || p.userId }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timers -->
+  <div class="hud">
+    <div class="timer">
+      <span>Turno: {{ msToClock(turnMsLeft) }}</span>
+      <div class="bar"><div class="fill" [style.width.%]="(turnMsLeft / (s.turnDurationMs || 60000)) * 100"></div></div>
+    </div>
+    <div class="timer">
+      <span>Partida: {{ msToClock(gameMsLeft) }}</span>
+      <div class="bar">
+        <div class="fill" [ngClass]="gameBarClass()" [style.width.%]="(gameMsLeft / (s.gameDurationMs || 1200000)) * 100">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="s.paused" class="paused">⏸️ Partida en pausa: un jugador se desconectó</div>
+  <div *ngIf="s.phase==='FINISHED'" class="gg"> 🎉 GG — Ganador: {{ winnerName(s) }}</div>
+  <div *ngIf="flash" class="toast" [class.good]="flash.includes('✔')">{{ flash }}</div>
+
+  <h3>Línea de tiempo</h3>
+  <div class="axis"></div>
+
+  <div class="timeline">
+    <div *ngFor="let c of s.timeline; let i = index"
+         class="card" [ngClass]="getCardClasses(i)">
+      <div class="title">{{ c.title }}</div>
+      <div class="year" *ngIf="i===0">{{ c.year }}</div>
+    </div>
+  </div>
+
+  <h3>Mi mano</h3>
+  <div class="hand">
+    <ng-container *ngFor="let p of s.players">
+      <ng-container *ngIf="p.userId === s.currentPlayerId">
+        <div class="card playable" *ngFor="let c of p.hand">
+          <div class="title">{{ c.title }}</div>
+          <div class="actions">
+            <span>Elige la posición:</span>
+            <button class="chip"
+                    *ngFor="let _ of [].constructor(s.timeline.length + 1); let idx = index"
+                    [title]="idx===0 ? 'Antes de todo' : (idx===s.timeline.length ? 'Al final' : 'Entre '+(idx-1)+' y '+idx)"
+                    (click)="play(c.id, idx)"
+                    [disabled]="s.paused || s.phase!=='RUNNING'">{{ idx }}</button>
+          </div>
+          <div class="legend">0 = antes de todo · {{s.timeline.length}} = al final</div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #empty>
+  <p>INGRESA A UNA SALA PARA CARGAR EL JUEGO.</p>
+</ng-template>

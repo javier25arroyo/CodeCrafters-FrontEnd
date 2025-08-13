@@ -18,23 +18,27 @@ export class AuthService {
   }
 
   public save(): void {
-    if (this.user) localStorage.setItem('auth_user', JSON.stringify(this.user));
+    if (this.user) 
+      localStorage.setItem('auth_user', JSON.stringify(this.user));
 
-    if (this.accessToken)
-      localStorage.setItem('access_token', JSON.stringify(this.accessToken));
+    if (this.accessToken) 
+      localStorage.setItem('access_token', this.accessToken);
+
 
     if (this.expiresIn)
       localStorage.setItem('expiresIn',JSON.stringify(this.expiresIn));
   }
 
   private load(): void {
-    let token = localStorage.getItem('access_token');
-    if (token) this.accessToken = token;
-    let exp = localStorage.getItem('expiresIn');
-    if (exp) this.expiresIn = JSON.parse(exp);
-    const user = localStorage.getItem('auth_user');
-    if (user) this.user = JSON.parse(user);
+  const raw = localStorage.getItem('access_token');
+  if (raw) {
+    try { this.accessToken = JSON.parse(raw); } catch { this.accessToken = raw; }
   }
+  const exp = localStorage.getItem('expiresIn');
+  if (exp) this.expiresIn = JSON.parse(exp);
+  const user = localStorage.getItem('auth_user');
+  if (user) this.user = JSON.parse(user);
+}
 
   public getUser(): IUser | undefined {
     return this.user;

@@ -34,6 +34,8 @@ import { ComputerModeComponent } from './pages/games/chess/computer-mode/compute
 import { ChessModeSelectorComponent } from './pages/games/chess/mode-selector/mode-selector.component';
 import { UserVsUserComponent } from './pages/games/chess/user-vs-user/user-vs-user.component';
 import { GameStatsComponent } from './pages/game-score-stat/game-score-stat.component';
+import { TimelineLobbyComponent } from './pages/games/timeline/timeline-lobby/timeline-lobby.component';
+import { TimelineBoardComponent } from './pages/games/timeline/timeline-board/timeline-board.component';
 
 export const routes: Routes = [
   {
@@ -44,6 +46,14 @@ export const routes: Routes = [
     path: 'login',
     component: LoginComponent,
     canActivate: [GuestGuard],
+  },
+  {
+    path: 'timeline-lobby',
+    component: TimelineLobbyComponent,
+  },
+  {
+    path: 'timeline-dashboard',
+    component: TimelineBoardComponent,
   },
   {
     path: 'game-gallery',
