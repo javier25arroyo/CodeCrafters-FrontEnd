@@ -9,7 +9,7 @@ type Difficulty = 'facil' | 'medio' | 'dificil';
 @Component({
   selector: 'app-game-sequence',
   standalone: true,
-  imports: [CommonModule, FormsModule, NavComponent,],
+  imports: [CommonModule, FormsModule,],
   templateUrl: './game-sequence.component.html',
   styleUrls: ['./game-sequence.component.scss']
 })

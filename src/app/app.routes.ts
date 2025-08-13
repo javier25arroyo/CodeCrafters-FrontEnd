@@ -221,6 +221,8 @@ export const routes: Routes = [
     component: UserVsUserComponent,
     canActivate: [AuthGuard],
     data: { authorities: [IRoleType.user] }
+  },
+  {
     path: 'game-stats',
     component: GameStatsComponent,
   }
