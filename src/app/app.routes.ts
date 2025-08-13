@@ -36,6 +36,7 @@ import { UserVsUserComponent } from './pages/games/chess/user-vs-user/user-vs-us
 import { GameStatsComponent } from './pages/game-score-stat/game-score-stat.component';
 import { TimelineLobbyComponent } from './pages/games/timeline/timeline-lobby/timeline-lobby.component';
 import { TimelineBoardComponent } from './pages/games/timeline/timeline-board/timeline-board.component';
+import { CrosswordGameComponent } from './pages/games/crossword-game/crossword-game.component';
 
 export const routes: Routes = [
   {
@@ -136,6 +137,12 @@ export const routes: Routes = [
   {
     path: 'memorycard-game',
     component: MemoryGameComponent,
+    canActivate: [AuthGuard],
+    data: { authorities: [IRoleType.user] },
+  },
+  {
+    path: 'crossword-game',
+    component: CrosswordGameComponent,
     canActivate: [AuthGuard],
     data: { authorities: [IRoleType.user] },
   },
