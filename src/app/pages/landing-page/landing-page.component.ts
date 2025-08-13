@@ -1,10 +1,9 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { NavComponent } from '../../components/nav/nav.component';
 
 @Component({
   selector: 'app-landing-page',
   standalone: true,
-  imports: [NavComponent],
+  imports: [],
   templateUrl: './landing-page.component.html',
   styleUrls: ['./landing-page.component.scss']
 })

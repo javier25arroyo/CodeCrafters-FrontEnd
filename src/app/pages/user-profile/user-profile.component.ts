@@ -14,8 +14,6 @@ import { FondoBonitoComponent } from '../../components/fondo-bonito/fondo-bonito
     CommonModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NavComponent,
-    FondoBonitoComponent,
   ],
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss']

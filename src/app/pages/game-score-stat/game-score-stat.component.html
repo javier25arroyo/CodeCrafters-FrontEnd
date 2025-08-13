@@ -1,0 +1,22 @@
+<div class="dashboard-content">
+  <h2>Estadísticas de Juegos</h2>
+
+  <table *ngIf="scores && scores.length > 0; else noData" class="styled-table">
+    <thead>
+      <tr>
+        <th>Juego</th>
+        <th>Puntaje Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let score of scores">
+        <td>{{ getGameName(score.gameType) }}</td>
+        <td>{{ score.totalScore }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #noData>
+    <p>No hay datos para mostrar.</p>
+  </ng-template>
+</div>

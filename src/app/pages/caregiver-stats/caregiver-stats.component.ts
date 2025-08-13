@@ -3,14 +3,13 @@ import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CaregiverService } from '../../services/caregiver.service';
 import { IUser } from '../../interfaces';
-import { NavComponent } from '../../components/nav/nav.component';
 
 type UserDisplay = { name: string; email: string };
 
 @Component({
   selector: 'app-caregiver-stats',
   standalone: true,
-  imports: [NgIf, FormsModule, NavComponent],
+  imports: [NgIf, FormsModule],
   templateUrl: './caregiver-stats.component.html',
   styleUrls: ['./caregiver-stats.component.scss']
 })

@@ -1,77 +1,87 @@
 .daily-tip-box {
+  position: relative;
   width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-  border-radius: 18px;
-  box-shadow: 0 4px 24px rgba(20, 40, 80, 0.12);
-  padding: 18px 24px;
+  max-width: 420px;
+  margin: 0 auto 1.5rem;
+  border-radius: 20px;
+  padding: 20px 26px 24px;
   text-align: center;
-  backdrop-filter: blur(2px);
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 4px 20px -6px rgba(0, 0, 0, 0.18);
+  animation: floatIn 0.6s ease;
+  overflow: hidden;
+}
+
+.icon-wrapper {
+  font-size: 1.9rem;
+  line-height: 1;
+  margin: 0 auto 4px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+  animation: pulseGlow 4s ease-in-out infinite;
 }
 
 .daily-tip-box h2 {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #191d28;
-  margin-bottom: 15px;
-  letter-spacing: 0.3px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #102a43;
+  margin: 0 0 12px;
+  letter-spacing: .4px;
+  text-transform: uppercase;
 }
 
 .tip-container {
-  min-height: 80px; /* Altura mínima fija para evitar saltos */
+  min-height: 78px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  overflow: hidden;
+  padding: 0 4px;
 }
 
 .tip-text {
-  color: #444;
-  font-size: 1rem;
-  line-height: 1.4;
+  color: #23323e;
+  font-size: .95rem;
+  line-height: 1.35;
   margin: 0;
   opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  width: 100%;
-  text-align: center;
-  padding: 0 8px;
-  box-sizing: border-box;
+  transform: translateY(6px);
+  transition: opacity .45s ease, transform .45s ease;
+  font-weight: 500;
+  letter-spacing: .25px;
 }
 
-.tip-text.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+.tip-text.visible { opacity: 1; transform: translateY(0); }
 
-/* Animación de entrada más suave */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.close-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2c3e50;
+  transition: background .3s, transform .25s;
 }
+.close-btn:hover { background: rgba(255,255,255,0.85); transform: scale(1.05); }
+.close-btn:active { transform: scale(.92); }
 
-/* Responsive adjustments */
+@keyframes floatIn { from { opacity: 0; transform: translateY(18px) scale(.96);} to { opacity:1; transform: translateY(0) scale(1);} }
+@keyframes pulseGlow { 0%,100% { filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15)); } 50% { filter: drop-shadow(0 3px 8px rgba(0,0,0,0.25)); } }
+
 @media (max-width: 480px) {
-  .daily-tip-box {
-    max-width: 100%;
-    margin: 0 16px;
-    padding: 16px 20px;
-  }
-  
-  .tip-container {
-    min-height: 70px;
-  }
-  
-  .tip-text {
-    font-size: 0.95rem;
-  }
+  .daily-tip-box { max-width: 100%; margin: 0 14px 1.25rem; padding: 18px 20px 22px; }
+  .tip-container { min-height: 70px; }
+  .tip-text { font-size: .9rem; }
+  .icon-wrapper { font-size: 1.7rem; }
 }

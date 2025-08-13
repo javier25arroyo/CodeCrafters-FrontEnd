@@ -1,4 +1,6 @@
-<section class="daily-tip-box">
+<section class="daily-tip-box" *ngIf="!closed" role="complementary" aria-label="Consejo de bienestar diario">
+  <button class="close-btn" type="button" (click)="close()" aria-label="Cerrar consejo">✕</button>
+  <div class="icon-wrapper" aria-hidden="true">💡</div>
   <h2>Consejo de bienestar diario</h2>
   <div class="tip-container">
     <p class="tip-text" [class.visible]="isVisible">{{ currentTip }}</p>

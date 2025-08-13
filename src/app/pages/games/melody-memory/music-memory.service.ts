@@ -13,13 +13,13 @@ export enum DifficultyLevel {
 export class MusicMemoryService {
   private currentDifficulty: DifficultyLevel = DifficultyLevel.EASY;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   setDifficulty(difficulty: DifficultyLevel) {
     this.currentDifficulty = difficulty;
   }
 
-  submitScore(score: number) {
+  submitScore(scoreIncrement: number) {
     const levelMapping = {
       easy: 'EASY',
       medium: 'MEDIUM',
@@ -27,13 +27,13 @@ export class MusicMemoryService {
     };
 
     const scoreData = {
-  gameType: 'MUSIC_MEMORY',
-  level: levelMapping[this.currentDifficulty as keyof typeof levelMapping],
-  score: score,
-  movements: 0,
-  time: 0
-};
+      gameType: 'MUSIC_MEMORY',
+      level: levelMapping[this.currentDifficulty as keyof typeof levelMapping],
+      score: scoreIncrement,
+      movements: 0,
+      time: 0
+    };
 
-    return this.http.post('games/score', scoreData);
+    return this.http.post('games/score/music-melody', scoreData);
   }
 }

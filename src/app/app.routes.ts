@@ -21,7 +21,7 @@ import { AdminSuggestionsComponent } from './pages/admin-suggestions/admin-sugge
 import { PuzzleBoardComponent } from './pages/games/puzzle-board/puzzle-board.component';
 import { WordSearchGameComponent } from './pages/games/word-search-game/word-search-game.component';
 import { DashboardAdminComponent } from './pages/dashboard-admin/dashboard-admin.component';
-import { CaregiverDashboardComponent } from './pages/caregiver-dashboard/caregiver-dashboard.component'; 
+import { CaregiverDashboardComponent } from './pages/caregiver-dashboard/caregiver-dashboard.component';
 import { AdminRoleGuard } from './guards/admin-role.guard';
 import { AdminUserListComponent } from './components/admin-user/admin-user-list/admin-user-list.component';
 import { AdminUserFormComponent } from './components/admin-user/admin-user-form/admin-user-form.component';
@@ -33,6 +33,7 @@ import { AchievementsComponent } from './pages/achievements/achievements.compone
 import { ComputerModeComponent } from './pages/games/chess/computer-mode/computer-mode.component';
 import { ChessModeSelectorComponent } from './pages/games/chess/mode-selector/mode-selector.component';
 import { UserVsUserComponent } from './pages/games/chess/user-vs-user/user-vs-user.component';
+import { GameStatsComponent } from './pages/game-score-stat/game-score-stat.component';
 
 export const routes: Routes = [
   {
@@ -74,15 +75,17 @@ export const routes: Routes = [
     path: 'caregiver-dashboard',
     component: CaregiverDashboardComponent,
     canActivate: [AuthGuard],
-    data: { 
-      authorities: [IRoleType.caregiver] }
+    data: {
+      authorities: [IRoleType.caregiver]
+    }
   },
   {
     path: 'caregiver-stats',
     component: CaregiverStatsComponent,
     canActivate: [AuthGuard],
-    data: { 
-      authorities: [IRoleType.caregiver] }
+    data: {
+      authorities: [IRoleType.caregiver]
+    }
   },
   {
     path: 'signup',
@@ -218,5 +221,7 @@ export const routes: Routes = [
     component: UserVsUserComponent,
     canActivate: [AuthGuard],
     data: { authorities: [IRoleType.user] }
+    path: 'game-stats',
+    component: GameStatsComponent,
   }
 ];

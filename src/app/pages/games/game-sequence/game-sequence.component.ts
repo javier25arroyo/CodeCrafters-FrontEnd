@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NavComponent } from '../../../components/nav/nav.component';
 import { GameSequenceService } from './game-sequence.service';
 import { finalize, take } from 'rxjs/operators';
 
