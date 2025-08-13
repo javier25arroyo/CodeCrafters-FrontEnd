@@ -1,0 +1,6 @@
+/* Estilo de modal redondeado y con sombra suave */
+.custom-modal .mat-dialog-container, .mat-dialog-container {
+  border-radius: 18px !important;
+  box-shadow: 0 4px 24px 0 rgba(60, 70, 85, 0.12), 0 1.5px 6px 0 rgba(60, 70, 85, 0.08);
+  background: #fff;
+}

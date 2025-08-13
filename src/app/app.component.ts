@@ -2,7 +2,7 @@ import { NavComponent } from './components/nav/nav.component';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterOutlet, Router } from '@angular/router';
-import { FondoBonitoComponent } from './fondo-bonito/fondo-bonito.component';
+import { FondoBonitoComponent } from './components/fondo-bonito/fondo-bonito.component';
 import { FooterComponent } from './components/footer/footer.component';
 
 

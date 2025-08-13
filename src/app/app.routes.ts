@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
-import { FondoBonitoComponent } from './fondo-bonito/fondo-bonito.component';
+import { FondoBonitoComponent } from './components/fondo-bonito/fondo-bonito.component';
 import { AuthGuard } from './guards/auth.guard';
 import { GuestGuard } from './guards/guest.guard';
 import { IRoleType } from './interfaces';
@@ -14,7 +14,6 @@ import { LandingPageComponent } from './pages/landing-page/landing-page.componen
 import { ProfileComponent } from './pages/profile/profile.component';
 import { GameGalleryComponent } from './pages/game-gallery/game-gallery.component';
 import { TeamComponent } from './pages/team/team.component';
-import { CrosswordGameComponent } from './pages/games/crossword-game/crossword-game.component';
 import { GameSequenceComponent } from './pages/games/game-sequence/game-sequence.component';
 import { MemoryGameComponent } from './pages/games/memorycard-game/memorycard-game.component';
 import { SuggestionComponent } from './pages/suggestion/suggestion.component';
@@ -31,6 +30,9 @@ import { MelodyMemoryComponent } from './pages/games/melody-memory/melody-memory
 import { CaregiverStatsComponent } from './pages/caregiver-stats/caregiver-stats.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { AchievementsComponent } from './pages/achievements/achievements.component';
+import { ComputerModeComponent } from './pages/games/chess/computer-mode/computer-mode.component';
+import { ChessModeSelectorComponent } from './pages/games/chess/mode-selector/mode-selector.component';
+import { UserVsUserComponent } from './pages/games/chess/user-vs-user/user-vs-user.component';
 import { GameStatsComponent } from './pages/game-score-stat/game-score-stat.component';
 
 export const routes: Routes = [
@@ -122,12 +124,6 @@ export const routes: Routes = [
     data: { authorities: [IRoleType.user] },
   },
   {
-    path: 'crossword',
-    component: CrosswordGameComponent,
-    canActivate: [AuthGuard],
-    data: { authorities: [IRoleType.user] },
-  },
-  {
     path: 'memorycard-game',
     component: MemoryGameComponent,
     canActivate: [AuthGuard],
@@ -207,6 +203,24 @@ export const routes: Routes = [
   {
     path: 'melody-memory',
     component: MelodyMemoryComponent,
+  },
+  {
+    path: 'chess',
+    component: ChessModeSelectorComponent,
+    canActivate: [AuthGuard],
+    data: { authorities: [IRoleType.user] }
+  },
+  {
+    path: 'chess/against-computer',
+    component: ComputerModeComponent,
+    canActivate: [AuthGuard],
+    data: { authorities: [IRoleType.user] }
+  },
+  {
+    path: 'chess/user-vs-user',
+    component: UserVsUserComponent,
+    canActivate: [AuthGuard],
+    data: { authorities: [IRoleType.user] }
   },
   {
     path: 'game-stats',
