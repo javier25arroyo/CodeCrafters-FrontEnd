@@ -14,7 +14,6 @@ import { LandingPageComponent } from './pages/landing-page/landing-page.componen
 import { ProfileComponent } from './pages/profile/profile.component';
 import { GameGalleryComponent } from './pages/game-gallery/game-gallery.component';
 import { TeamComponent } from './pages/team/team.component';
-import { CrosswordGameComponent } from './pages/games/crossword-game/crossword-game.component';
 import { GameSequenceComponent } from './pages/games/game-sequence/game-sequence.component';
 import { MemoryGameComponent } from './pages/games/memorycard-game/memorycard-game.component';
 import { SuggestionComponent } from './pages/suggestion/suggestion.component';
@@ -31,9 +30,9 @@ import { MelodyMemoryComponent } from './pages/games/melody-memory/melody-memory
 import { CaregiverStatsComponent } from './pages/caregiver-stats/caregiver-stats.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { AchievementsComponent } from './pages/achievements/achievements.component';
-import { ComputerModeComponent } from './pages/games/chess/modules/computer-mode/computer-mode.component';
-import { FriendModeComponent } from './pages/games/chess/modules/friend-mode/friend-mode.component';
-import { NavMenuComponent } from './pages/games/chess/modules/nav-menu/nav-menu.component';
+import { ComputerModeComponent } from './pages/games/chess/computer-mode/computer-mode.component';
+import { ChessModeSelectorComponent } from './pages/games/chess/mode-selector/mode-selector.component';
+import { UserVsUserComponent } from './pages/games/chess/user-vs-user/user-vs-user.component';
 
 export const routes: Routes = [
   {
@@ -122,12 +121,6 @@ export const routes: Routes = [
     data: { authorities: [IRoleType.user] },
   },
   {
-    path: 'crossword',
-    component: CrosswordGameComponent,
-    canActivate: [AuthGuard],
-    data: { authorities: [IRoleType.user] },
-  },
-  {
     path: 'memorycard-game',
     component: MemoryGameComponent,
     canActivate: [AuthGuard],
@@ -210,14 +203,20 @@ export const routes: Routes = [
   },
   {
     path: 'chess',
-    component: NavMenuComponent,
+    component: ChessModeSelectorComponent,
     canActivate: [AuthGuard],
-    data: { authorities: [IRoleType.user] },
-    children: [
-      { path: '', pathMatch: 'full', redirectTo: 'menu' },
-      { path: 'menu', component: NavMenuComponent },
-      { path: 'against-friend', component: FriendModeComponent },
-      { path: 'against-computer', component: ComputerModeComponent },
-    ]
+    data: { authorities: [IRoleType.user] }
+  },
+  {
+    path: 'chess/against-computer',
+    component: ComputerModeComponent,
+    canActivate: [AuthGuard],
+    data: { authorities: [IRoleType.user] }
+  },
+  {
+    path: 'chess/user-vs-user',
+    component: UserVsUserComponent,
+    canActivate: [AuthGuard],
+    data: { authorities: [IRoleType.user] }
   }
 ];

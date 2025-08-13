@@ -1,0 +1,19 @@
+<mat-dialog-content>
+    <h2 mat-dialog-title>Dificultad de la IA</h2>
+
+    <div class="stockfish-strength-container">
+        <div *ngFor="let level of stockfishLevels" class="strength-div" (click)="selectStockfishLevel(level)"
+            [ngClass]="{'selected': level === stockfishLevel}">
+            {{ level === 1 ? 'Fácil' : level === 2 ? 'Medio' : 'Difícil' }}
+        </div>
+    </div>
+
+    <div class="choose-side">
+    <img src="assets/img/chesspieces/white king.svg" class="king-img" draggable="false" (click)="play('w')">
+    <img src="assets/img/chesspieces/black king.svg" class="king-img" draggable="false" (click)="play('b')">
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close (click)="closeDialog()">Cancel</button>
+</mat-dialog-actions>

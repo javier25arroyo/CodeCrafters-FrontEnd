@@ -1,38 +1,14 @@
-/* Centrar y dar color azul a la move-list */
-.move-list-wrapper {
+.chess-page {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 18px;
-    color: #0d47a1;
-    font-weight: 500;
-    font-size: 1.1rem;
-}
-/* Centrado del contenedor principal */
-.chess-board-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
+    justify-content: center; /* center horizontally */
+    width: 100%;
 }
 
-/* Centrar el botón debajo del tablero */
-.flip-btn {
-    margin-top: 20px;
-    margin-bottom: 10px;
-    align-self: center;
-    padding: 8px 24px;
-    font-size: 1.1rem;
-    border-radius: 6px;
-    border: none;
-    background: #0d47a1;
-    color: #fff;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-.flip-btn:hover {
-    background: #1565c0;
+.board-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* center inner elements */
+    gap: 12px;
 }
 
 .chess-board {
@@ -41,19 +17,14 @@
     flex-direction: column-reverse;
     width: 480px;
     height: 480px;
-    margin: 0 auto;
-    box-sizing: border-box;
-    transition: transform 0.7s cubic-bezier(0.77, 0, 0.175, 1);
-}
-
-.game-over-message {
-    text-align: center;
-    margin-top: 20px;
 }
 
 .rotated {
     transform: rotate(180deg);
-    margin: 0 auto;
+}
+
+.chess-board {
+    transition: transform 300ms ease-in-out; /* smooth rotation */
 }
 
 .row {
@@ -97,7 +68,7 @@
 }
 
 .dark {
-    background-color: #0d47a1
+    background-color: #0d47a1;
 }
 
 .light {
@@ -131,4 +102,19 @@
 
 .promotion-square {
     box-shadow: inset rgb(0, 98, 150) 0px 0px 40px 0px, inset rgb(0, 98, 150) 0px 0px 40px 0px, inset rgba(0, 0, 0, 1) 0px 0px 36px -24px;
+}
+
+.flip-btn {
+    background-color: #0d47a1;
+    color: #fff;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    min-width: 80px; /* prevent width change when label flips */
+    text-align: center;
+}
+
+.flip-btn:hover {
+    opacity: 0.9;
 }

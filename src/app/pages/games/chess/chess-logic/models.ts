@@ -25,7 +25,7 @@ export enum FENChar {
     BlackKing = "k"
 }
 
-export const pieceImagePaths: Readonly<Record<FENChar, string>> = {
+export const pieceImagePaths: Readonly<Record<string, string>> = {
     [FENChar.WhitePawn]: "assets/img/chesspieces/white pawn.svg",
     [FENChar.WhiteKnight]: "assets/img/chesspieces/white knight.svg",
     [FENChar.WhiteBishop]: "assets/img/chesspieces/white bishop.svg",
@@ -79,3 +79,6 @@ export type GameHistory = {
     checkState: CheckState;
     board: (FENChar | null)[][];
 }[];
+
+export const columns = ["a", "b", "c", "d", "e", "f", "g", "h"] as const;
+

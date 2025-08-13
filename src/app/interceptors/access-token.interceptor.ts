@@ -6,10 +6,7 @@ export const accessTokenInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   let headers = {};
 
-  // No agregar el header si:
-  // - No está autenticado
-  // - Es una petición de auth
-  // - Es una petición a stockfish.online
+
   if (!authService.check()) return next(req);
   if (!req.url.includes('auth') && !req.url.includes('stockfish.online')) {
     headers = {

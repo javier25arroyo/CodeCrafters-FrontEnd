@@ -1,0 +1,33 @@
+.stockfish-strength-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.strength-div {
+    border: 1px solid white;
+    cursor: pointer;
+    min-width: 80px;
+    padding: 8px 12px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.choose-side {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.king-img {
+    width: 50px;
+    cursor: pointer;
+}
+
+.selected {
+    background-color: #0d47a1;
+    color: #fff;
+}
+
+button[mat-button], button[mat-raised-button] {
+    background-color: #0d47a1;
+    color: #fff;
+}

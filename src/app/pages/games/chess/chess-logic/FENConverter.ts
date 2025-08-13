@@ -1,5 +1,4 @@
-import { columns } from "../modules/chess-board/models";
-import { Color, LastMove } from "./models";
+import { columns, Color, LastMove } from "./models";
 import { King } from "./pieces/king";
 import { Pawn } from "./pieces/pawn";
 import { Piece } from "./pieces/piece";

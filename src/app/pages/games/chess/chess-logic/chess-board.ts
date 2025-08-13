@@ -1,6 +1,6 @@
-import { columns } from "../modules/chess-board/models";
+import { columns } from "./models";
+import {CheckState, Color, Coords, FENChar, GameHistory, LastMove, MoveList, MoveType, SafeSquares } from "./models";
 import { FENConverter } from "./FENConverter";
-import { CheckState, Color, Coords, FENChar, GameHistory, LastMove, MoveList, MoveType, SafeSquares } from "./models";
 import { Bishop } from "./pieces/bishop";
 import { King } from "./pieces/king";
 import { Knight } from "./pieces/knight";
@@ -12,7 +12,7 @@ import { Rook } from "./pieces/rook";
 export class ChessBoard {
     private chessBoard: (Piece | null)[][];
     private readonly chessBoardSize: number = 8;
-    private _playerColor: Color;
+    private _playerColor = Color.White;
     private _safeSquares: SafeSquares;
     private _lastMove: LastMove | undefined;
     private _checkState: CheckState = { isInCheck: false };
@@ -20,8 +20,6 @@ export class ChessBoard {
 
     private _isGameOver: boolean = false;
     private _gameOverMessage: string | undefined;
-
-    private _winner: 'w' | 'b' | undefined;
 
     private fullNumberOfMoves: number = 1;
     private threeFoldRepetitionDictionary = new Map<string, number>();
@@ -33,20 +31,45 @@ export class ChessBoard {
     private _moveList: MoveList = [];
     private _gameHistory: GameHistory;
 
-    constructor(playerColor?: Color, fen?: string) {
-        const fenToUse = fen ?? FENConverter.initalPosition;
-        this.chessBoard = FENConverter.fromFEN(fenToUse);
-        // Si se pasa un FEN, el turno lo determina el FEN
-        if (fen) {
-            const side = fenToUse.split(' ')[1];
-            this._playerColor = side === 'w' ? Color.White : Color.Black;
-            this._boardAsFEN = fenToUse;
-        } else {
-            this._playerColor = playerColor ?? Color.White;
-            this._boardAsFEN = fenToUse;
-        }
+    constructor() {
+        this.chessBoard = [
+            [
+                new Rook(Color.White), new Knight(Color.White), new Bishop(Color.White), new Queen(Color.White),
+                new King(Color.White), new Bishop(Color.White), new Knight(Color.White), new Rook(Color.White)
+            ],
+            [
+                new Pawn(Color.White), new Pawn(Color.White), new Pawn(Color.White), new Pawn(Color.White),
+                new Pawn(Color.White), new Pawn(Color.White), new Pawn(Color.White), new Pawn(Color.White)
+            ],
+            [null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null],
+            [
+                new Pawn(Color.Black), new Pawn(Color.Black), new Pawn(Color.Black), new Pawn(Color.Black),
+                new Pawn(Color.Black), new Pawn(Color.Black), new Pawn(Color.Black), new Pawn(Color.Black)
+            ],
+            [
+                new Rook(Color.Black), new Knight(Color.Black), new Bishop(Color.Black), new Queen(Color.Black),
+                new King(Color.Black), new Bishop(Color.Black), new Knight(Color.Black), new Rook(Color.Black)
+            ],
+        ];
         this._safeSquares = this.findSafeSqures();
         this._gameHistory = [{ board: this.chessBoardView, lastMove: this._lastMove, checkState: this._checkState }];
+    }
+
+    // Allows external components to define who starts (White by default)
+    public setStartingPlayer(color: Color): void {
+        this._playerColor = color;
+        this._safeSquares = this.findSafeSqures();
+        // also update FEN to reflect side to move
+        this._boardAsFEN = this.FENConverter.convertBoardToFEN(
+            this.chessBoard,
+            this._playerColor,
+            this._lastMove,
+            this.fiftyMoveRuleCounter,
+            this.fullNumberOfMoves
+        );
     }
 
     public get playerColor(): Color {
@@ -77,10 +100,6 @@ export class ChessBoard {
 
     public get gameOverMessage(): string | undefined {
         return this._gameOverMessage;
-    }
-
-    public get winner(): 'w' | 'b' | undefined {
-        return this._winner;
     }
 
     public get boardAsFEN(): string {
@@ -150,6 +169,8 @@ export class ChessBoard {
         if (!piece) return false;
 
         const newPiece: Piece | null = this.chessBoard[newX][newY];
+        // we cant put piece on a square that already contains piece of the same square
+        if (newPiece && newPiece.color === piece.color) return false;
 
         // simulate position
         this.chessBoard[prevX][prevY] = null;
@@ -379,7 +400,6 @@ export class ChessBoard {
     private isGameFinished(): boolean {
         if (this.insufficientMaterial()) {
             this._gameOverMessage = "Draw due insufficient material";
-            this._winner = undefined;
             return true;
         }
 
@@ -387,25 +407,19 @@ export class ChessBoard {
             if (this._checkState.isInCheck) {
                 const prevPlayer: string = this._playerColor === Color.White ? "Black" : "White";
                 this._gameOverMessage = prevPlayer + " won by checkmate";
-                this._winner = this._playerColor === Color.White ? 'b' : 'w';
             }
-            else {
-                this._gameOverMessage = "Stalemate";
-                this._winner = undefined;
-            }
+            else this._gameOverMessage = "Stalemate";
 
             return true;
         }
 
         if (this.threeFoldRepetitionFlag) {
             this._gameOverMessage = "Draw due three fold repetition rule";
-            this._winner = undefined;
             return true;
         }
 
         if (this.fiftyMoveRuleCounter === 50) {
             this._gameOverMessage = "Draw due fifty move rule";
-            this._winner = undefined;
             return true;
         }
 
