@@ -11,10 +11,10 @@ export type Level = 'EASY' | 'MEDIUM' | 'HARD';
 export interface ScoreRow {
   id: number;
   date?: string;
-  gameType: GameType;        // Tipo de juego (normaliza en el service si viene sucio)
-  level?: Level | string;    // Permitimos string por si el backend envía valores no normalizados
-  movements: number;         // 0 si no aplica
-  time: number;              // en segundos; 0 si no aplica
+  gameType: GameType;      
+  level?: Level | string;    
+  movements: number;        
+  time: number;             
   score: number;
   gameId?: number;
   userId?: number;
@@ -24,11 +24,11 @@ export interface Achievement {
   key: string;
   title: string;
   description: string;
-  icon: string;              // emoji o nombre de ícono
-  target: number;            // meta para desbloquear
-  progress: number;          // avance actual hacia la meta
-  unlocked: boolean;         // <- necesario para el merge y la UI
-  meta?: string;             // info extra opcional (p.ej. etiqueta del juego)
+  icon: string;              
+  target: number;            
+  progress: number;          
+  unlocked: boolean;         
+  meta?: string;             
 }
 
 export function pct(a: Achievement): number {

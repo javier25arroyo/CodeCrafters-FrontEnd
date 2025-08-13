@@ -1,40 +1,88 @@
 .page {
-  box-sizing: border-box; min-height: 100dvh;
-  padding: 64px 16px 220px; display: flex; justify-content: center; align-items: flex-start;
-  position: relative; z-index: 1;
+  box-sizing: border-box;
+  min-height: 100dvh;
+  /* Acercar contenido al navbar fijo del proyecto */
+  padding: 16px 16px 96px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+  z-index: 1;
 }
-.lobby { width: 100%; max-width: 980px; margin: 0 auto; }
+.lobby { width: 100%; max-width: 1100px; margin: 0 auto; }
 
-.controls--center { display: flex; justify-content: center; margin-bottom: 18px; }
+.page-title{
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--body-font-color);
+  margin: 4px 0 14px; /* más cerca del navbar */
+  text-align: center;
+}
+
+.controls--center { display: flex; justify-content: center; margin-bottom: 14px; }
+/* Controles tipo "pill" consistentes con el proyecto */
 .stack {
-  display: inline-flex; align-items: center; gap: 0;
-  border: 1px solid var(--card-border); border-radius: 12px; overflow: hidden;
-  background: var(--panel-2); box-shadow: var(--shadow);
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+  border: 0; border-radius: 0; overflow: visible;
+  background: transparent; box-shadow: none; padding: 6px;
 }
 .stack > button, .stack > input {
-  height: 42px; padding: 0 12px; border: 0; background: transparent; color: var(--text); outline: none; font-weight: 600;
+  height: 36px; padding: 0 12px; outline: none;
+  border-radius: 9999px; font-weight: 600; font-family: inherit;
 }
-.stack > button { border-right: 1px solid var(--card-border); cursor: pointer; }
-.stack > button:last-child { border-right: 0; }
-.stack > input { width: 180px; min-width: 150px; background: var(--card); color: var(--text); border-right: 1px solid var(--card-border); }
-.stack > input:focus { box-shadow: inset 0 0 0 2px rgba(99,102,241,.25); }
-.stack > button:hover { background: rgba(255,255,255,.04); }
+.stack > button {
+  border: 1px solid var(--recent-border); cursor: pointer;
+  background: var(--course-light-btn); color: var(--body-font-color);
+  transition: background .2s ease, transform .06s ease, border-color .2s ease;
+}
+.stack > button.primary {
+  border-color: var(--theme-default);
+  background: var(--theme-default); color: #fff;
+}
+.stack > button.primary:hover { filter: brightness(1.05); }
+.stack > button:hover { background: var(--recent-box-bg); }
 .stack > button:active { transform: translateY(1px); }
-.stack > button:disabled { opacity: .5; cursor: not-allowed; background: transparent; }
+.stack > button:disabled { opacity: .6; cursor: not-allowed; }
+.stack > input {
+  width: auto; min-width: 220px; border: 1px solid var(--recent-border);
+  background: var(--white); color: var(--body-font-color);
+}
+.stack > input:focus { box-shadow: 0 0 0 3px rgba(115,102,255,.18); border-color: var(--theme-default); }
+/* Variante para el botón de ayuda: estilo outline suave */
+.stack > .help {
+  background: transparent; color: inherit; border: 1px solid var(--recent-border);
+  order: 99; /* mantiene el botón de ayuda al final */
+}
 
-.info { margin-top: 10px; padding-top: 14px; border-top: 1px dashed var(--card-border); }
-.info ul { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 10px; list-style: none; padding: 0; margin: 0; }
-.info li { background: var(--card); border: 1px solid var(--card-border); border-radius: 12px; padding: 12px; }
+.info { margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--recent-border); }
+.info ul { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 12px; list-style: none; padding: 0; margin: 0; }
+.info li {
+  background: var(--white);
+  border: 1px solid var(--recent-border);
+  border-radius: 14px; padding: 14px 16px;
+  box-shadow: 0 8px 24px rgba(39,32,120,0.08);
+}
+
+/* Tarjeta reutilizable para preguntas (si se usa dentro del lobby) */
+.q-card {
+  background: linear-gradient(180deg, #f9fafb 0%, #f3f4f6 100%);
+  border: 1px solid var(--recent-border);
+  border-radius: 14px; padding: 14px 16px;
+  box-shadow: 0 8px 26px rgba(39,32,120,0.10);
+  color: var(--body-font-color);
+}
+.q-card .q-title { font-weight: 700; margin: 0 0 6px; }
+.q-card .q-meta  { font-size: 12px; color: #64748b; }
 
 .toast{
-  position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+  position: fixed; top: 12px; left: 50%; transform: translateX(-50%);
   padding: 8px 12px; border-radius: 999px; background:#111827; color:#fff;
   box-shadow: 0 10px 30px rgba(0,0,0,.3); z-index: 50;
 }
 
-.help{ height:34px; padding:0 12px; border-radius:8px; border:1px solid rgba(0,0,0,.15); background:transparent; color:inherit; }
+.help{ height:34px; padding:0 12px; border-radius:8px; border:1px solid var(--recent-border); background:transparent; color:inherit; }
 .modal{ position:fixed; inset:0; display:grid; place-items:center; background:rgba(0,0,0,.6); z-index:2500; }
-.modal .box{ width:min(680px,92vw); background:#0c1222; border:1px solid rgba(255,255,255,.12); border-radius:16px; padding:18px; color:#e5e7eb; }
+.modal .box{ width:min(680px,92vw); background:#0c1222; border:1px solid rgba(255,255,255,.12); border-radius:16px; padding:18px; color:#e5e7eb; box-shadow: 0 10px 30px rgba(0,0,0,.35); }
 .modal .box h3{ margin:0 0 8px; }
 .modal .box .nav{ display:flex; gap:8px; justify-content:flex-end; margin-top:12px; }
 .modal .box button{ height:34px; padding:0 12px; border:1px solid rgba(255,255,255,.15); background:transparent; color:#e5e7eb; border-radius:8px; }

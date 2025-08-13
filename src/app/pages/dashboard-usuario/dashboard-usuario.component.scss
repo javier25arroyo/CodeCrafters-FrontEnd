@@ -45,27 +45,30 @@
   width: 100%;
   max-width: 1100px;
   display: grid;
-  grid-template-columns: repeat(3, minmax(280px, 1fr));
+  /* Columnas auto-ajustables con ancho de tarjeta controlado */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 340px));
   gap: 24px;
-  align-items: stretch; 
-  margin-bottom: 2rem;
+  align-items: start;
+  justify-items: center; /* centra cada item dentro de su celda */
+  justify-content: center; /* centra el conjunto cuando hay espacio extra */
+  margin: 0 auto 2rem auto;
 }
 
+/* Con auto-fit no se necesitan overrides estrictos, pero mantenemos
+   los breakpoints para ajustar el ancho máximo del contenedor si hace falta */
 @media (max-width: 1000px) {
-  .cards-grid {
-    grid-template-columns: repeat(2, minmax(280px, 1fr));
-  }
+  .cards-grid { max-width: 740px; }
 }
 
 @media (max-width: 680px) {
-  .cards-grid {
-    grid-template-columns: 1fr;
-  }
+  .cards-grid { max-width: 100%; }
 }
 
 :host ::ng-deep card-info-user {
   display: flex;
   height: 100%;
+  width: 100%;
+  max-width: 360px; /* limita la anchura de cada tarjeta */
 }
 
 :host ::ng-deep card-info-user .card,
@@ -87,6 +90,7 @@
   transition: transform .35s cubic-bezier(.4,0,.2,1), box-shadow .35s ease, border-color .35s ease;
   position: relative;
   overflow: hidden;
+  width: 100%;
 }
 
 :host ::ng-deep card-info-user .card::before,
