@@ -65,6 +65,12 @@ export const routes: Routes = [
     },
   },
   {
+    path: 'crossword',
+    component: CrosswordGameComponent,
+    canActivate: [AuthGuard],
+    data: { authorities: [IRoleType.user] },
+  },
+  {
     path: 'admin-suggestions',
     component: AdminSuggestionsComponent,
     canActivate: [AuthGuard],
