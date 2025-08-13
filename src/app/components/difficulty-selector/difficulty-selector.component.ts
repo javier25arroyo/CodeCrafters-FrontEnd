@@ -23,6 +23,6 @@ export class DifficultySelectorComponent {
     if (level !== this.current) this.difficultyChange.emit(level);
   }
 
+  // Exponer enum para plantilla si hiciera falta
   protected readonly DifficultyLevel = DifficultyLevel;
 }
-

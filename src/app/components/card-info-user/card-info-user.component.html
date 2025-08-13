@@ -4,8 +4,8 @@
     <p class="description">{{ description }}</p>
     <button class="action-btn" [routerLink]="routerLink">
       <span class="truncate">{{ buttonText }}</span>
-      
-      
+      <!-- Puedes poner aquí un SVG real o quitarlo por ahora -->
+      <!-- <svg ...>...</svg> -->
     </button>
   </div>
   <div
@@ -13,4 +13,3 @@
     [ngStyle]="{ 'background-image': 'url(' + imageUrl + ')' }"
   ></div>
 </div>
-
