@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* centra verticalmente el contenido */
+  justify-content: center; 
   gap: 0.55rem;
   border-radius: 1rem;
   margin-bottom: 1rem;
@@ -10,7 +10,7 @@
   box-shadow: 0 4px 18px -6px rgba(20, 40, 80, 0.15);
   padding: 1rem 1.1rem 0.9rem;
   height: auto;
-  min-height: 260px; /* da altura para que el centrado sea visible */
+  min-height: 260px; 
   text-align: center;
 
   .card-image { display: none; }
@@ -19,7 +19,7 @@
   flex: 0 0 auto;
     display: flex;
     flex-direction: column;
-  justify-content: center; /* centra verticalmente dentro del bloque de contenido */
+  justify-content: center; 
     align-items: center;
     gap: 0.45rem;
     text-align: center;
@@ -42,5 +42,4 @@
   }
 }
 
-// Responsive para móvil
 @media (max-width: 768px) { .card-info-user { padding:0.9rem 0.85rem; .title{font-size:.95rem;} .description{font-size:.8rem;} .action-btn{height:1.7rem;font-size:.73rem;padding:0 .75rem;} } }

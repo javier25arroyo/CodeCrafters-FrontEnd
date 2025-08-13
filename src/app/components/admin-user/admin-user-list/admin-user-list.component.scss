@@ -67,7 +67,7 @@
         color: #555;
       }
 
-      /* Estilos para botones icono */
+      
       button.icon-button {
         background: transparent;
         border: none;
@@ -83,17 +83,17 @@
         }
       }
 
-      /* Colores por tipo de acción */
+      
       button.icon-button.edit:hover {
-        color: #007bff; /* azul */
+        color: #007bff; 
       }
 
       button.icon-button.delete:hover {
-        color: #dc3545; /* rojo */
+        color: #dc3545; 
       }
 
       button.icon-button.toggle:hover {
-        color: #ffc107; /* amarillo */
+        color: #ffc107; 
       }
     }
   }

@@ -86,11 +86,11 @@ export class DailyTipComponent implements OnInit {
   }
 
   private changeTip(): void {
-    // Fade out
+
     this.isVisible = false;
     
     setTimeout(() => {
-      // Change tip content
+
       let nextIndex: number;
       do {
         nextIndex = Math.floor(Math.random() * this.wellnessTips.length);
@@ -99,7 +99,7 @@ export class DailyTipComponent implements OnInit {
       this.index = nextIndex;
       this.currentTip = this.wellnessTips[this.index];
       
-      // Fade in
+
       setTimeout(() => {
         this.isVisible = true;
       }, 50);
