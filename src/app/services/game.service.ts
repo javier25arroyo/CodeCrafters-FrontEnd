@@ -22,9 +22,9 @@ export class GameService extends BaseService<IGame>{
 
   public getAll() {
     this.findAll().subscribe({
-      next: (response: any) => {
-        response.reverse();
-        this.itemListSignal.set(response);
+      next: (response: IResponse<IGame[]>) => {
+        const data = (response?.data ?? []).slice().reverse();
+        this.itemListSignal.set(data);
       },
       error: (error : any) => {
         

@@ -1,6 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { BaseService } from './base-service';
-import { IUser } from '../interfaces';
+import { IResponse, IUser } from '../interfaces';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
@@ -16,9 +16,11 @@ export class ProfileService extends BaseService<IUser> {
   }
 
   getUserInfoSignal() {
-    this.findAll().subscribe({
-      next: (response: any) => {
-        this.userSignal.set(response);
+    this.http.get<IResponse<IUser>>(this.source).subscribe({
+      next: (response) => {
+        // Base API returns { data: IUser }
+        const user = (response as any)?.data ?? (response as any);
+        this.userSignal.set(user);
       },
       error: (error: any) => {
         this.snackBar.open(

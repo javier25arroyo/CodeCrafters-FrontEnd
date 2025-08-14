@@ -1,5 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
-import { Client, IMessage } from '@stomp/stompjs';
+import { Client, IMessage, IFrame } from '@stomp/stompjs';
+// Según la config de TS, este import puede requerir '*' en lugar de default.
+// Si marca error, cambia a: import * as SockJS from 'sockjs-client';
 import SockJS from 'sockjs-client';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -50,10 +52,10 @@ export class TimelineSocketService {
       this.sendAction({ type: 'JOIN' });
     };
 
-    this.client.onStompError = f =>
+    this.client.onStompError = (f: IFrame) =>
       console.error('STOMP error:', f.headers['message']);
 
-    this.client.onWebSocketClose = e =>
+    this.client.onWebSocketClose = (e: CloseEvent) =>
       console.warn('WS closed', e.code, e.reason);
 
     this.client.activate();
